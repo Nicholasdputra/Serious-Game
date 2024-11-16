@@ -93,44 +93,44 @@ public class AStar_Grid : MonoBehaviour
     }
 
     public List<AStar_Node> path;
-    // void OnDrawGizmos(){
-    //     // Debug.Log("OnDrawGizmos is running");
-    //     Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));
+    void OnDrawGizmos(){
+        // Debug.Log("OnDrawGizmos is running");
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));
 
-    //     if(onlyDisplayPathGizmos){
-    //         if(path != null){
-    //             foreach (AStar_Node node in path){
-    //                 Gizmos.color = Color.black;
-    //                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
-    //             }
-    //         }
-    //         return;
-    //     } else{
-    //         if(grid != null){
-    //             // AStar_Node npcNode = GetNodePos(NPC.position);
-    //             //Colouring the walkable and unwalkable nodes with white and red respectively
-    //             foreach (AStar_Node node in grid){
-    //                 if(node.walkable){
-    //                     Gizmos.color = Color.white;
-    //                 } else {
-    //                     Gizmos.color = Color.red;
-    //                 }   
+        if(onlyDisplayPathGizmos){
+            if(path != null){
+                foreach (AStar_Node node in path){
+                    Gizmos.color = Color.black;
+                    Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
+                }
+            }
+            return;
+        } else{
+            if(grid != null){
+                // AStar_Node npcNode = GetNodePos(NPC.position);
+                //Colouring the walkable and unwalkable nodes with white and red respectively
+                foreach (AStar_Node node in grid){
+                    if(node.walkable){
+                        Gizmos.color = Color.white;
+                    } else {
+                        Gizmos.color = Color.red;
+                    }   
 
-    //                 // if(npcNode == node){
-    //                 //     Gizmos.color = Color.cyan;
-    //                 // }
-    //                 // Debug.Log("Path: " + path);
-    //                 if(path != null){
-    //                     if(path.Contains(node)){
-    //                         Gizmos.color = Color.black;
-    //                     }
-    //                 }
+                    // if(npcNode == node){
+                    //     Gizmos.color = Color.cyan;
+                    // }
+                    // Debug.Log("Path: " + path);
+                    if(path != null){
+                        if(path.Contains(node)){
+                            Gizmos.color = Color.black;
+                        }
+                    }
 
-    //                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
-    //             }
-    //         }
-    //     }
-    // }
+                    Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
+                }
+            }
+        }
+    }
     
     public AStar_Node GetNodePos(Vector3 worldPosition){
         //Converting world position to percentage

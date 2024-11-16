@@ -142,39 +142,40 @@ public class Milo : MonoBehaviour
         // Disperse all objects within a certain range
         //Get all colliders within range
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, barkEffectRange);
+        List<NPC> npcList = new List<NPC>();
+        foreach(Collider2D collider in colliders){
+            if(collider.CompareTag("NPC")){
+                npcList.Add(collider.GetComponent<NPC>());
+            }
+        }
+        
         //draw circle for debugging
         // DebugCircle(transform.position, Vector3.forward, Color.red, barkEffectRange, 0f);
-        foreach (Collider2D collider in colliders)
+        foreach (NPC npc in npcList)
         {
-            if(collider.CompareTag("NPC"))
-            {
-                NPC npc = collider.gameObject.GetComponent<NPC>();
-                npc.canMove = false;
-                Vector3 direction = (collider.transform.position - transform.position).normalized;
-                npc.rb.AddForce(direction * disperseSpeed, ForceMode2D.Impulse);
-            }
+            npc.canMove = false;
+            Vector3 direction = (npc.transform.position - transform.position).normalized;
+            npc.rb.AddForce(direction * disperseSpeed, ForceMode2D.Impulse);
         }
+
         yield return new WaitForSeconds(0.5f);
-        foreach (Collider2D collider in colliders)
+        
+        foreach (NPC npc in npcList)
         {
-            if(collider.CompareTag("NPC"))
-            {
-                NPC npc = collider.gameObject.GetComponent<NPC>();
-                npc.rb.velocity = Vector2.zero;
-                npc.rb.angularVelocity = 0f;
-            }
+
+            npc.rb.velocity = Vector2.zero;
+            npc.rb.angularVelocity = 0f;
         }
+
         yield return new WaitForSeconds(0.25f);
-        foreach (Collider2D collider in colliders)
+
+        foreach (NPC npc in npcList)
         {
-            if(collider.gameObject == null) continue;
-            if(collider.CompareTag("NPC"))
-            {
-                NPC npc = collider.gameObject.GetComponent<NPC>();
-                npc.canMove = true;
-            }
+            npc.canMove = true;
         }
+
         yield return new WaitForSeconds(0.25f);
+        
         isBarking = false;  
     }
 

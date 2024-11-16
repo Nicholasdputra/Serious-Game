@@ -29,18 +29,19 @@ public class James : MonoBehaviour
         // Vector3 previousPosition = transform.position;
         yield return new WaitForSeconds(0 + Random.Range(0,10));
         Debug.Log("James is dropping the keys");
+        
         DropKeys();
     }
 
     [ContextMenu("DropKeys")]
-    public void DropKeys(){
+    void DropKeys(){
         hasKeys = false;
-        isDroppingKeys = false;
         Debug.Log("Spawning keys");
         for(int i = 0; i < 1; i++){
             bool droppedKeys = false;
             while(!droppedKeys){
                 Vector2 spawnPos =  (Vector2)transform.position + Random.insideUnitCircle.normalized;
+                // Debug.DrawLine(transform.position, spawnPos, Color.red, 1f);
                 //check if there is a colider in the spawn position
                 Collider2D hit = Physics2D.OverlapCircle(spawnPos, 0.05f);
                 if(hit == null){
@@ -51,6 +52,7 @@ public class James : MonoBehaviour
                 }
             }   
         }
+        isDroppingKeys = false;
         Debug.Log("James dropped the keys!!! Stupid James");
     }
 }
