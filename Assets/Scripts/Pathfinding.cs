@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+// using System.Diagnostics;
 using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
 {
     public Transform NPC, destination;
-    AStar_Grid grid;
+    public AStar_Grid grid;
 
     void Awake(){
         grid = GetComponent<AStar_Grid>();
     }
 
-    void findPath(Vector3 startPos, Vector3 targetPos){
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
+    public List<AStar_Node> FindPath(Vector3 startPos, Vector3 targetPos){
+        // Debug.Log("Finding path from " + startPos + " to " + targetPos);
+        List<AStar_Node> path = new List<AStar_Node>();
+        // Stopwatch sw = new Stopwatch();
+        // sw.Start();
         // Debug.Log("Finding path from " + startPos + " to " + targetPos);
         AStar_Node startNode = grid.GetNodePos(startPos);
         AStar_Node targetNode = grid.GetNodePos(targetPos);
@@ -36,10 +38,11 @@ public class Pathfinding : MonoBehaviour
 
             if(curr == targetNode){
                 // Debug.Log("Path found");
-                sw.Stop();
+                // sw.Stop();
                 // UnityEngine.Debug.Log("Path found in: " + sw.ElapsedMilliseconds + " ms");
-                RetracePath(startNode, targetNode);
-                return;
+                path.Add(targetNode);
+                RetracePath(startNode, targetNode, path);
+                return path;
             }
 
             foreach (AStar_Node neighbour in grid.GetNeighbours(curr)){
@@ -59,10 +62,12 @@ public class Pathfinding : MonoBehaviour
                 }
             }
         }
+        // Debug.Log("Path not found");
+        // RetracePath(startNode, targetNode, path);
+        return new List<AStar_Node>();
     }
 
-    void RetracePath(AStar_Node startNode, AStar_Node endNode){
-        List<AStar_Node> path = new List<AStar_Node>();
+    List<AStar_Node> RetracePath(AStar_Node startNode, AStar_Node endNode, List<AStar_Node> path){
         AStar_Node currentNode = endNode;
 
         while(currentNode != startNode){
@@ -71,6 +76,7 @@ public class Pathfinding : MonoBehaviour
         }
         path.Reverse();
         grid.path = path;
+        return path;
     }
 
     int GetDistance(AStar_Node nodeA, AStar_Node nodeB){
@@ -94,7 +100,7 @@ public class Pathfinding : MonoBehaviour
     void Update()
     {
         // if(Input.GetButtonDown("Jump")){
-            findPath(NPC.position, destination.position);
+            // FindPath(NPC.position, destination.position);
         // }
     }
 }

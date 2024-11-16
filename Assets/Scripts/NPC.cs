@@ -1,25 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
     public Milo milo;
-
-    [Header ("Pathing")]
+    public GameObject target;
+    [Header ("Movement")]
     public bool canMove;
-    public bool hasSetPath = false;
-    public List<string> path = new List<string>();
-    //U = Up, D = Down, L = Left, R = Right + value
-    //Contoh: U2 = ke atas 2 unit
-    public float speed = 1f;
-    private Vector3 targetPosition;
-    public bool isMoving = false;
-    public bool canRandomizeDirection = true;
+    public Pathfinding pathfinding;
+    public float runawaySpeed = 2f;
+    public float followSpeed = 1f;
+    public float usingSpeed = 2f;
+    private List<AStar_Node> pathToTarget;
+    private int targetIndex;
+    public Rigidbody2D rb;
+
     private Vector3 direction;
-    private Vector3 startPosition;
-    
 
     // Start is called before the first frame update
     void Start()
@@ -29,23 +26,39 @@ public class NPC : MonoBehaviour
 
     void Initialize(){
         milo = GameObject.FindWithTag("Milo").GetComponent<Milo>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(milo.isBarking){
-            Runaway();
+        if(canMove){
+            FollowPath();
         }
-        
     }
 
-    void Runaway(){
-        float distance = Vector3.Distance(transform.position, milo.transform.position);
-        if (distance <= milo.barkEffectRange)
+    void FollowPath()
+    {
+        List<AStar_Node> temp = pathfinding.FindPath(transform.position, milo.transform.position);
+        // Debug.Log("FollowPath");
+        if (temp == null || temp.Count == 0)
         {
-            Vector3 direction = transform.position - milo.transform.position;
-            transform.position += direction.normalized * milo.disperseSpeed * Time.deltaTime;
+            // Debug.Log("No path to target.");
+        }else{
+            pathToTarget = temp;
+            targetIndex = 0;
+        }
+        
+        if (targetIndex < pathToTarget.Count)
+        {
+            Vector3 targetPosition = pathToTarget[targetIndex].worldPos;
+            // Debug.Log("targetPosition: " + targetPosition);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, usingSpeed * Time.deltaTime);
+
+            if (transform.position == targetPosition)
+            {
+                targetIndex++;
+            }
         }
     }
 }

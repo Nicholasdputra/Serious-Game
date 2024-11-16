@@ -20,24 +20,18 @@ public class Milo : MonoBehaviour
     public float barkDisperseDistance;
     public float disperseSpeed;
 
-
     // Start is called before the first frame update
     void Start()
     {
         Initialize();
     }
 
-
-
     // Update is called once per frame
     void Update()
     {
-        
         Movement();
         Actions();
     }
-
-
 
     void Initialize(){
         isBarking = false;
@@ -51,22 +45,18 @@ public class Milo : MonoBehaviour
         jamesScript = james.GetComponent<James>();
         
         isBarking = false;
-        barkEffectRange = 5f;
-        barkDisperseDistance = 1f;
-        disperseSpeed = 5f;
+        barkEffectRange = 1.5f;
+        // barkDisperseDistance = 1f;
+        disperseSpeed = 10f;
     }
-
-
 
     void Movement(){
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0f);
-        transform.position += (movement * speed * Time.deltaTime);
+        transform.position += movement * speed * Time.deltaTime;
     }
-
-
 
     bool CheckForJames(){
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, checkRangeForJames);
@@ -80,8 +70,6 @@ public class Milo : MonoBehaviour
         }
         return false;
     }
-
-    
     
     void Actions(){
         if(Input.GetKey(KeyCode.E) && CheckForJames()){
@@ -89,14 +77,10 @@ public class Milo : MonoBehaviour
             Pull();
         }
 
-        if(Input.GetKey(KeyCode.Q)){
-            isBarking = true;
-        } else{
-            isBarking = false;
-        }
+        if(Input.GetKeyDown(KeyCode.Q) && !isBarking){
+            StartCoroutine(Bark());
+        } 
     }
-
-
 
     void Pull(){
         //Guide james
@@ -113,5 +97,45 @@ public class Milo : MonoBehaviour
         {
             Debug.Log("James is close enough, stopping pull.");
         }
+    }
+
+    [ContextMenu("Bark")]
+    IEnumerator Bark(){
+        Debug.Log("Barking");
+        isBarking = true;
+        // Disperse all objects within a certain range
+        //Get all colliders within range
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, barkEffectRange);
+        //draw circle for debugging
+        // DebugCircle(transform.position, Vector3.forward, Color.red, barkEffectRange, 0f);
+        foreach (Collider2D collider in colliders)
+        {
+            if(collider.CompareTag("NPC"))
+            {
+                NPC npc = collider.gameObject.GetComponent<NPC>();
+                npc.canMove = false;
+                Vector3 direction = (collider.transform.position - transform.position).normalized;
+                npc.rb.AddForce(direction * disperseSpeed, ForceMode2D.Impulse);
+            }
+        }
+        yield return new WaitForSeconds(1f);
+        foreach (Collider2D collider in colliders)
+        {
+            if(collider.CompareTag("NPC"))
+            {
+                NPC npc = collider.gameObject.GetComponent<NPC>();
+                npc.canMove = true;
+                npc.rb.velocity = Vector2.zero;
+                npc.rb.angularVelocity = 0f;
+            }
+        }
+        isBarking = false;  
+    }
+
+    void OnDrawGizmos()
+    {
+        // Draw a red circle to represent the bark effect range
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, barkEffectRange);
     }
 }
