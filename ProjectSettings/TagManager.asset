@@ -8,6 +8,7 @@ TagManager:
   - Milo
   - NPC
   - Wall
+  - Key
   layers:
   - Default
   - TransparentFX

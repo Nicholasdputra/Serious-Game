@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Milo : MonoBehaviour
@@ -9,9 +10,11 @@ public class Milo : MonoBehaviour
     
     public bool canMove;
     public float speed;
+    public bool hasKey;
 
     public bool isPullingJames;
     public float checkRangeForJames;
+    public float checkRangeForItems;
     public float mandatoryDistance;
     public float pullSpeed;
 
@@ -39,6 +42,7 @@ public class Milo : MonoBehaviour
         speed = 5f;
 
         checkRangeForJames = 2f;
+        checkRangeForItems = 1f;
         pullSpeed = 2f;
         mandatoryDistance = 1.25f;
         james = GameObject.FindWithTag("James");
@@ -55,6 +59,12 @@ public class Milo : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0f);
+        if(isPullingJames){
+            speed = 2.5f;
+        }
+        else{
+            speed = 5f;
+        }
         transform.position += movement * speed * Time.deltaTime;
     }
 
@@ -70,9 +80,23 @@ public class Milo : MonoBehaviour
         }
         return false;
     }
+
+    void CheckForItems(){
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, checkRangeForItems);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Key"))
+            {
+                // Debug.Log("Keys are in range");
+                hasKey = true;
+                Destroy(collider.gameObject);
+            }
+        }
+    }
     
     void Actions(){
-        if(Input.GetKey(KeyCode.E) && CheckForJames()){
+        bool jamesInRange = CheckForJames();
+        if(Input.GetKey(KeyCode.E) && jamesInRange){
             isPullingJames = true;
             Pull();
         }
@@ -80,11 +104,23 @@ public class Milo : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q) && !isBarking){
             StartCoroutine(Bark());
         } 
+        
+        if(Input.GetKeyDown(KeyCode.F)){
+            CheckForItems();
+            if(jamesInRange){
+                //if james in range, give items to james
+                if(hasKey){
+                    jamesScript.hasKeys = true;
+                    hasKey = false;
+                }
+            }
+            
+        }
     }
 
     void Pull(){
         //Guide james
-        Debug.Log("Is Pulling James");
+        // Debug.Log("Is Pulling James");
         float distance = Vector3.Distance(jamesScript.transform.position, transform.position);
         
         if (distance > mandatoryDistance)
@@ -95,7 +131,7 @@ public class Milo : MonoBehaviour
         }
         else
         {
-            Debug.Log("James is close enough, stopping pull.");
+            // Debug.Log("James is close enough, stopping pull.");
         }
     }
 
@@ -118,17 +154,27 @@ public class Milo : MonoBehaviour
                 npc.rb.AddForce(direction * disperseSpeed, ForceMode2D.Impulse);
             }
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         foreach (Collider2D collider in colliders)
         {
             if(collider.CompareTag("NPC"))
             {
                 NPC npc = collider.gameObject.GetComponent<NPC>();
-                npc.canMove = true;
                 npc.rb.velocity = Vector2.zero;
                 npc.rb.angularVelocity = 0f;
             }
         }
+        yield return new WaitForSeconds(0.25f);
+        foreach (Collider2D collider in colliders)
+        {
+            if(collider.gameObject == null) continue;
+            if(collider.CompareTag("NPC"))
+            {
+                NPC npc = collider.gameObject.GetComponent<NPC>();
+                npc.canMove = true;
+            }
+        }
+        yield return new WaitForSeconds(0.25f);
         isBarking = false;  
     }
 
@@ -138,4 +184,6 @@ public class Milo : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, barkEffectRange);
     }
+
+    
 }
