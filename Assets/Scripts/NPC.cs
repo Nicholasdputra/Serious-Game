@@ -5,7 +5,9 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     public Milo milo;
+    public GameObject[] setDestination;
     public GameObject target;
+
     [Header ("Movement")]
     public bool canMove;
     public Pathfinding pathfinding;
@@ -22,9 +24,13 @@ public class NPC : MonoBehaviour
         Initialize();
     }
 
-    void Initialize(){
+    public void Initialize(){
+        canMove = true;
+        setDestination = GameObject.FindGameObjectsWithTag("Set Destination");
+        pathfinding = GameObject.FindWithTag("Pathfinding AI").GetComponent<Pathfinding>();
         milo = GameObject.FindWithTag("Milo").GetComponent<Milo>();
         rb = GetComponent<Rigidbody2D>();
+        target = setDestination[Random.Range(0, setDestination.Length)];
     }
 
     // Update is called once per frame
@@ -37,7 +43,13 @@ public class NPC : MonoBehaviour
 
     public void FollowPath()
     {
-        List<AStar_Node> temp = pathfinding.FindPath(transform.position, milo.transform.position);
+        // if (pathfinding == null)
+        // {
+        //     Debug.Log("Pathfinding is null.");
+        //     return;
+        // }
+        
+        List<AStar_Node> temp = pathfinding.FindPath(transform.position, target.transform.position);
         // Debug.Log("FollowPath");
         if (temp == null || temp.Count == 0)
         {
@@ -62,36 +74,19 @@ public class NPC : MonoBehaviour
     }
 
     void OnDrawGizmos(){
+        // if (pathToTarget == null)
+        // {
+        //     Debug.Log("No path to target.");
+        //     return;
+        // }
+        // if(targetIndex == 0){
+        //     Debug.Log("Target index is 0.");
+        //     return;
+        // }
         for (int i = targetIndex; i < pathToTarget.Count; i++)
         {
             Gizmos.color = Color.black;
             Gizmos.DrawCube(pathToTarget[i].worldPos, Vector3.one * (pathfinding.grid.nodeDiameter - 0.1f));
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if(other.gameObject.CompareTag("Milo"))
-        {
-            Debug.Log("Milo has been caught!");
-            QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();
-            if(!quickTime.isQuickTimeActive){
-                quickTime.StartQuickTimeEvent();
-                Destroy(gameObject);
-            }
-        }
-    }
-
-    void OnCollisionStay2D(Collision2D other)
-    {
-        if(other.gameObject.CompareTag("Milo"))
-        {
-            Debug.Log("Milo has been caught!");
-            QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();
-            if(!quickTime.isQuickTimeActive){
-                quickTime.StartQuickTimeEvent();
-                Destroy(gameObject);
-            }
         }
     }
 }

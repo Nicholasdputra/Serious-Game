@@ -7,11 +7,7 @@ public class ChasingNPC : NPC
     void Start()
     {
         Initialize();
-    }
-
-    void Initialize(){
-        milo = GameObject.FindWithTag("Milo").GetComponent<Milo>();
-        rb = GetComponent<Rigidbody2D>();
+        target = milo.gameObject;
     }
 
     // Update is called once per frame
@@ -24,29 +20,32 @@ public class ChasingNPC : NPC
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("Milo"))
+        if(other.gameObject.CompareTag("Milo") && target == milo.gameObject)
         {
             Debug.Log("Milo has been caught!");
             QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();
+            quickTime.qteNPC = this;
             if(!quickTime.isQuickTimeActive){
                 quickTime.StartQuickTimeEvent();
-                Destroy(gameObject);
+                // Destroy(gameObject);
             }
         }
     }
 
     void OnCollisionStay2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("Milo"))
+        if(other.gameObject.CompareTag("Milo") && target == milo.gameObject)
         {
             Debug.Log("Milo has been caught!");
             QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();
+            quickTime.qteNPC = this;
+            if(quickTime.qteNPC == null){
+                Debug.Log("qteNPC is null, called from ChasingNPC");
+            }
             if(!quickTime.isQuickTimeActive){
                 quickTime.StartQuickTimeEvent();
-                Destroy(gameObject);
+                // Destroy(gameObject);
             }
         }
     }
-
-
 }
