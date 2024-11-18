@@ -16,8 +16,6 @@ public class NPC : MonoBehaviour
     private int targetIndex;
     public Rigidbody2D rb;
 
-    private Vector3 direction;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +35,7 @@ public class NPC : MonoBehaviour
         }
     }
 
-    void FollowPath()
+    public void FollowPath()
     {
         List<AStar_Node> temp = pathfinding.FindPath(transform.position, milo.transform.position);
         // Debug.Log("FollowPath");
@@ -68,6 +66,32 @@ public class NPC : MonoBehaviour
         {
             Gizmos.color = Color.black;
             Gizmos.DrawCube(pathToTarget[i].worldPos, Vector3.one * (pathfinding.grid.nodeDiameter - 0.1f));
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Milo"))
+        {
+            Debug.Log("Milo has been caught!");
+            QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();
+            if(!quickTime.isQuickTimeActive){
+                quickTime.StartQuickTimeEvent();
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Milo"))
+        {
+            Debug.Log("Milo has been caught!");
+            QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();
+            if(!quickTime.isQuickTimeActive){
+                quickTime.StartQuickTimeEvent();
+                Destroy(gameObject);
+            }
         }
     }
 }

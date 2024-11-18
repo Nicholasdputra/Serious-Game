@@ -85,7 +85,7 @@ public class Milo : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, checkRangeForItems);
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag("Key"))
+            if(collider.CompareTag("Key"))
             {
                 // Debug.Log("Keys are in range");
                 hasKey = true;
@@ -185,6 +185,4 @@ public class Milo : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, barkEffectRange);
     }
-
-    
 }
