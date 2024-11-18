@@ -89,18 +89,4 @@ public class Pathfinding : MonoBehaviour
             return 14 * distX + 10 * (distY - distX);
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // if(Input.GetButtonDown("Jump")){
-            // FindPath(NPC.position, destination.position);
-        // }
-    }
 }

@@ -26,10 +26,8 @@ public class James : MonoBehaviour
     }
 
     public IEnumerator DroppingKeys(){
-        // Vector3 previousPosition = transform.position;
         yield return new WaitForSeconds(0 + Random.Range(0,10));
         Debug.Log("James is dropping the keys");
-        
         DropKeys();
     }
 

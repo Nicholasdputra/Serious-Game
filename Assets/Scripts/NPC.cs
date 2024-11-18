@@ -47,6 +47,7 @@ public class NPC : MonoBehaviour
         }else{
             pathToTarget = temp;
             targetIndex = 0;
+            // Debug.Log("Path recalculated: " + pathToTarget.Count + " nodes");
         }
         
         if (targetIndex < pathToTarget.Count)
@@ -59,6 +60,14 @@ public class NPC : MonoBehaviour
             {
                 targetIndex++;
             }
+        }
+    }
+
+    void OnDrawGizmos(){
+        for (int i = targetIndex; i < pathToTarget.Count; i++)
+        {
+            Gizmos.color = Color.black;
+            Gizmos.DrawCube(pathToTarget[i].worldPos, Vector3.one * (pathfinding.grid.nodeDiameter - 0.1f));
         }
     }
 }
