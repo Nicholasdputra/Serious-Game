@@ -7,11 +7,13 @@ public class James : MonoBehaviour
     Rigidbody2D rb;
     public bool hasKeys = true;
     bool isDroppingKeys = false;
+    public GameObject levelTarget;
     [SerializeField] GameObject keyPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
+        levelTarget = GameObject.FindWithTag("LevelTarget");
         rb = GetComponent<Rigidbody2D>();
     }
 

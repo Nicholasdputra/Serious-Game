@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Milo : MonoBehaviour
@@ -22,6 +21,10 @@ public class Milo : MonoBehaviour
     public float barkEffectRange;
     public float barkDisperseDistance;
     public float disperseSpeed;
+
+    public bool canShowDirection;
+    public GameObject arrowPrefab;
+    public float arrowSpawnOffset;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +55,9 @@ public class Milo : MonoBehaviour
         barkEffectRange = 1.5f;
         // barkDisperseDistance = 1f;
         disperseSpeed = 10f;
+        
+        arrowSpawnOffset = 1.5f;
+        canShowDirection = true;
     }
 
     void Movement(){
@@ -114,7 +120,12 @@ public class Milo : MonoBehaviour
                     hasKey = false;
                 }
             }
-            
+        }
+
+        if(Input.GetKeyDown(KeyCode.C) && canShowDirection){
+            canShowDirection = false;
+            //maybe call anim and call coroutine from the anim (sniffing, terus muncul arrow)
+            StartCoroutine(ShowDirection());
         }
     }
 
@@ -177,6 +188,19 @@ public class Milo : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         
         isBarking = false;  
+    }
+
+    IEnumerator ShowDirection(){
+        //find direction from milo to james' levelTarget
+        Vector3 direction = (jamesScript.levelTarget.transform.position - transform.position).normalized;
+        //instantiate an arrow prefab pointing in that direction
+        Vector3 spawnPos = transform.position + direction * arrowSpawnOffset;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        GameObject arrow = Instantiate(arrowPrefab, spawnPos, Quaternion.Euler(0, 0, angle-90f));
+        yield return new WaitForSeconds(3f);
+        Destroy(arrow);
+        yield return new WaitForSeconds(5f);
+        canShowDirection = true;
     }
 
     void OnDrawGizmos()
