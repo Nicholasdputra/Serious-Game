@@ -9,7 +9,7 @@ public class QuickTime : MonoBehaviour
     public bool isQuickTimeActive = false;
     [SerializeField] GameObject quickTimePanel;
     Slider quickTimeSlider;
-    [SerializeField] float quickTimeSliderSpeed = 0.1f;
+    [SerializeField] float quickTimeSliderSpeed = 0.033f;
     [SerializeField] int quickTimeIncrement = 5;
 
     // Start is called before the first frame update
@@ -19,22 +19,9 @@ public class QuickTime : MonoBehaviour
         quickTimeSlider = quickTimePanel.transform.GetChild(0).GetComponent<Slider>();
     }
 
-    private void FixedUpdate()
-    {
-        if(quickTimePanel.activeSelf)
-        {
-            quickTimeSlider.value -= quickTimeSliderSpeed;
-        }
-        quickTimeSlider.value = Mathf.Clamp(quickTimeSlider.value, 0, 100);
-    }
-
     // Update is called once per frame
     void Update()
     {
-        // if(Input.GetKeyDown(KeyCode.Q) && !isQuickTimeActive)
-        // {
-        //     StartQuickTimeEvent();
-        // }
         if(quickTimePanel.activeSelf){
             if(Input.GetKeyDown(KeyCode.Space))
             {
@@ -53,6 +40,17 @@ public class QuickTime : MonoBehaviour
         Time.timeScale = 0;
         quickTimeSlider.value = 10;
         quickTimePanel.SetActive(true);
+        StartCoroutine(QuickTimeEvent());
+    }
+
+    IEnumerator QuickTimeEvent()
+    {
+        while(true){
+            yield return new WaitForSecondsRealtime(quickTimeSliderSpeed);
+            quickTimeSlider.value--;
+            quickTimeSlider.value = Mathf.Clamp(quickTimeSlider.value, 0, 100);
+            yield return null;
+        }
     }
 
     void EndQuickTimeEvent()
