@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class James : MonoBehaviour
 {
+    public bool inLevel;
     Rigidbody2D rb;
     public bool hasKeys = true;
     bool isDroppingKeys = false;
@@ -13,6 +15,8 @@ public class James : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        inLevel = true;
+        
         levelTarget = GameObject.FindWithTag("LevelTarget");
         rb = GetComponent<Rigidbody2D>();
     }

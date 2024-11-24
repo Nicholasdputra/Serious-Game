@@ -36,7 +36,7 @@ public class QuickTime : MonoBehaviour
 
     public void StartQuickTimeEvent()
     {
-        //pause time
+        GameObject.FindGameObjectWithTag("LevelTarget").GetComponent<DestinationScript>().distractedCounter++;
         Time.timeScale = 0;
         quickTimeSlider.value = 10;
         quickTimePanel.SetActive(true);
