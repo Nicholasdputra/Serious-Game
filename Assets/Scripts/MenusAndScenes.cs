@@ -29,7 +29,32 @@ public class MenusAndScenesScript : MonoBehaviour
     public void StartGame()
     {
         // sfxSource.PlayOneShot(clickClip);
-        SceneManager.LoadScene("Level");
+        SceneManager.LoadScene("LevelSelect");
+    }
+
+    //Back to Main Menu
+    public void BackToMainMenu()
+    {
+        // sfxSource.PlayOneShot(clickClip);
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void LoadLevel1()
+    {
+        // sfxSource.PlayOneShot(clickClip);
+        SceneManager.LoadScene("Level1");
+    }
+
+    public void LoadLevel2()
+    {
+        // sfxSource.PlayOneShot(clickClip);
+        SceneManager.LoadScene("Level2");
+    }
+
+    public void LoadLevel3()
+    {
+        // sfxSource.PlayOneShot(clickClip);
+        SceneManager.LoadScene("Level3");
     }
 
     //Options
@@ -77,81 +102,85 @@ public class MenusAndScenesScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // bgmSource.Play();
-        // bgmSource.loop = true;
-        // Initialize the sliders with saved values (or default 1.0)
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1.0f);
-
-        // Attach listener functions to the sliders
-        musicSlider.onValueChanged.AddListener(OnMusicSliderValueChanged);
-        sfxSlider.onValueChanged.AddListener(OnSFXSliderValueChanged);
-
-        // Set initial volume based on saved values
-        // bgmSource.volume = musicSlider.value;
-        // sfxSource.volume = sfxSlider.value;
-        optionsPanel.SetActive(false);
-        mainMenuButtonsPanel.SetActive(true);
-
-        resolutions = Screen.resolutions;
-        filteredResolutions = new List<Resolution>();
-        resolutionDropdown.ClearOptions();
-        currentRefreshRate = (float)Screen.currentResolution.refreshRateRatio.value;
-        
-        for (int i = 0; i < resolutions.Length; i++)
+        if(SceneManager.GetActiveScene().name == "MainMenu")
         {
-            if ((float)resolutions[i].refreshRateRatio.value == currentRefreshRate) 
-            {
-                filteredResolutions.Add(resolutions[i]);
-            } 
-        }
+            // bgmSource.Play();
+            // bgmSource.loop = true;
+            // Initialize the sliders with saved values (or default 1.0)
+            musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
+            sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1.0f);
 
-        if (filteredResolutions.Count == 0)
-        {
-            filteredResolutions.AddRange(resolutions);
-        }
+            // Attach listener functions to the sliders
+            musicSlider.onValueChanged.AddListener(OnMusicSliderValueChanged);
+            sfxSlider.onValueChanged.AddListener(OnSFXSliderValueChanged);
 
-        // Sort resolutions by width and height
-        filteredResolutions = filteredResolutions.OrderByDescending(res => res.width).ThenByDescending(res => res.height).ToList();
-        
+            // Set initial volume based on saved values
+            // bgmSource.volume = musicSlider.value;
+            // sfxSource.volume = sfxSlider.value;
+            optionsPanel.SetActive(false);
+            mainMenuButtonsPanel.SetActive(true);
 
-        List<string> options = new List<string>();
-
-        for (int i = 0; i < filteredResolutions.Count; i++)
-        {
-            string resolutionOption = filteredResolutions[i].width + "x" + filteredResolutions[i].height + " " + filteredResolutions[i].refreshRateRatio.value.ToString("0.##") + " Hz";
-            options.Add(resolutionOption);
-            
-            if (filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height && (float)filteredResolutions[i].refreshRateRatio.value == currentRefreshRate)
-            {
-                currentResolutionIndex = i;
-            }
-        }
-        resolutionDropdown.AddOptions(options);
-        if (filteredResolutions.Count > 0)
-        {
-            if (currentResolutionIndex < 0 || currentResolutionIndex >= filteredResolutions.Count)
-            {
-                currentResolutionIndex = 0; // Default to the first resolution if index is out of range
-            }
-            resolutionDropdown.value = currentResolutionIndex;
-            resolutionDropdown.RefreshShownValue();
-            SetResolution(currentResolutionIndex);
-        } 
-        else
-        {
-            float currentRefreshRate;
+            resolutions = Screen.resolutions;
+            filteredResolutions = new List<Resolution>();
+            resolutionDropdown.ClearOptions();
             currentRefreshRate = (float)Screen.currentResolution.refreshRateRatio.value;
-            Debug.Log("Current Refresh Rate: " + currentRefreshRate.ToString("0.##") + " Hz");
-            Debug.LogError("No resolutions available for the current refresh rate.");
+            
+            for (int i = 0; i < resolutions.Length; i++)
+            {
+                if ((float)resolutions[i].refreshRateRatio.value == currentRefreshRate) 
+                {
+                    filteredResolutions.Add(resolutions[i]);
+                } 
+            }
+
+            if (filteredResolutions.Count == 0)
+            {
+                filteredResolutions.AddRange(resolutions);
+            }
+
+            // Sort resolutions by width and height
+            filteredResolutions = filteredResolutions.OrderByDescending(res => res.width).ThenByDescending(res => res.height).ToList();
+            
+
+            List<string> options = new List<string>();
+
+            for (int i = 0; i < filteredResolutions.Count; i++)
+            {
+                string resolutionOption = filteredResolutions[i].width + "x" + filteredResolutions[i].height + " " + filteredResolutions[i].refreshRateRatio.value.ToString("0.##") + " Hz";
+                options.Add(resolutionOption);
+                
+                if (filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height && (float)filteredResolutions[i].refreshRateRatio.value == currentRefreshRate)
+                {
+                    currentResolutionIndex = i;
+                }
+            }
+            resolutionDropdown.AddOptions(options);
+            if (filteredResolutions.Count > 0)
+            {
+                if (currentResolutionIndex < 0 || currentResolutionIndex >= filteredResolutions.Count)
+                {
+                    currentResolutionIndex = 0; // Default to the first resolution if index is out of range
+                }
+                resolutionDropdown.value = currentResolutionIndex;
+                resolutionDropdown.RefreshShownValue();
+                SetResolution(currentResolutionIndex);
+            } 
+            else
+            {
+                float currentRefreshRate;
+                currentRefreshRate = (float)Screen.currentResolution.refreshRateRatio.value;
+                Debug.Log("Current Refresh Rate: " + currentRefreshRate.ToString("0.##") + " Hz");
+                Debug.LogError("No resolutions available for the current refresh rate.");
+            }
         }
     }
+
     private void OnMusicSliderValueChanged(float value)
     {
         bgmSource.volume = value;
         PlayerPrefs.SetFloat("MusicVolume", value); // Save the volume setting
     }
-
+    
     // Update SFX volume when slider changes
     private void OnSFXSliderValueChanged(float value)
     {
