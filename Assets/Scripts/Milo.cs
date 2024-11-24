@@ -61,8 +61,8 @@ public class Milo : MonoBehaviour
     }
 
     void Movement(){
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        float moveVertical = Input.GetAxisRaw("Vertical");
 
         Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0f);
         if(isPullingJames){
@@ -102,9 +102,13 @@ public class Milo : MonoBehaviour
     
     void Actions(){
         bool jamesInRange = CheckForJames();
-        if(Input.GetKey(KeyCode.E) && jamesInRange){
-            isPullingJames = true;
-            Pull();
+        if(Input.GetKey(KeyCode.E) ){
+            if(jamesInRange){    
+                isPullingJames = true;
+                Pull();
+            }            
+        }else{
+            isPullingJames = false;
         }
 
         if(Input.GetKeyDown(KeyCode.Q) && !isBarking){

@@ -7,6 +7,7 @@ public class SpriteAnimation : MonoBehaviour
     public bool isPaused;
     Animator animator;
     Vector2 movement;
+    Vector2 lastMove;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,9 +17,21 @@ public class SpriteAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
         if (!isPaused)
         {
-            
+            if(movement == Vector2.zero)
+            {
+                animator.SetBool("isMoving", false);
+                animator.SetFloat("LastX", lastMove.x);
+                animator.SetFloat("LastY", lastMove.y);
+            }else{
+                lastMove = movement; 
+                animator.SetBool("isMoving", true);
+                animator.SetFloat("MoveX", movement.x);
+                animator.SetFloat("MoveY", movement.y);
+            }
         }
     }
 }
