@@ -12,8 +12,8 @@ public class ChasingNPC : NPC
 
     // Update is called once per frame
     void Update()
-    {
-        if(canMove){
+    {        
+        if(canMove && !DestinationScript.isGameOver){
             FollowPath();
         }
     }
@@ -25,7 +25,7 @@ public class ChasingNPC : NPC
             Debug.Log("Milo has been caught!");
             QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();
             quickTime.qteNPC = this;
-            if(!quickTime.isQuickTimeActive){
+            if(!QuickTime.isQuickTimeActive){
                 quickTime.StartQuickTimeEvent();
                 // Destroy(gameObject);
             }
@@ -42,7 +42,7 @@ public class ChasingNPC : NPC
             if(quickTime.qteNPC == null){
                 Debug.Log("qteNPC is null, called from ChasingNPC");
             }
-            if(!quickTime.isQuickTimeActive){
+            if(!QuickTime.isQuickTimeActive){
                 quickTime.StartQuickTimeEvent();
                 // Destroy(gameObject);
             }

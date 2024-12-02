@@ -6,8 +6,8 @@ using TMPro;
 public class DestinationScript : MonoBehaviour
 {
     [Header ("Level Done")] 
+    public static bool isGameOver;
     public James james;
-    public bool inLevel;
     public int time;
     public GameObject gameoverPanel;
     public int distractedCounter;
@@ -18,7 +18,7 @@ public class DestinationScript : MonoBehaviour
 
     void Start()
     {
-        inLevel = true;
+        isGameOver = false;
         StartCoroutine(Timer());
         time = 0;
         distractedCounter = 0;
@@ -26,14 +26,13 @@ public class DestinationScript : MonoBehaviour
     }
 
     private void ShowEndScreen(){
-        inLevel = false;
         gameoverPanel.SetActive(true);
         totalTime.text = currentTime.text;
         timesDistracted.text = distractedCounter.ToString();
     }
 
     public IEnumerator Timer(){
-        while(inLevel){    
+        while(isGameOver == false){    
             yield return new WaitForSecondsRealtime(1f);
             time++;
             int hours = time / 3600;
@@ -47,6 +46,8 @@ public class DestinationScript : MonoBehaviour
     {
         if(other.gameObject.CompareTag("James") && other.gameObject.GetComponent<James>().hasKeys){
             Debug.Log("James has reached the level target");
+            StopAllCoroutines();
+            isGameOver = true;
             ShowEndScreen();
         }
     }

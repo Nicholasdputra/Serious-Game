@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class QuickTime : MonoBehaviour
 {
     public ChasingNPC qteNPC;
-    public bool isQuickTimeActive = false;
+    public static bool isQuickTimeActive = false;
     [SerializeField] GameObject quickTimePanel;
     Slider quickTimeSlider;
     [SerializeField] float quickTimeSliderSpeed = 0.033f;
@@ -22,6 +22,12 @@ public class QuickTime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(DestinationScript.isGameOver)
+        {
+            quickTimePanel.SetActive(false);
+            isQuickTimeActive = false;
+        }
+
         if(quickTimePanel.activeSelf){
             if(Input.GetKeyDown(KeyCode.Space))
             {
@@ -38,6 +44,7 @@ public class QuickTime : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("LevelTarget").GetComponent<DestinationScript>().distractedCounter++;
         Time.timeScale = 0;
+        isQuickTimeActive = true;
         quickTimeSlider.value = 10;
         quickTimePanel.SetActive(true);
         StartCoroutine(QuickTimeEvent());
@@ -57,6 +64,7 @@ public class QuickTime : MonoBehaviour
     {
         //resume time
         Time.timeScale = 1;
+        isQuickTimeActive = false;
         quickTimePanel.SetActive(false);
         if(qteNPC == null){
             Debug.Log("qteNPC is null, called from QuickTime");

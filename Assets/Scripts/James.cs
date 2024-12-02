@@ -24,15 +24,17 @@ public class James : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(hasKeys && !isDroppingKeys){
-            Debug.Log("Dropping keys");
-            isDroppingKeys = true;
-            StartCoroutine(DroppingKeys());
+        if(!DestinationScript.isGameOver){
+            if(hasKeys && !isDroppingKeys){
+                Debug.Log("Dropping keys");
+                isDroppingKeys = true;
+                StartCoroutine(DroppingKeys());
+            }
         }
     }
 
     public IEnumerator DroppingKeys(){
-        yield return new WaitForSeconds(0 + Random.Range(0,10));
+        yield return new WaitForSeconds(30 + Random.Range(0,10));
         Debug.Log("James is dropping the keys");
         DropKeys();
     }

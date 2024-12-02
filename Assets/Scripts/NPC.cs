@@ -36,7 +36,7 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(canMove){
+        if(canMove && !DestinationScript.isGameOver){
             FollowPath();
         }
     }

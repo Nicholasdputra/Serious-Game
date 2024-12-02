@@ -35,8 +35,10 @@ public class Milo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
-        Actions();
+        if(!DestinationScript.isGameOver){
+            Movement();
+            Actions();
+        }
     }
 
     void Initialize(){
@@ -64,7 +66,7 @@ public class Milo : MonoBehaviour
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
 
-        Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0f);
+        Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0f).normalized;
         if(isPullingJames){
             speed = 2.5f;
         }
