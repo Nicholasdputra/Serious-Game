@@ -74,6 +74,7 @@ public class QuickTime : MonoBehaviour
         qteNPC.canMove = true;
         GuardNPC guardScript = qteNPC.gameObject.GetComponent<GuardNPC>();
         ChasingNPC chasingScript = qteNPC.gameObject.GetComponent<ChasingNPC>();
+        ChaseIfLookingNPC chaseIfLookingScript = qteNPC.gameObject.GetComponent<ChaseIfLookingNPC>();
 
         // Debug.Log("qteNPC.setDestination.Length = " + qteNPC.setDestination.Length);
         if(chasingScript != null){
@@ -82,14 +83,25 @@ public class QuickTime : MonoBehaviour
         } else if (guardScript != null){
             Debug.Log("GuardNPC was the one that triggered the QuickTime event");
             qteNPC.target = guardScript.Anchor;
-            StartCoroutine(GuardCD(guardScript));
+            StartCoroutine(TargetMiloCooldown(guardScript));
+        } else if (chaseIfLookingScript != null){
+            Debug.Log("ChaseIfLookingNPC was the one that triggered the QuickTime event");
+            qteNPC.target = qteNPC.setDestination[Random.Range(0, qteNPC.setDestination.Length)];
+            StartCoroutine(TargetMiloCooldown(chaseIfLookingScript));
         }
     }
 
-    public IEnumerator GuardCD(GuardNPC guardScript)
+    public IEnumerator TargetMiloCooldown(GuardNPC guardScript)
     {
         guardScript.canMove = false;
         yield return new WaitForSeconds(5);
         guardScript.canMove = true;
+    }
+
+    public IEnumerator TargetMiloCooldown(ChaseIfLookingNPC chaseIfLookingScript)
+    {
+        chaseIfLookingScript.canMove = false;
+        yield return new WaitForSeconds(5);
+        chaseIfLookingScript.canMove = true;
     }
 }

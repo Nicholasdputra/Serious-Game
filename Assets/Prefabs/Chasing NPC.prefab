@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22893058ddeb57845845e87dc0280e9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  milo: {fileID: 0}
+  miloScript: {fileID: 0}
   setDestination: []
   target: {fileID: 0}
   canMove: 0
@@ -158,6 +158,7 @@ MonoBehaviour:
   runawaySpeed: 2
   followSpeed: 1
   usingSpeed: 2
+  targetIndex: 0
   rb: {fileID: 0}
 --- !u!50 &2020416144796747845
 Rigidbody2D:
@@ -172,7 +173,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 5
-  m_LinearDrag: 0
+  m_LinearDrag: 10000
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}

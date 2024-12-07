@@ -24,7 +24,8 @@ public class NPC : MonoBehaviour
         Initialize();
     }
 
-    public void Initialize(){
+    public void Initialize()
+    {
         // canMove = true;
         setDestination = GameObject.FindGameObjectsWithTag("Set Destination");
         pathfinding = GameObject.FindWithTag("Pathfinding AI").GetComponent<Pathfinding>();
@@ -36,7 +37,8 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(canMove && !DestinationScript.instance.isGameOver){
+        if(canMove && !DestinationScript.instance.isGameOver)
+        {
             FollowPath();
         }
     }
@@ -54,10 +56,12 @@ public class NPC : MonoBehaviour
         if (temp == null || temp.Count == 0)
         {
             Debug.Log("No path to target.");
-        }else{
+        }
+        else
+        {
             pathToTarget = temp;
             targetIndex = 0;
-            Debug.Log("Path recalculated: " + pathToTarget.Count + " nodes");
+            // Debug.Log("Path recalculated: " + pathToTarget.Count + " nodes");
         }
         
         if (targetIndex < pathToTarget.Count)
@@ -67,7 +71,7 @@ public class NPC : MonoBehaviour
             // Debug.Log("targetPosition: " + targetPosition);
             Vector3 direction = (targetPosition - transform.position).normalized;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, usingSpeed * Time.deltaTime);
-
+            
             if (transform.position == targetPosition)
             {
                 targetIndex++;
@@ -75,7 +79,8 @@ public class NPC : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos(){
+    void OnDrawGizmos()
+    {
         // if (pathToTarget == null)
         // {
         //     Debug.Log("No path to target.");

@@ -1,19 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+// using System.Numerics;
 using UnityEngine;
 
 public class ChaseIfLookingNPC : NPC
 {
     public float radius;
     [Range(0, 360)]
-    public float fovAngle;
-
+    [SerializeField] float fovAngle;
     [SerializeField] LayerMask targetMask;
     [SerializeField] LayerMask obstructionMask;
-    [SerializeField] private float delay = 0.1f;
     [SerializeField] private float maxRotationSpeed = 180f;
     [SerializeField] private Collider2D miloCollider;
     [SerializeField] private Vector2 directionToMilo;
+
     public bool isInFOV = false;
 
     // Start is called before the first frame update
@@ -21,7 +21,6 @@ public class ChaseIfLookingNPC : NPC
     {
         Initialize();
         canMove = true;
-        StartCoroutine(FOVCoroutine());
     }
 
     // Update is called once per frame
@@ -31,12 +30,13 @@ public class ChaseIfLookingNPC : NPC
         if(miloCollider != null){
             FaceMilo();
             CheckIfMiloIsInFOV();
-            if(isInFOV){
+            if(isInFOV && canMove){
                 target = miloScript.gameObject;
             } else{
                 isInFOV = false;
                 if(target == miloScript.gameObject){
                     target = setDestination[Random.Range(0, setDestination.Length)];
+                    FaceTarget(target.transform.position);
                 }
             }
         } 
@@ -45,20 +45,13 @@ public class ChaseIfLookingNPC : NPC
             isInFOV = false;
             if(target == miloScript.gameObject){
                 target = setDestination[Random.Range(0, setDestination.Length)];
+                FaceTarget(target.transform.position);
             }
+            FaceTarget(target.transform.position);
         }
-        if(canMove && !DestinationScript.instance.isGameOver){
+        if(canMove && !DestinationScript.instance.isGameOver)
+        {
             FollowPath();
-        }
-    }
-
-    private IEnumerator FOVCoroutine(){
-        while(true){
-            yield return new WaitForSeconds(delay);
-            
-            if(miloCollider != null){
-                
-            }
         }
     }
 
@@ -76,7 +69,27 @@ public class ChaseIfLookingNPC : NPC
 
             // Apply the rotation smoothly
             transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, maxRotationSpeed * Time.deltaTime);
+        } else{
+
         }
+    }
+
+    private void FaceTarget(Vector3 targetPosition)
+    {
+        Debug.Log("Facing target");
+        if(transform.position == targetPosition)
+        {
+            Debug.Log("Target reached");
+            return;
+        }
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        Debug.Log("Direction: " + direction);
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Debug.Log("Angle: " + angle);
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        Debug.Log("Rotation: " + rotation);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, maxRotationSpeed * Time.deltaTime);
+        Debug.Log("Transform.rotation: " + transform.rotation);
     }
 
     private void CheckIfMiloIsInFOV(){
@@ -122,4 +135,39 @@ public class ChaseIfLookingNPC : NPC
         }
         Gizmos.DrawRay(transform.position, (miloScript.transform.position - transform.position).normalized * radius);
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Milo") && target == miloScript.gameObject)
+        {
+            Debug.Log("Milo has been caught!");
+            QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();
+            quickTime.qteNPC = this;
+            if(!QuickTime.isQuickTimeActive)
+            {
+                quickTime.StartQuickTimeEvent();
+            }
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Milo") && target == miloScript.gameObject)
+        {
+            Debug.Log("Milo has been caught!");
+            QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();
+            quickTime.qteNPC = this;
+            if(quickTime.qteNPC == null)
+            {
+                Debug.Log("qteNPC is null, called from ChaseIfLookingNPC");
+            }
+            if(!QuickTime.isQuickTimeActive)
+            {
+                quickTime.StartQuickTimeEvent();
+                // Destroy(gameObject);
+            }
+        }
+    }
+
+
 }

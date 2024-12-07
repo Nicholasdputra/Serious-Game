@@ -8,11 +8,13 @@ public class Pathfinding : MonoBehaviour
     public Transform NPC, destination;
     public AStar_Grid grid;
 
-    void Awake(){
+    void Awake()
+    {
         grid = GetComponent<AStar_Grid>();
     }
 
-    public List<AStar_Node> FindPath(Vector3 startPos, Vector3 targetPos){
+    public List<AStar_Node> FindPath(Vector3 startPos, Vector3 targetPos)
+    {
         // Debug.Log("Finding path from " + startPos + " to " + targetPos);
         List<AStar_Node> path = new List<AStar_Node>();
         
@@ -28,34 +30,41 @@ public class Pathfinding : MonoBehaviour
             AStar_Node curr = openSet[0];
             for (int i = 1; i < openSet.Count; i++)
             {
-                if(openSet[i].fcost() < curr.fcost() || openSet[i].fcost() == curr.fcost() && openSet[i].hCost < curr.hCost){
+                if(openSet[i].fcost() < curr.fcost() 
+                || openSet[i].fcost() == curr.fcost() 
+                && openSet[i].hCost < curr.hCost)
+                {
                     curr = openSet[i];
                 }
             }
             openSet.Remove(curr);
             closedSet.Add(curr);
 
-            if(curr == targetNode){
-                // Debug.Log("Path found");
-                // sw.Stop();
-                // UnityEngine.Debug.Log("Path found in: " + sw.ElapsedMilliseconds + " ms");
+            if(curr == targetNode)
+            {
                 path.Add(targetNode);
                 RetracePath(startNode, targetNode, path);
                 return path;
             }
 
-            foreach (AStar_Node neighbour in grid.GetNeighbours(curr)){
-                if(!neighbour.walkable || closedSet.Contains(neighbour)){
+            foreach (AStar_Node neighbour in grid.GetNeighbours(curr))
+            {
+                if(!neighbour.walkable 
+                || closedSet.Contains(neighbour))
+                {
                     continue;
                 }
 
                 int newCostToNeighbour = curr.gCost + GetDistance(curr, neighbour);
-                if(newCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)){
+                if(newCostToNeighbour < neighbour.gCost 
+                || !openSet.Contains(neighbour))
+                {
                     neighbour.gCost = newCostToNeighbour;
                     neighbour.hCost = GetDistance(neighbour, targetNode);
                     neighbour.parent = curr;
 
-                    if(!openSet.Contains(neighbour)){
+                    if(!openSet.Contains(neighbour))
+                    {
                         openSet.Add(neighbour);
                     }
                 }
@@ -66,10 +75,12 @@ public class Pathfinding : MonoBehaviour
         return new List<AStar_Node>();
     }
 
-    List<AStar_Node> RetracePath(AStar_Node startNode, AStar_Node endNode, List<AStar_Node> path){
+    List<AStar_Node> RetracePath(AStar_Node startNode, AStar_Node endNode, List<AStar_Node> path)
+    {
         AStar_Node currentNode = endNode;
 
-        while(currentNode != startNode){
+        while(currentNode != startNode)
+        {
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }
@@ -82,9 +93,12 @@ public class Pathfinding : MonoBehaviour
         int distX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
         int distY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
 
-        if(distX > distY){
+        if(distX > distY)
+        {
             return 14 * distY + 10 * (distX - distY);
-        } else {
+        } 
+        else 
+        {
             return 14 * distX + 10 * (distY - distX);
         }
     }
