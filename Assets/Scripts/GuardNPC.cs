@@ -1,25 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class ChasingNPC : NPC
+
+public class GuardNPC : NPC
 {
+    private Vector3 startPos;
+    private Vector3 currPos;
+    public GameObject Anchor;
+
     // Start is called before the first frame update
     void Start()
     {
         Initialize();
-        target = miloScript.gameObject;
+        canMove = true;
+        startPos = transform.position;
+        Anchor = new GameObject("Anchor");
+        Anchor.transform.position = startPos;
     }
 
     // Update is called once per frame
     void Update()
-    {        
-        if(canMove && !DestinationScript.instance.isGameOver){
-            FollowPath();
+    {
+        if(!DestinationScript.instance.isGameOver && canMove){
+            CheckForMilo();
         }
+    }
+
+    void CheckForMilo()
+    {
+        if (Vector3.Distance(startPos, miloScript.transform.position) < 10f )
+        {
+            target = miloScript.gameObject;
+        } 
+        else
+        {
+            target = Anchor;
+        }
+        FollowPath();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        Debug.Log("Collision detected with " + other.gameObject.name);
         if(other.gameObject.CompareTag("Milo") && target == miloScript.gameObject)
         {
             Debug.Log("Milo has been caught!");
@@ -33,6 +55,7 @@ public class ChasingNPC : NPC
 
     void OnCollisionStay2D(Collision2D other)
     {
+        Debug.Log("Collision detected with " + other.gameObject.name);
         if(other.gameObject.CompareTag("Milo") && target == miloScript.gameObject)
         {
             Debug.Log("Milo has been caught!");
@@ -46,5 +69,11 @@ public class ChasingNPC : NPC
                 // Destroy(gameObject);
             }
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(startPos, 10f);
     }
 }

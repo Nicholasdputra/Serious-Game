@@ -5,8 +5,10 @@ using TMPro;
 
 public class DestinationScript : MonoBehaviour
 {
+    public static DestinationScript instance {get; set;}
+
     [Header ("Level Done")] 
-    public static bool isGameOver;
+    public bool isGameOver;
     public James james;
     public int time;
     public GameObject gameoverPanel;
@@ -18,6 +20,14 @@ public class DestinationScript : MonoBehaviour
 
     void Start()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogWarning("Multiple instances of DestinationScript detected!");
+        }
         isGameOver = false;
         StartCoroutine(Timer());
         time = 0;

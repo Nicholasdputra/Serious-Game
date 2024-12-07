@@ -41,18 +41,21 @@ public class MenusAndScenesScript : MonoBehaviour
 
     public void LoadLevel1()
     {
+        DestinationScript.instance = null;
         // sfxSource.PlayOneShot(clickClip);
         SceneManager.LoadScene("Level1");
     }
 
     public void LoadLevel2()
     {
+        DestinationScript.instance = null;
         // sfxSource.PlayOneShot(clickClip);
         SceneManager.LoadScene("Level2");
     }
 
     public void LoadLevel3()
     {
+        DestinationScript.instance = null;
         // sfxSource.PlayOneShot(clickClip);
         SceneManager.LoadScene("Level3");
     }

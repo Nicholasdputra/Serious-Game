@@ -19,9 +19,9 @@ public class SpriteAnimation : MonoBehaviour
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        if (!isPaused && !DestinationScript.isGameOver && !QuickTime.isQuickTimeActive)
+        if (!isPaused && !DestinationScript.instance.isGameOver && !QuickTime.isQuickTimeActive)
         {
-            Debug.Log("SpriteAnimation");
+            // Debug.Log("SpriteAnimation");
             if(movement == Vector2.zero)
             {
                 animator.SetBool("isMoving", false);

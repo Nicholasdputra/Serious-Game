@@ -15,8 +15,7 @@ public class Pathfinding : MonoBehaviour
     public List<AStar_Node> FindPath(Vector3 startPos, Vector3 targetPos){
         // Debug.Log("Finding path from " + startPos + " to " + targetPos);
         List<AStar_Node> path = new List<AStar_Node>();
-        // Stopwatch sw = new Stopwatch();
-        // sw.Start();
+        
         // Debug.Log("Finding path from " + startPos + " to " + targetPos);
         AStar_Node startNode = grid.GetNodePos(startPos);
         AStar_Node targetNode = grid.GetNodePos(targetPos);

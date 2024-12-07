@@ -35,7 +35,7 @@ public class Milo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!DestinationScript.isGameOver){
+        if(!DestinationScript.instance.isGameOver){
             Movement();
             Actions();
         }
@@ -162,6 +162,7 @@ public class Milo : MonoBehaviour
         List<NPC> npcList = new List<NPC>();
         foreach(Collider2D collider in colliders){
             if(collider.CompareTag("NPC")){
+                // Debug.Log("NPC in range");
                 npcList.Add(collider.GetComponent<NPC>());
             }
         }

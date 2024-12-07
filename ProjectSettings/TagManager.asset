@@ -12,6 +12,7 @@ TagManager:
   - Set Destination
   - Pathfinding AI
   - LevelTarget
+  - QTEPanel
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Unwalkable
   - Water
   - UI
-  - 
+  - Milo
   - 
   - 
   - 

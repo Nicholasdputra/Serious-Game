@@ -8,7 +8,7 @@ public class James : MonoBehaviour
     public bool inLevel;
     Rigidbody2D rb;
     public bool hasKeys = true;
-    bool isDroppingKeys = false;
+    [SerializeField] bool isDroppingKeys = false;
     public GameObject levelTarget;
     [SerializeField] GameObject keyPrefab;
 
@@ -24,9 +24,9 @@ public class James : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!DestinationScript.isGameOver){
+        if(!DestinationScript.instance.isGameOver){
             if(hasKeys && !isDroppingKeys){
-                Debug.Log("Dropping keys");
+                // Debug.Log("Dropping keys");
                 isDroppingKeys = true;
                 StartCoroutine(DroppingKeys());
             }
@@ -34,8 +34,9 @@ public class James : MonoBehaviour
     }
 
     public IEnumerator DroppingKeys(){
-        yield return new WaitForSeconds(30 + Random.Range(0,10));
         Debug.Log("James is dropping the keys");
+        yield return new WaitForSeconds(30 + Random.Range(0,10));
+        // Debug.Log("James is dropping the keys");
         DropKeys();
     }
 

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class QuickTime : MonoBehaviour
 {
-    public ChasingNPC qteNPC;
+    public NPC qteNPC;
     public static bool isQuickTimeActive = false;
     [SerializeField] GameObject quickTimePanel;
     Slider quickTimeSlider;
@@ -15,6 +16,7 @@ public class QuickTime : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        quickTimePanel.SetActive(false);
         Time.timeScale = 1;
         quickTimeSlider = quickTimePanel.transform.GetChild(0).GetComponent<Slider>();
     }
@@ -22,7 +24,7 @@ public class QuickTime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(DestinationScript.isGameOver)
+        if(DestinationScript.instance.isGameOver)
         {
             quickTimePanel.SetActive(false);
             isQuickTimeActive = false;
@@ -42,7 +44,7 @@ public class QuickTime : MonoBehaviour
 
     public void StartQuickTimeEvent()
     {
-        GameObject.FindGameObjectWithTag("LevelTarget").GetComponent<DestinationScript>().distractedCounter++;
+        DestinationScript.instance.distractedCounter++;
         Time.timeScale = 0;
         isQuickTimeActive = true;
         quickTimeSlider.value = 10;
@@ -70,7 +72,24 @@ public class QuickTime : MonoBehaviour
             Debug.Log("qteNPC is null, called from QuickTime");
         }
         qteNPC.canMove = true;
-        Debug.Log("qteNPC.setDestination.Length = " + qteNPC.setDestination.Length);
-        qteNPC.target = qteNPC.setDestination[Random.Range(0, qteNPC.setDestination.Length)];   
+        GuardNPC guardScript = qteNPC.gameObject.GetComponent<GuardNPC>();
+        ChasingNPC chasingScript = qteNPC.gameObject.GetComponent<ChasingNPC>();
+
+        // Debug.Log("qteNPC.setDestination.Length = " + qteNPC.setDestination.Length);
+        if(chasingScript != null){
+            Debug.Log("ChasingNPC was the one that triggered the QuickTime event");
+            qteNPC.target = qteNPC.setDestination[Random.Range(0, qteNPC.setDestination.Length)];   
+        } else if (guardScript != null){
+            Debug.Log("GuardNPC was the one that triggered the QuickTime event");
+            qteNPC.target = guardScript.Anchor;
+            StartCoroutine(GuardCD(guardScript));
+        }
+    }
+
+    public IEnumerator GuardCD(GuardNPC guardScript)
+    {
+        guardScript.canMove = false;
+        yield return new WaitForSeconds(5);
+        guardScript.canMove = true;
     }
 }
