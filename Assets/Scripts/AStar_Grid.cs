@@ -15,20 +15,15 @@ public class AStar_Grid : MonoBehaviour
     int gridSizeX, gridSizeY;
 
     void Start(){
+        transform.position = new Vector3(0, 0, 0);
         nodeDiameter = nodeRadius * 2;
-        // Debug.Log("Node Diameter: " + nodeDiameter);
-        // Debug.Log("Grid World Size: " + gridWorldSize);
-        // Debug.Log("Grid World Size x: " + gridWorldSize.x);
-        // Debug.Log("Grid World Size y: " + gridWorldSize.y);
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
         CreateGrid();
-        // OnDrawGizmos();
     }
 
     void Update(){
-        CreateGrid();
-        // OnDrawGizmos();
+        // CreateGrid();
     }
 
     public int MaxSize{
@@ -83,7 +78,8 @@ public class AStar_Grid : MonoBehaviour
         return neighbours;
     }
 
-    public bool CheckNeighbour(int x, int y){
+    public bool CheckNeighbour(int x, int y)
+    {
         if(x >= 0 && x < gridSizeX){
             if(y >= 0 && y < gridSizeY){
                 return true;
@@ -93,54 +89,48 @@ public class AStar_Grid : MonoBehaviour
     }
 
     public List<AStar_Node> path;
-    // void OnDrawGizmos(){
-    //     // Debug.Log("OnDrawGizmos is running");
-    //     Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));
-    //     if(onlyDisplayPathGizmos){
-    //         if(path != null){
-    //             foreach (AStar_Node node in path){
-    //                 Gizmos.color = Color.black;
-    //                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
-    //             }
-    //         }
-    //         return;
-    //     } else{
-    //         if(grid != null){
-    //             // AStar_Node npcNode = GetNodePos(NPC.position);
-    //             //Colouring the walkable and unwalkable nodes with white and red respectively
-    //             foreach (AStar_Node node in grid){
-    //                 if(node.walkable){
-    //                     Gizmos.color = Color.white;
-    //                 } else {
-    //                     Gizmos.color = Color.red;
-    //                 }   
-    //                 // if(npcNode == node){
-    //                 //     Gizmos.color = Color.cyan;
-    //                 // }
-    //                 // Debug.Log("Path: " + path);
-    //                 if(path != null){
-    //                     if(path.Contains(node)){
-    //                         Gizmos.color = Color.black;
-    //                     }
-    //                 }
-    //                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
-    //             }
-    //         }
-    //     }
-    // }
+    void OnDrawGizmos()
+    {
+        // Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));
+        // if(onlyDisplayPathGizmos){
+        //     if(path != null){
+        //         foreach (AStar_Node node in path){
+        //             Gizmos.color = Color.black;
+        //             Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
+        //         }
+        //     }
+        //     return;
+        // } else{
+        //     if(grid != null){
+        //         // AStar_Node npcNode = GetNodePos(NPC.position);
+        //         //Colouring the walkable and unwalkable nodes with white and red respectively
+        //         foreach (AStar_Node node in grid){
+        //             if(node.walkable){
+        //                 Gizmos.color = Color.white;
+        //             } else {
+        //                 Gizmos.color = Color.red;
+        //             }   
+                
+        //             if(path != null){
+        //                 if(path.Contains(node)){
+        //                     Gizmos.color = Color.black;
+        //                 }
+        //             }
+        //             Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
+        //         }
+        //     }
+        // }
+    }
     
     public AStar_Node GetNodePos(Vector3 worldPosition){
         //Converting world position to percentage
         float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
         float percentY = (worldPosition.y + gridWorldSize.y / 2) / gridWorldSize.y;
 
-        //Making sure it's within the grid
-        percentX = Mathf.Clamp01(percentX);
-        percentY = Mathf.Clamp01(percentY);
-
         //Getting the x and y values of the grid
-        int x = Mathf.RoundToInt((gridSizeX) * percentX);
-        int y = Mathf.RoundToInt((gridSizeY) * percentY);
+        int x = Mathf.FloorToInt(Mathf.Clamp((gridSizeX) * percentX, 0, gridSizeX - 1));
+        int y = Mathf.FloorToInt(Mathf.Clamp((gridSizeY) * percentY, 0, gridSizeY - 1));
+        
         return grid[x,y];
     }
 }

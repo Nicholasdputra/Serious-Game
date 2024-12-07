@@ -15,7 +15,7 @@ public class NPC : MonoBehaviour
     public float followSpeed = 1f;
     public float usingSpeed = 2f;
     private List<AStar_Node> pathToTarget;
-    private int targetIndex;
+    [SerializeField] int targetIndex;
     public Rigidbody2D rb;
 
     // Start is called before the first frame update
@@ -53,22 +53,20 @@ public class NPC : MonoBehaviour
         // Debug.Log("FollowPath");
         if (temp == null || temp.Count == 0)
         {
-            // Debug.Log("No path to target.");
+            Debug.Log("No path to target.");
         }else{
             pathToTarget = temp;
             targetIndex = 0;
-            // Debug.Log("Path recalculated: " + pathToTarget.Count + " nodes");
+            Debug.Log("Path recalculated: " + pathToTarget.Count + " nodes");
         }
         
         if (targetIndex < pathToTarget.Count)
         {
             Vector3 targetPosition = pathToTarget[targetIndex].worldPos;
+            
             // Debug.Log("targetPosition: " + targetPosition);
             Vector3 direction = (targetPosition - transform.position).normalized;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, usingSpeed * Time.deltaTime);
-            // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            // Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
-            // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, usingSpeed * Time.deltaTime);
 
             if (transform.position == targetPosition)
             {
@@ -77,20 +75,20 @@ public class NPC : MonoBehaviour
         }
     }
 
-    // void OnDrawGizmos(){
-    //     // if (pathToTarget == null)
-    //     // {
-    //     //     Debug.Log("No path to target.");
-    //     //     return;
-    //     // }
-    //     // if(targetIndex == 0){
-    //     //     Debug.Log("Target index is 0.");
-    //     //     return;
-    //     // }
-    //     for (int i = targetIndex; i < pathToTarget.Count; i++)
-    //     {
-    //         Gizmos.color = Color.black;
-    //         Gizmos.DrawCube(pathToTarget[i].worldPos, Vector3.one * (pathfinding.grid.nodeDiameter - 0.1f));
-    //     }
-    // }
+    void OnDrawGizmos(){
+        // if (pathToTarget == null)
+        // {
+        //     Debug.Log("No path to target.");
+        //     return;
+        // }
+        // if(targetIndex == 0){
+        //     Debug.Log("Target index is 0.");
+        //     return;
+        // }
+        for (int i = targetIndex; i < pathToTarget.Count; i++)
+        {
+            Gizmos.color = Color.black;
+            Gizmos.DrawCube(pathToTarget[i].worldPos, Vector3.one * (pathfinding.grid.nodeDiameter - 0.1f));
+        }
+    }
 }
