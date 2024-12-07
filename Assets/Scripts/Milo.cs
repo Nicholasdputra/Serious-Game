@@ -4,28 +4,30 @@ using UnityEngine;
 
 public class Milo : MonoBehaviour
 {
+    Rigidbody2D rb;
     public GameObject james;
     public James jamesScript;
-    
     public bool canMove;
     public float speed;
     public bool hasKey;
-
     public bool isPullingJames;
     public float checkRangeForJames;
     public float checkRangeForItems;
     public float mandatoryDistance;
     public float pullSpeed;
-
     public bool isBarking;
     public float barkEffectRange;
     public float barkDisperseDistance;
     public float disperseSpeed;
-
     public bool canShowDirection;
     public GameObject arrowPrefab;
     public float arrowSpawnOffset;
+    Vector2 movement;
 
+    private void Awake() {
+        rb = GetComponent<Rigidbody2D>();
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -35,16 +37,27 @@ public class Milo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
         if(!DestinationScript.instance.isGameOver){
-            Movement();
             Actions();
         }
+    }
+
+    private void FixedUpdate() {
+        if(isPullingJames){
+            speed = 2.5f;
+        }
+        else{
+            speed = 7f;
+        }
+        rb.velocity = movement.normalized * speed;
     }
 
     void Initialize(){
         isBarking = false;
         canMove = true;
-        speed = 5f;
+        speed = 7f;
 
         checkRangeForJames = 2f;
         checkRangeForItems = 1f;
@@ -60,20 +73,6 @@ public class Milo : MonoBehaviour
         
         arrowSpawnOffset = 1.5f;
         canShowDirection = true;
-    }
-
-    void Movement(){
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
-
-        Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0f).normalized;
-        if(isPullingJames){
-            speed = 2.5f;
-        }
-        else{
-            speed = 5f;
-        }
-        transform.position += movement * speed * Time.deltaTime;
     }
 
     bool CheckForJames(){

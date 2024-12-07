@@ -13,6 +13,7 @@ TagManager:
   - Pathfinding AI
   - LevelTarget
   - QTEPanel
+  - TrafficBlock
   layers:
   - Default
   - TransparentFX
@@ -49,4 +50,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 2437049119
     locked: 0
