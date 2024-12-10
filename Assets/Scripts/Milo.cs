@@ -8,6 +8,7 @@ public class Milo : MonoBehaviour
     public GameObject james;
     public James jamesScript;
     public bool canMove;
+    public float defaultSpeed
     public float speed;
     public bool hasKey;
     public bool isPullingJames;
@@ -20,6 +21,7 @@ public class Milo : MonoBehaviour
     public float barkDisperseDistance;
     public float disperseSpeed;
     public bool canShowDirection;
+    public bool canLick;
     public GameObject arrowPrefab;
     public float arrowSpawnOffset;
     Vector2 movement;
@@ -32,6 +34,27 @@ public class Milo : MonoBehaviour
     void Start()
     {
         Initialize();
+    }
+    void Initialize(){
+        isBarking = false;
+        canMove = true;
+        speed = defaultSpeed;;
+
+        checkRangeForJames = 2f;
+        checkRangeForItems = 1f;
+        pullSpeed = 2f;
+        mandatoryDistance = 1.25f;
+        james = GameObject.FindWithTag("James");
+        jamesScript = james.GetComponent<James>();
+        
+        isBarking = false;
+        canLick = true;
+        barkEffectRange = 1.5f;
+        // barkDisperseDistance = 1f;
+        disperseSpeed = 10f;
+        
+        arrowSpawnOffset = 1.5f;
+        canShowDirection = true;
     }
 
     // Update is called once per frame
@@ -46,34 +69,14 @@ public class Milo : MonoBehaviour
 
     private void FixedUpdate() {
         if(isPullingJames){
-            speed = 2.5f;
+            speed = jamesScript.pullSpeed;
         }
         else{
-            speed = 7f;
+            speed = defaultSpeed;
         }
         rb.velocity = movement.normalized * speed;
     }
 
-    void Initialize(){
-        isBarking = false;
-        canMove = true;
-        speed = 7f;
-
-        checkRangeForJames = 2f;
-        checkRangeForItems = 1f;
-        pullSpeed = 2f;
-        mandatoryDistance = 1.25f;
-        james = GameObject.FindWithTag("James");
-        jamesScript = james.GetComponent<James>();
-        
-        isBarking = false;
-        barkEffectRange = 1.5f;
-        // barkDisperseDistance = 1f;
-        disperseSpeed = 10f;
-        
-        arrowSpawnOffset = 1.5f;
-        canShowDirection = true;
-    }
 
     bool CheckForJames(){
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, checkRangeForJames);
@@ -132,6 +135,10 @@ public class Milo : MonoBehaviour
             //maybe call anim and call coroutine from the anim (sniffing, terus muncul arrow)
             StartCoroutine(ShowDirection());
         }
+
+        if(Input.GetKeyDown(KeyCode.M) && canLick && jamesInRange){
+            StartCoroutine(Lick());
+        }
     }
 
     void Pull(){
@@ -143,6 +150,7 @@ public class Milo : MonoBehaviour
         {
             // Move James' position closer to this object's position
             jamesScript.transform.position = Vector3.Lerp(jamesScript.transform.position, transform.position, pullSpeed * Time.deltaTime);
+            //Change James animator variable
             // Debug.Log("Is Pulling James");
         }
         else
@@ -207,6 +215,15 @@ public class Milo : MonoBehaviour
         Destroy(arrow);
         yield return new WaitForSeconds(5f);
         canShowDirection = true;
+    }
+
+    IEnumerator Lick(){
+        canLick = false;
+        speed = 0;
+        yield return new WaitForSeconds(0.5f);
+        jamesScript.anxiety -= 10;
+        speed = defaultSpeed;
+        canLick = true;
     }
 
     void OnDrawGizmos()
