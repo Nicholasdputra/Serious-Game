@@ -51,7 +51,7 @@ public class Milo : MonoBehaviour
         canLick = true;
         barkEffectRange = 1.5f;
         // barkDisperseDistance = 1f;
-        disperseSpeed = 10f;
+        disperseSpeed = 15f;
         
         arrowSpawnOffset = 1.5f;
         canShowDirection = true;
@@ -167,8 +167,10 @@ public class Milo : MonoBehaviour
         //Get all colliders within range
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, barkEffectRange);
         List<NPC> npcList = new List<NPC>();
-        foreach(Collider2D collider in colliders){
-            if(collider.CompareTag("NPC")){
+        foreach(Collider2D collider in colliders)
+        {
+            if(collider.CompareTag("NPC"))
+            {
                 // Debug.Log("NPC in range");
                 npcList.Add(collider.GetComponent<NPC>());
             }
@@ -180,6 +182,7 @@ public class Milo : MonoBehaviour
         {
             npc.canMove = false;
             Vector3 direction = (npc.transform.position - transform.position).normalized;
+            npc.rb.drag = 0.1f;
             npc.rb.AddForce(direction * disperseSpeed, ForceMode2D.Impulse);
         }
 
@@ -189,6 +192,7 @@ public class Milo : MonoBehaviour
         {
 
             npc.rb.velocity = Vector2.zero;
+            npc.rb.drag = 1000f;
             npc.rb.angularVelocity = 0f;
         }
 
@@ -204,6 +208,9 @@ public class Milo : MonoBehaviour
         isBarking = false;  
     }
 
+    [Header("Direction")]
+    public float directionDuration = 3;
+    public float directionCD = 5;
     IEnumerator ShowDirection(){
         //find direction from milo to james' levelTarget
         Vector3 direction = (jamesScript.levelTarget.transform.position - transform.position).normalized;
@@ -211,18 +218,22 @@ public class Milo : MonoBehaviour
         Vector3 spawnPos = transform.position + direction * arrowSpawnOffset;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         GameObject arrow = Instantiate(arrowPrefab, spawnPos, Quaternion.Euler(0, 0, angle-90f));
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(directionDuration);
         Destroy(arrow);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(directionCD);
         canShowDirection = true;
     }
 
+    [Header("Lick")]
+    public float lickDuration = 0.5f;
+    public float lickCD = 2f;
     IEnumerator Lick(){
         canLick = false;
         speed = 0;
-        yield return new WaitForSeconds(0.5f);
-        jamesScript.anxiety -= 10;
+        yield return new WaitForSeconds(lickDuration);
+        jamesScript.anxiety -= 25;
         speed = defaultSpeed;
+        yield return new WaitForSeconds(lickCD);
         canLick = true;
     }
 

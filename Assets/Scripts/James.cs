@@ -47,7 +47,6 @@ public class James : MonoBehaviour
         //set pull speed based on anxiety
         //the higher anxiety the slower
         anxietySlider.value = anxiety;
-        Debug.Log("Anxiety: " + anxiety);
         if(anxiety > 75){
             pullSpeed = 1f;
         }else if(anxiety > 50){
