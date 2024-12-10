@@ -17,6 +17,7 @@ public class Milo : MonoBehaviour
     public float mandatoryDistance;
     public float pullSpeed;
     public bool isBarking;
+    bool isLicking;
     public float barkEffectRange;
     public float barkDisperseDistance;
     public float disperseSpeed;
@@ -48,6 +49,7 @@ public class Milo : MonoBehaviour
         jamesScript = james.GetComponent<James>();
         
         isBarking = false;
+        isLicking = false;
         canLick = true;
         barkEffectRange = 1.5f;
         // barkDisperseDistance = 1f;
@@ -68,7 +70,10 @@ public class Milo : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if(isPullingJames){
+        if(isLicking){
+            speed = 0f;
+        }
+        else if(isPullingJames){
             speed = jamesScript.pullSpeed;
         }
         else{
@@ -172,7 +177,10 @@ public class Milo : MonoBehaviour
             if(collider.CompareTag("NPC"))
             {
                 // Debug.Log("NPC in range");
-                npcList.Add(collider.GetComponent<NPC>());
+                if(collider.gameObject.GetComponent<StasionaryNPC>() == null)
+                {
+                    npcList.Add(collider.GetComponent<NPC>());
+                }
             }
         }
         
@@ -187,7 +195,7 @@ public class Milo : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
-        
+
         foreach (NPC npc in npcList)
         {
 
@@ -229,8 +237,10 @@ public class Milo : MonoBehaviour
     public float lickCD = 2f;
     IEnumerator Lick(){
         canLick = false;
+        isLicking = true;
         speed = 0;
         yield return new WaitForSeconds(lickDuration);
+        isLicking = false;
         jamesScript.anxiety -= 25;
         speed = defaultSpeed;
         yield return new WaitForSeconds(lickCD);

@@ -15,11 +15,11 @@ GameObject:
   - component: {fileID: 674246556937135414}
   m_Layer: 0
   m_Name: Looking-Chasing NPC
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2317159597498855231
 Transform:
   m_ObjectHideFlags: 0
@@ -168,7 +168,6 @@ MonoBehaviour:
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
-  delay: 0.5
   maxRotationSpeed: 180
   miloCollider: {fileID: 0}
   directionToMilo: {x: 0, y: 0}

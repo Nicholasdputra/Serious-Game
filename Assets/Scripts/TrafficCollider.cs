@@ -47,7 +47,7 @@ public class TrafficCollider : MonoBehaviour
 
     IEnumerator ChangeLightsDelay(){
         while(hasPlayer){
-            Debug.Log("player in");
+            Debug.Log("player inside, coroutine running");
             yield return null;
         }
         Debug.Log("player left");
