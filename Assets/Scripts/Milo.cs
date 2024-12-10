@@ -177,7 +177,7 @@ public class Milo : MonoBehaviour
             if(collider.CompareTag("NPC"))
             {
                 // Debug.Log("NPC in range");
-                if(collider.gameObject.GetComponent<StasionaryNPC>() == null)
+                if(collider.gameObject.GetComponent<StationaryNPC>() == null)
                 {
                     npcList.Add(collider.GetComponent<NPC>());
                 }

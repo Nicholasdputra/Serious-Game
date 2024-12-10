@@ -81,11 +81,11 @@ public class NPC : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        // if (pathToTarget == null)
-        // {
-        //     Debug.Log("No path to target.");
-        //     return;
-        // }
+        if (pathToTarget == null)
+        {
+            // Debug.Log("No path to target.");
+            return;
+        }
         // if(targetIndex == 0){
         //     Debug.Log("Target index is 0.");
         //     return;
