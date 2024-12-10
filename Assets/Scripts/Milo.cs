@@ -7,6 +7,7 @@ public class Milo : MonoBehaviour
     Rigidbody2D rb;
     public GameObject james;
     public James jamesScript;
+    JamesAnimationScript jamesAnimationScript;
     public bool canMove;
     public float defaultSpeed;
     public float speed;
@@ -47,6 +48,7 @@ public class Milo : MonoBehaviour
         mandatoryDistance = 1.25f;
         james = GameObject.FindWithTag("James");
         jamesScript = james.GetComponent<James>();
+        jamesAnimationScript = james.GetComponent<JamesAnimationScript>();
         
         isBarking = false;
         isLicking = false;
@@ -113,11 +115,13 @@ public class Milo : MonoBehaviour
         bool jamesInRange = CheckForJames();
         if(Input.GetKey(KeyCode.E) ){
             if(jamesInRange){    
+                jamesAnimationScript.Move(movement);
                 isPullingJames = true;
                 Pull();
             }            
         }else{
             isPullingJames = false;
+            jamesAnimationScript.Move(Vector2.zero);
         }
 
         if(Input.GetKeyDown(KeyCode.Q) && !isBarking){
@@ -156,6 +160,7 @@ public class Milo : MonoBehaviour
             // Move James' position closer to this object's position
             jamesScript.transform.position = Vector3.Lerp(jamesScript.transform.position, transform.position, pullSpeed * Time.deltaTime);
             //Change James animator variable
+            // jamesAnimationScript.Move((transform.position - jamesScript.transform.position).normalized);
             // Debug.Log("Is Pulling James");
         }
         else
