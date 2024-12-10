@@ -8,7 +8,7 @@ public class Milo : MonoBehaviour
     public GameObject james;
     public James jamesScript;
     public bool canMove;
-    public float defaultSpeed
+    public float defaultSpeed;
     public float speed;
     public bool hasKey;
     public bool isPullingJames;
@@ -38,11 +38,11 @@ public class Milo : MonoBehaviour
     void Initialize(){
         isBarking = false;
         canMove = true;
-        speed = defaultSpeed;;
+        speed = defaultSpeed;
 
         checkRangeForJames = 2f;
         checkRangeForItems = 1f;
-        pullSpeed = 2f;
+        pullSpeed = 3f;
         mandatoryDistance = 1.25f;
         james = GameObject.FindWithTag("James");
         jamesScript = james.GetComponent<James>();

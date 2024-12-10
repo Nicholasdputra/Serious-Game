@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class James : MonoBehaviour
 {
+    [SerializeField] Slider anxietySlider;
     public float pullSpeed;
     public int anxiety;
     public bool inLevel;
@@ -21,6 +23,14 @@ public class James : MonoBehaviour
         
         levelTarget = GameObject.FindWithTag("LevelTarget");
         rb = GetComponent<Rigidbody2D>();
+        StartCoroutine(AnxietyIncrease());
+    }
+
+    public IEnumerator AnxietyIncrease(){
+        while(inLevel){
+            yield return new WaitForSeconds(0.75f);
+            anxiety++;
+        }
     }
 
     // Update is called once per frame
@@ -33,9 +43,18 @@ public class James : MonoBehaviour
                 StartCoroutine(DroppingKeys());
             }
         }
-
+        
         //set pull speed based on anxiety
         //the higher anxiety the slower
+        anxietySlider.value = anxiety;
+        Debug.Log("Anxiety: " + anxiety);
+        if(anxiety > 75){
+            pullSpeed = 1f;
+        }else if(anxiety > 50){
+            pullSpeed = 2f;
+        }else{
+            pullSpeed = 3f;
+        }
     }
 
     public IEnumerator DroppingKeys(){
