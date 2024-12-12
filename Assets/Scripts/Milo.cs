@@ -145,7 +145,7 @@ public class Milo : MonoBehaviour
             StartCoroutine(ShowDirection());
         }
 
-        if(Input.GetKeyDown(KeyCode.M) && canLick && jamesInRange){
+        if(Input.GetKeyDown(KeyCode.X) && canLick && jamesInRange){
             StartCoroutine(Lick());
         }
     }

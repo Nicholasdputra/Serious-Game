@@ -70,20 +70,20 @@ public class TrafficCollider : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("Milo") || other.CompareTag("James")){
+    private void OnTriggerEnter2D(Collider2D other){
+        if(other.CompareTag("Milo") || other.CompareTag("James") || other.CompareTag("NPC")){
             hasPlayer = true;
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other) {
-        if(other.CompareTag("Milo") || other.CompareTag("James")){
+    private void OnTriggerStay2D(Collider2D other){
+        if(other.CompareTag("Milo") || other.CompareTag("James") || other.CompareTag("NPC")){
             hasPlayer = true;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other) {
-        if(other.CompareTag("Milo") || other.CompareTag("James")){
+    private void OnTriggerExit2D(Collider2D other){
+        if(other.CompareTag("Milo") || other.CompareTag("James") || other.CompareTag("NPC")){
             hasPlayer = false;
         }
     }
