@@ -23,7 +23,7 @@ public class AStar_Grid : MonoBehaviour
     }
 
     void Update(){
-        StartCoroutine(UpdateGrid());
+        // StartCoroutine(UpdateGrid());
     }
 
     public int MaxSize{
@@ -32,7 +32,7 @@ public class AStar_Grid : MonoBehaviour
         }
     }
 
-    void CreateGrid(){
+    public void CreateGrid(){
         // Debug.Log("Gridsize x: " + gridSizeX + " Gridsize y: " + gridSizeY);
         grid = new AStar_Node[gridSizeX, gridSizeY];
         Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
@@ -52,17 +52,6 @@ public class AStar_Grid : MonoBehaviour
 
                 //Marking the node as walkable or not
                 grid[x,y] = new AStar_Node(walkable, worldPoint, x, y);
-            }
-        }
-    }
-
-    public IEnumerator UpdateGrid(){
-        yield return new WaitForSeconds(15f);
-        foreach(AStar_Node node in grid){
-            if(Physics2D.OverlapCircle(node.worldPos, nodeRadius, unwalkable)){
-                node.walkable = false;
-            } else {
-                node.walkable = true;
             }
         }
     }

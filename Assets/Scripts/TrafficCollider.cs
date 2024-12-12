@@ -7,10 +7,12 @@ public class TrafficCollider : MonoBehaviour
 {
     [HideInInspector] public TrafficLights trafficLights;
     [HideInInspector] public bool isVertical;
+    private AStar_Grid grid;
     int entityCounter;
     BoxCollider2D boxCollider;
 
     private void Awake() {
+        grid = GameObject.FindGameObjectWithTag("Pathfinding AI").GetComponent<AStar_Grid>();
         BoxCollider2D[] boxColliders;
         boxColliders = GetComponents<BoxCollider2D>();
         foreach(BoxCollider2D bc in boxColliders){
@@ -47,6 +49,7 @@ public class TrafficCollider : MonoBehaviour
             Debug.Log("starting coroutine");
             StartCoroutine(ChangeLightsDelay());
         }
+        grid.CreateGrid();
     }
 
     IEnumerator ChangeLightsDelay(){
