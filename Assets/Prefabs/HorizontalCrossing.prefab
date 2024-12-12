@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 576760393842716441}
   - component: {fileID: 5816937581934485970}
   - component: {fileID: 5428690322077303233}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HorizontalCrossing
   m_TagString: TrafficBlock
   m_Icon: {fileID: 0}

@@ -23,7 +23,7 @@ public class AStar_Grid : MonoBehaviour
     }
 
     void Update(){
-        // CreateGrid();
+        StartCoroutine(UpdateGrid());
     }
 
     public int MaxSize{
@@ -52,6 +52,17 @@ public class AStar_Grid : MonoBehaviour
 
                 //Marking the node as walkable or not
                 grid[x,y] = new AStar_Node(walkable, worldPoint, x, y);
+            }
+        }
+    }
+
+    public IEnumerator UpdateGrid(){
+        yield return new WaitForSeconds(15f);
+        foreach(AStar_Node node in grid){
+            if(Physics2D.OverlapCircle(node.worldPos, nodeRadius, unwalkable)){
+                node.walkable = false;
+            } else {
+                node.walkable = true;
             }
         }
     }

@@ -7,7 +7,7 @@ public class TrafficCollider : MonoBehaviour
 {
     [HideInInspector] public TrafficLights trafficLights;
     [HideInInspector] public bool isVertical;
-    public bool hasPlayer = false;
+    int entityCounter;
     BoxCollider2D boxCollider;
 
     private void Awake() {
@@ -21,24 +21,28 @@ public class TrafficCollider : MonoBehaviour
     }
 
     public void ChangeLights(){
-        if(!hasPlayer){
+        if(entityCounter == 0){
             if(isVertical){
-                if(trafficLights.counter % 2 == 0){
-                    boxCollider.enabled = true;
-                    GetComponent<SpriteRenderer>().enabled = true;
-                }else{
-                    boxCollider.enabled = false;
-                    GetComponent<SpriteRenderer>().enabled = false;
-                }
+            if(trafficLights.counter % 2 == 0){
+                boxCollider.enabled = true;
+                GetComponent<SpriteRenderer>().enabled = true;
+                gameObject.layer = LayerMask.NameToLayer("Unwalkable");
             }else{
-                if(trafficLights.counter % 2 == 0){
-                    boxCollider.enabled = false;
-                    GetComponent<SpriteRenderer>().enabled = false;
-                }else{
-                    boxCollider.enabled = true;
-                    GetComponent<SpriteRenderer>().enabled = true;
-                }
+                boxCollider.enabled = false;
+                GetComponent<SpriteRenderer>().enabled = false;
+                gameObject.layer = LayerMask.NameToLayer("Default");
             }
+        }else{
+            if(trafficLights.counter % 2 == 0){
+                boxCollider.enabled = false;
+                GetComponent<SpriteRenderer>().enabled = false;
+                gameObject.layer = LayerMask.NameToLayer("Default");
+            }else{
+                boxCollider.enabled = true;
+                GetComponent<SpriteRenderer>().enabled = true;
+                gameObject.layer = LayerMask.NameToLayer("Unwalkable");
+            }
+        }
         }else{
             Debug.Log("starting coroutine");
             StartCoroutine(ChangeLightsDelay());
@@ -46,7 +50,7 @@ public class TrafficCollider : MonoBehaviour
     }
 
     IEnumerator ChangeLightsDelay(){
-        while(hasPlayer){
+        while(entityCounter != 0){
             Debug.Log("player inside, coroutine running");
             yield return null;
         }
@@ -55,36 +59,34 @@ public class TrafficCollider : MonoBehaviour
             if(trafficLights.counter % 2 == 0){
                 boxCollider.enabled = true;
                 GetComponent<SpriteRenderer>().enabled = true;
+                gameObject.layer = LayerMask.NameToLayer("Unwalkable");
             }else{
                 boxCollider.enabled = false;
                 GetComponent<SpriteRenderer>().enabled = false;
+                gameObject.layer = LayerMask.NameToLayer("Default");
             }
         }else{
             if(trafficLights.counter % 2 == 0){
                 boxCollider.enabled = false;
                 GetComponent<SpriteRenderer>().enabled = false;
+                gameObject.layer = LayerMask.NameToLayer("Default");
             }else{
                 boxCollider.enabled = true;
                 GetComponent<SpriteRenderer>().enabled = true;
+                gameObject.layer = LayerMask.NameToLayer("Unwalkable");
             }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other){
         if(other.CompareTag("Milo") || other.CompareTag("James") || other.CompareTag("NPC")){
-            hasPlayer = true;
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D other){
-        if(other.CompareTag("Milo") || other.CompareTag("James") || other.CompareTag("NPC")){
-            hasPlayer = true;
+            entityCounter++;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other){
         if(other.CompareTag("Milo") || other.CompareTag("James") || other.CompareTag("NPC")){
-            hasPlayer = false;
+            entityCounter--;
         }
     }
 }
