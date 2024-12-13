@@ -5,9 +5,10 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     public Milo miloScript;
-    public GameObject[] setDestination;
+    // public GameObject[] setDestination;
     public GameObject target;
-
+    public List <GameObject> waypointsToGoTo;
+    
     [Header ("Movement")]
     public bool canMove;
     public Pathfinding pathfinding;
@@ -27,11 +28,10 @@ public class NPC : MonoBehaviour
     public void Initialize()
     {
         // canMove = true;
-        setDestination = GameObject.FindGameObjectsWithTag("Set Destination");
         pathfinding = GameObject.FindWithTag("Pathfinding AI").GetComponent<Pathfinding>();
         miloScript = GameObject.FindWithTag("Milo").GetComponent<Milo>();
         rb = GetComponent<Rigidbody2D>();
-        target = setDestination[Random.Range(0, setDestination.Length)];
+        target = waypointsToGoTo[0].gameObject;
     }
 
     // Update is called once per frame
@@ -67,15 +67,24 @@ public class NPC : MonoBehaviour
         if (targetIndex < pathToTarget.Count)
         {
             Vector3 targetPosition = pathToTarget[targetIndex].worldPos;
-            
             // Debug.Log("targetPosition: " + targetPosition);
             Vector3 direction = (targetPosition - transform.position).normalized;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, usingSpeed * Time.deltaTime);
             
-            if (transform.position == targetPosition)
+            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
                 targetIndex++;
             }
+        }
+
+        if(Vector3.Distance(transform.position, target.transform.position) < 0.5f)
+        {
+            Debug.Log("Reached target " + target.name);
+            //Dequeue waypointsToGoTo[0], add it back at the end
+            GameObject placeholder = waypointsToGoTo[0];
+            waypointsToGoTo.RemoveAt(0);
+            waypointsToGoTo.Add(placeholder);
+            target = waypointsToGoTo[0];
         }
     }
 

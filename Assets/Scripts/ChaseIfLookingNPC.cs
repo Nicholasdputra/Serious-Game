@@ -35,7 +35,7 @@ public class ChaseIfLookingNPC : NPC
             } else{
                 isInFOV = false;
                 if(target == miloScript.gameObject){
-                    target = setDestination[Random.Range(0, setDestination.Length)];
+                    target = waypointsToGoTo[0];
                     FaceTarget(target.transform.position);
                 }
             }
@@ -44,7 +44,7 @@ public class ChaseIfLookingNPC : NPC
         {
             isInFOV = false;
             if(target == miloScript.gameObject){
-                target = setDestination[Random.Range(0, setDestination.Length)];
+                target = waypointsToGoTo[0];
                 FaceTarget(target.transform.position);
             }
             FaceTarget(target.transform.position);
@@ -76,20 +76,20 @@ public class ChaseIfLookingNPC : NPC
 
     private void FaceTarget(Vector3 targetPosition)
     {
-        Debug.Log("Facing target");
+        // Debug.Log("Facing target");
         if(transform.position == targetPosition)
         {
             Debug.Log("Target reached");
             return;
         }
         Vector3 direction = (targetPosition - transform.position).normalized;
-        Debug.Log("Direction: " + direction);
+        // Debug.Log("Direction: " + direction);
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Debug.Log("Angle: " + angle);
+        // Debug.Log("Angle: " + angle);
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        Debug.Log("Rotation: " + rotation);
+        // Debug.Log("Rotation: " + rotation);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, maxRotationSpeed * Time.deltaTime);
-        Debug.Log("Transform.rotation: " + transform.rotation);
+        // Debug.Log("Transform.rotation: " + transform.rotation);
     }
 
     private void CheckIfMiloIsInFOV(){

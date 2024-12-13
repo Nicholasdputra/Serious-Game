@@ -123,13 +123,17 @@ public class AStar_Grid : MonoBehaviour
     }
     
     public AStar_Node GetNodePos(Vector3 worldPosition){
-        //Converting world position to percentage
+        // Converting world position to percentage
         float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
         float percentY = (worldPosition.y + gridWorldSize.y / 2) / gridWorldSize.y;
 
-        //Getting the x and y values of the grid
-        int x = Mathf.FloorToInt(Mathf.Clamp((gridSizeX) * percentX, 0, gridSizeX - 1));
-        int y = Mathf.FloorToInt(Mathf.Clamp((gridSizeY) * percentY, 0, gridSizeY - 1));
+        // Clamp the percentages to ensure they are within the valid range
+        percentX = Mathf.Clamp01(percentX);
+        percentY = Mathf.Clamp01(percentY);
+
+        // Getting the x and y values of the grid
+        int x = Mathf.FloorToInt((gridSizeX) * percentX);
+        int y = Mathf.FloorToInt((gridSizeY) * percentY);
         
         return grid[x,y];
     }

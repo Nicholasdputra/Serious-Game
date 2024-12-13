@@ -79,14 +79,14 @@ public class QuickTime : MonoBehaviour
         // Debug.Log("qteNPC.setDestination.Length = " + qteNPC.setDestination.Length);
         if(chasingScript != null){
             Debug.Log("ChasingNPC was the one that triggered the QuickTime event");
-            qteNPC.target = qteNPC.setDestination[Random.Range(0, qteNPC.setDestination.Length)];   
+            qteNPC.target = qteNPC.waypointsToGoTo[0];   
         } else if (guardScript != null){
             Debug.Log("GuardNPC was the one that triggered the QuickTime event");
             qteNPC.target = guardScript.Anchor;
             StartCoroutine(TargetMiloCooldown(guardScript));
         } else if (chaseIfLookingScript != null){
             Debug.Log("ChaseIfLookingNPC was the one that triggered the QuickTime event");
-            qteNPC.target = qteNPC.setDestination[Random.Range(0, qteNPC.setDestination.Length)];
+            qteNPC.target = qteNPC.waypointsToGoTo[0];
             StartCoroutine(TargetMiloCooldown(chaseIfLookingScript));
         }
     }
