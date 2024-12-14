@@ -183,6 +183,15 @@ public class MenusAndScenesScript : MonoBehaviour
         }
     }
 
+    public void OnResolutionDropdownValueChanged(int index)
+    {
+        Resolution resolution = resolutions[index];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        PlayerPrefs.SetInt("ResolutionWidth", resolution.width);
+        PlayerPrefs.SetInt("ResolutionHeight", resolution.height);
+        PlayerPrefs.SetInt("RefreshRate", (int)resolution.refreshRate);
+    }
+
     private void OnMusicSliderValueChanged(float value)
     {
         bgmSource.volume = value;

@@ -30,8 +30,13 @@ public class NPC : MonoBehaviour
         // canMove = true;
         pathfinding = GameObject.FindWithTag("Pathfinding AI").GetComponent<Pathfinding>();
         miloScript = GameObject.FindWithTag("Milo").GetComponent<Milo>();
+
         rb = GetComponent<Rigidbody2D>();
-        target = waypointsToGoTo[0].gameObject;
+        if(waypointsToGoTo.Count != 0)
+        {
+            target = waypointsToGoTo[0].gameObject;
+        }
+        
     }
 
     // Update is called once per frame
@@ -77,7 +82,7 @@ public class NPC : MonoBehaviour
             }
         }
 
-        if(Vector3.Distance(transform.position, target.transform.position) < 0.5f)
+        if(waypointsToGoTo.Count != 0  && Vector3.Distance(transform.position, target.transform.position) < 0.5f)
         {
             Debug.Log("Reached target " + target.name);
             //Dequeue waypointsToGoTo[0], add it back at the end
