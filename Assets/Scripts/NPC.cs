@@ -12,8 +12,6 @@ public class NPC : MonoBehaviour
     [Header ("Movement")]
     public bool canMove;
     public Pathfinding pathfinding;
-    public float runawaySpeed = 2f;
-    public float followSpeed = 1f;
     public float usingSpeed = 2f;
     private List<AStar_Node> pathToTarget;
     [SerializeField] int targetIndex;
@@ -61,13 +59,24 @@ public class NPC : MonoBehaviour
         if (temp == null || temp.Count == 0)
         {
             Debug.Log("No path to target.");
+            // Find the nearest walkable node to the target
+            AStar_Node targetNode = pathfinding.grid.GetNodePos(target.transform.position);
+            AStar_Node nearestWalkableNode = FindNearestWalkableNode(targetNode);
+
+            if (nearestWalkableNode != null)
+            {
+                Debug.Log("Moving to nearest walkable node.");
+                temp = pathfinding.FindPath(transform.position, nearestWalkableNode.worldPos);
+            }
+            // pathToTarget = temp;
+            // targetIndex = 0;
         }
-        else
-        {
+        // else
+        // {
             pathToTarget = temp;
             targetIndex = 0;
             // Debug.Log("Path recalculated: " + pathToTarget.Count + " nodes");
-        }
+        // }
         
         if (targetIndex < pathToTarget.Count)
         {
@@ -91,6 +100,29 @@ public class NPC : MonoBehaviour
             waypointsToGoTo.Add(placeholder);
             target = waypointsToGoTo[0];
         }
+    }
+
+    AStar_Node FindNearestWalkableNode(AStar_Node targetNode)
+    {
+        AStar_Node nearestNode = null;
+        int minDistance = int.MaxValue;
+
+        foreach (AStar_Node node1 in pathfinding.grid.GetNeighbours(targetNode))
+        {
+            foreach (AStar_Node node2 in pathfinding.grid.GetNeighbours(targetNode))
+            {
+                if (node2.walkable)
+                {
+                    int distance = pathfinding.GetDistance(node2, targetNode);
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                        nearestNode = node2;
+                    }
+                }
+            }
+        }
+        return nearestNode;
     }
 
     void OnDrawGizmos()

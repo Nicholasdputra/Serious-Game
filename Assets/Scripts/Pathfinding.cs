@@ -89,7 +89,7 @@ public class Pathfinding : MonoBehaviour
         return path;
     }
 
-    int GetDistance(AStar_Node nodeA, AStar_Node nodeB){
+    public int GetDistance(AStar_Node nodeA, AStar_Node nodeB){
         int distX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
         int distY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
 

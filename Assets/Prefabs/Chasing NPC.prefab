@@ -151,8 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miloScript: {fileID: 0}
-  setDestination: []
   target: {fileID: 0}
+  waypointsToGoTo: []
   canMove: 1
   pathfinding: {fileID: 0}
   runawaySpeed: 2
@@ -160,6 +160,8 @@ MonoBehaviour:
   usingSpeed: 2
   targetIndex: 0
   rb: {fileID: 0}
+  timeLeftTillDestruction: 15
+  checkRange: 10
 --- !u!50 &2020416144796747845
 Rigidbody2D:
   serializedVersion: 4
@@ -186,4 +188,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4

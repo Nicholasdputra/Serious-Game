@@ -189,7 +189,7 @@ public class MenusAndScenesScript : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
         PlayerPrefs.SetInt("ResolutionWidth", resolution.width);
         PlayerPrefs.SetInt("ResolutionHeight", resolution.height);
-        PlayerPrefs.SetInt("RefreshRate", (int)resolution.refreshRate);
+        PlayerPrefs.SetInt("RefreshRate", (int)resolution.refreshRateRatio.value);
     }
 
     private void OnMusicSliderValueChanged(float value)

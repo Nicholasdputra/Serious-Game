@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 public class ChasingNPC : NPC
 {
+    public Coroutine coutdownTillDestruction;
+    [SerializeField] int timeLeftTillDestruction = 15;
+    [SerializeField] float checkRange = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
         Initialize();
+        usingSpeed = miloScript.defaultSpeed + 0.2f;
+        coutdownTillDestruction = null;
         target = miloScript.gameObject;
     }
 
@@ -15,6 +21,11 @@ public class ChasingNPC : NPC
     {        
         if(canMove && !DestinationScript.instance.isGameOver){
             FollowPath();
+        }
+        CheckIfCloseToMilo();
+
+        if(target == waypointsToGoTo[0] && Vector3.Distance(transform.position, target.transform.position) < 0.5f){
+            Destroy(gameObject);
         }
     }
 
@@ -43,8 +54,31 @@ public class ChasingNPC : NPC
             }
             if(!QuickTime.isQuickTimeActive){
                 quickTime.StartQuickTimeEvent();
-                // Destroy(gameObject);
             }
         }
+    }
+
+    private void CheckIfCloseToMilo(){
+        if(Vector2.Distance(transform.position, miloScript.transform.position) <= checkRange && coutdownTillDestruction == null){
+            coutdownTillDestruction = StartCoroutine(CountdownTillTimeout());
+        }
+    }
+
+    private IEnumerator CountdownTillTimeout(){
+        while(timeLeftTillDestruction > 0){
+            yield return new WaitForSeconds(1);
+            timeLeftTillDestruction--;
+        }
+
+        if(timeLeftTillDestruction <= 0){
+            NPCSpawner.instance.totalChasingNPCs--;
+            target = waypointsToGoTo[0];
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, checkRange);
     }
 }
