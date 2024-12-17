@@ -30,9 +30,8 @@ public class Pathfinding : MonoBehaviour
             AStar_Node curr = openSet[0];
             for (int i = 1; i < openSet.Count; i++)
             {
-                if(openSet[i].fcost() < curr.fcost() 
-                || openSet[i].fcost() == curr.fcost() 
-                && openSet[i].hCost < curr.hCost)
+                if(openSet[i].fcost() <= curr.fcost()) 
+                // && openSet[i].hCost < curr.hCost)
                 {
                     curr = openSet[i];
                 }
@@ -44,6 +43,7 @@ public class Pathfinding : MonoBehaviour
             {
                 path.Add(targetNode);
                 RetracePath(startNode, targetNode, path);
+                Debug.Log("Path found, Length: " + path.Count);
                 return path;
             }
 
@@ -59,6 +59,7 @@ public class Pathfinding : MonoBehaviour
                 if(newCostToNeighbour < neighbour.gCost 
                 || !openSet.Contains(neighbour))
                 {
+                    // Debug.Log("Cost: " + newCostToNeighbour);
                     neighbour.gCost = newCostToNeighbour;
                     neighbour.hCost = GetDistance(neighbour, targetNode);
                     neighbour.parent = curr;
@@ -70,7 +71,7 @@ public class Pathfinding : MonoBehaviour
                 }
             }
         }
-        // Debug.Log("Path not found");
+        Debug.Log("Path not found");
         // RetracePath(startNode, targetNode, path);
         return new List<AStar_Node>();
     }

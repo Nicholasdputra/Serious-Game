@@ -7,8 +7,9 @@ public class NPCSpawner : MonoBehaviour
     public static NPCSpawner instance { get; set;}
 
     [Header("Parameters")]
-    private float lowerEndForRandomSpawn = 10f;
-    private float upperEndForRandomSpawn = 21f;
+    private Coroutine spawnCoroutine;
+    private float lowerEndForRandomSpawn = 5f;
+    private float upperEndForRandomSpawn = 10f;
     public int totalChasingNPCs;
     public int maxChasingNPCs;
     public GameObject npcPrefab;
@@ -37,10 +38,14 @@ public class NPCSpawner : MonoBehaviour
     {
         if(spawnPoints.Length != 0)
         {
-            if(totalChasingNPCs <= maxChasingNPCs)
+            // Debug.Log("Total NPCs: " + totalChasingNPCs);
+            // Debug.Log("Max NPCs: " + maxChasingNPCs);
+            // Debug.Log("Spawn Coroutine: " + spawnCoroutine);
+            if(totalChasingNPCs < maxChasingNPCs && spawnCoroutine == null)
             {
+                Debug.Log("Spawning NPC");
                 totalChasingNPCs++;
-                StartCoroutine(SpawnNPCs());
+                spawnCoroutine = StartCoroutine(SpawnNPCs());
             }
         }
     }
@@ -51,5 +56,6 @@ public class NPCSpawner : MonoBehaviour
         GameObject spawnFrom = spawnPoints[Random.Range(0, spawnPoints.Length)];
         GameObject chasingNpc = Instantiate(npcPrefab, spawnFrom.transform.position, Quaternion.identity);
         chasingNpc.GetComponent<ChasingNPC>().waypointsToGoTo.Add(spawnFrom);
+        spawnCoroutine = null;
     }
 }

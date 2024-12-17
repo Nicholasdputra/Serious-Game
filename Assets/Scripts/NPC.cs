@@ -13,9 +13,10 @@ public class NPC : MonoBehaviour
     public bool canMove;
     protected Pathfinding pathfinding;
     protected float usingSpeed = 2f;
-    protected List<AStar_Node> pathToTarget;
+    protected List<AStar_Node> path;
     [SerializeField] int targetIndex;
     public Rigidbody2D rb;
+    public float recalculateDelay;
 
     // Start is called before the first frame update
     void Start()
@@ -28,12 +29,15 @@ public class NPC : MonoBehaviour
         // canMove = true;
         pathfinding = GameObject.FindWithTag("Pathfinding AI").GetComponent<Pathfinding>();
         miloScript = GameObject.FindWithTag("Milo").GetComponent<Milo>();
-
+        recalculateDelay = 1f;
         rb = GetComponent<Rigidbody2D>();
         if(waypointsToGoTo.Count != 0)
         {
             target = waypointsToGoTo[0].gameObject;
         }
+        targetIndex = 0;
+        path = new List<AStar_Node>();
+        StartCoroutine(ReFindPath());
         
     }
 
@@ -46,41 +50,10 @@ public class NPC : MonoBehaviour
         }
     }
 
-    public void FollowPath()
-    {
-        // if (pathfinding == null)
-        // {
-        //     Debug.Log("Pathfinding is null.");
-        //     return;
-        // }
-        
-        List<AStar_Node> temp = pathfinding.FindPath(transform.position, target.transform.position);
-        // Debug.Log("FollowPath");
-        if (temp == null || temp.Count == 0)
+    public void FollowPath(){
+        if (targetIndex < path.Count)
         {
-            Debug.Log("No path to target.");
-            // Find the nearest walkable node to the target
-            AStar_Node targetNode = pathfinding.grid.GetNodePos(target.transform.position);
-            AStar_Node nearestWalkableNode = FindNearestWalkableNode(targetNode);
-
-            if (nearestWalkableNode != null)
-            {
-                Debug.Log("Moving to nearest walkable node.");
-                temp = pathfinding.FindPath(transform.position, nearestWalkableNode.worldPos);
-            }
-            // pathToTarget = temp;
-            // targetIndex = 0;
-        }
-        // else
-        // {
-            pathToTarget = temp;
-            targetIndex = 0;
-            // Debug.Log("Path recalculated: " + pathToTarget.Count + " nodes");
-        // }
-        
-        if (targetIndex < pathToTarget.Count)
-        {
-            Vector3 targetPosition = pathToTarget[targetIndex].worldPos;
+            Vector3 targetPosition = path[targetIndex].worldPos;
             // Debug.Log("targetPosition: " + targetPosition);
             Vector3 direction = (targetPosition - transform.position).normalized;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, usingSpeed * Time.deltaTime);
@@ -100,6 +73,43 @@ public class NPC : MonoBehaviour
             waypointsToGoTo.Add(placeholder);
             target = waypointsToGoTo[0];
         }
+    }
+
+    public IEnumerator ReFindPath()
+    {
+        // if (pathfinding == null)
+        // {
+        //     Debug.Log("Pathfinding is null.");
+        //     return;
+        // }
+        while(true){
+            path = pathfinding.FindPath(transform.position, target.transform.position);
+            // Debug.Log("FollowPath");
+            if (path == null || path.Count == 0)
+            {
+                Debug.Log("No path to target.");
+                // Find the nearest walkable node to the target
+                AStar_Node targetNode = pathfinding.grid.GetNodePos(target.transform.position);
+                AStar_Node nearestWalkableNode = FindNearestWalkableNode(targetNode);
+
+                if (nearestWalkableNode != null)
+                {
+                    Debug.Log("Moving to nearest walkable node.");
+                    path = pathfinding.FindPath(transform.position, nearestWalkableNode.worldPos);
+                }
+                // pathToTarget = temp;
+                // targetIndex = 0;
+            }
+            yield return new WaitForSeconds(recalculateDelay);
+        }
+        // else
+        // {
+            // pathToTarget = temp;
+            // targetIndex = 0;
+            // Debug.Log("Path recalculated: " + pathToTarget.Count + " nodes");
+        // }
+        
+        
     }
 
     AStar_Node FindNearestWalkableNode(AStar_Node targetNode)
@@ -127,7 +137,7 @@ public class NPC : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (pathToTarget == null)
+        if (path == null)
         {
             // Debug.Log("No path to target.");
             return;
@@ -136,10 +146,10 @@ public class NPC : MonoBehaviour
         //     Debug.Log("Target index is 0.");
         //     return;
         // }
-        for (int i = targetIndex; i < pathToTarget.Count; i++)
+        for (int i = targetIndex; i < path.Count; i++)
         {
             Gizmos.color = Color.black;
-            Gizmos.DrawCube(pathToTarget[i].worldPos, Vector3.one * (pathfinding.grid.nodeDiameter - 0.1f));
+            Gizmos.DrawCube(path[i].worldPos, Vector3.one * (pathfinding.grid.nodeDiameter - 0.1f));
         }
     }
 }

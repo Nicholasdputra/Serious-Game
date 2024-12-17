@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 496840429153957323}
   - component: {fileID: 6748960070898574515}
   - component: {fileID: 7130117851649887632}
+  - component: {fileID: 8348289142268804208}
   m_Layer: 0
   m_Name: A_
   m_TagString: Pathfinding AI
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6033975720217500934}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -49,7 +50,7 @@ MonoBehaviour:
   unwalkable:
     serializedVersion: 2
     m_Bits: 8
-  gridWorldSize: {x: 20, y: 20}
+  gridWorldSize: {x: 30, y: 30}
   nodeRadius: 0.3
   nodeDiameter: 0
 --- !u!114 &7130117851649887632
@@ -67,3 +68,20 @@ MonoBehaviour:
   NPC: {fileID: 0}
   destination: {fileID: 0}
   grid: {fileID: 0}
+--- !u!114 &8348289142268804208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6033975720217500934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ecccd4c51b2a2458744de91c9119fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalChasingNPCs: 0
+  maxChasingNPCs: 2
+  npcPrefab: {fileID: 8589858936193566232, guid: b6c39f1fbd6464b4d837c84074353fce, type: 3}
+  spawnDelay: 2
+  spawnPoints: []
