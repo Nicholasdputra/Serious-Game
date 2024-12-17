@@ -30,6 +30,7 @@ public class NPC : MonoBehaviour
         pathfinding = GameObject.FindWithTag("Pathfinding AI").GetComponent<Pathfinding>();
         miloScript = GameObject.FindWithTag("Milo").GetComponent<Milo>();
         recalculateDelay = 1f;
+        recalculateDelay = 1f;
         rb = GetComponent<Rigidbody2D>();
         if(waypointsToGoTo.Count != 0)
         {
