@@ -75,7 +75,7 @@ public class QuickTime : MonoBehaviour
         GuardNPC guardScript = qteNPC.gameObject.GetComponent<GuardNPC>();
         ChasingNPC chasingScript = qteNPC.gameObject.GetComponent<ChasingNPC>();
         ChaseIfLookingNPC chaseIfLookingScript = qteNPC.gameObject.GetComponent<ChaseIfLookingNPC>();
-
+        HaveToSneakNPC haveToSneakScript = qteNPC.gameObject.GetComponent<HaveToSneakNPC>();
         // Debug.Log("qteNPC.setDestination.Length = " + qteNPC.setDestination.Length);
         if(chasingScript != null){
             Debug.Log("ChasingNPC was the one that triggered the QuickTime event");
@@ -89,6 +89,10 @@ public class QuickTime : MonoBehaviour
             Debug.Log("ChaseIfLookingNPC was the one that triggered the QuickTime event");
             qteNPC.target = qteNPC.waypointsToGoTo[0];
             StartCoroutine(TargetMiloCooldown(chaseIfLookingScript));
+        } else if (haveToSneakScript != null){
+            Debug.Log("HaveToSneakNPC was the one that triggered the QuickTime event");
+            qteNPC.target = haveToSneakScript.Anchor;
+            StartCoroutine(TargetMiloCooldown(haveToSneakScript));
         }
     }
 

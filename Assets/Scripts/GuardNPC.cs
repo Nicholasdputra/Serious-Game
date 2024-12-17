@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class GuardNPC : NPC
 {
-    private Vector3 startPos;
-    private Vector3 currPos;
+    protected float maxChaseRange;
+    protected Vector3 startPos;
+    protected Vector3 currPos;
     public GameObject Anchor;
 
     // Start is called before the first frame update
     void Start()
     {
         Initialize();
+        maxChaseRange = 10f;
         canMove = true;
         startPos = transform.position;
         Anchor = new GameObject("Anchor");
@@ -28,7 +30,7 @@ public class GuardNPC : NPC
 
     void CheckForMilo()
     {
-        if (Vector3.Distance(startPos, miloScript.transform.position) < 10f )
+        if (Vector3.Distance(startPos, miloScript.transform.position) < maxChaseRange)
         {
             target = miloScript.gameObject;
         } 

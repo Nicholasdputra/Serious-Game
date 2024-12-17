@@ -27,6 +27,11 @@ public class Milo : MonoBehaviour
     public GameObject arrowPrefab;
     public float arrowSpawnOffset;
     Vector2 movement;
+    public bool isSneaking;
+    public float sneakSpeed;
+    public bool canRun;
+    public bool isRunning;
+    public float runSpeed;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -40,6 +45,9 @@ public class Milo : MonoBehaviour
     void Initialize(){
         isBarking = false;
         canMove = true;
+        canRun = true;
+        isSneaking = false;
+        isRunning = false;
         speed = defaultSpeed;
 
         checkRangeForJames = 2f;
@@ -117,10 +125,12 @@ public class Milo : MonoBehaviour
             if(jamesInRange){    
                 jamesAnimationScript.Move(movement);
                 isPullingJames = true;
+                canRun = false;
                 Pull();
             }            
         }else{
             isPullingJames = false;
+            canRun = true;
             jamesAnimationScript.Move(Vector2.zero);
         }
 
@@ -147,6 +157,22 @@ public class Milo : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.X) && canLick && jamesInRange){
             StartCoroutine(Lick());
+        }
+
+        if(Input.GetKey(KeyCode.LeftControl)){
+            isRunning = false;
+            isSneaking = true;
+        } 
+        else{
+            isSneaking = false;
+        }
+
+        if(Input.GetKey(KeyCode.LeftShift) && canRun){
+            isSneaking = false;
+            isRunning = true;
+        } 
+        else{
+            isRunning = false;
         }
     }
 

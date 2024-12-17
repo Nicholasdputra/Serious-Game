@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    public Milo miloScript;
+    protected Milo miloScript;
     // public GameObject[] setDestination;
     public GameObject target;
     public List <GameObject> waypointsToGoTo;
     
     [Header ("Movement")]
     public bool canMove;
-    public Pathfinding pathfinding;
-    public float usingSpeed = 2f;
-    private List<AStar_Node> pathToTarget;
+    protected Pathfinding pathfinding;
+    protected float usingSpeed = 2f;
+    protected List<AStar_Node> pathToTarget;
     [SerializeField] int targetIndex;
     public Rigidbody2D rb;
 
