@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1751636702825826619
 Transform:
   m_ObjectHideFlags: 0
@@ -150,14 +150,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8755b78ab5a6ef459e0af7b76f6f4c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  miloScript: {fileID: 0}
-  setDestination: []
   target: {fileID: 0}
+  waypointsToGoTo:
+  - {fileID: 0}
+  - {fileID: 0}
   canMove: 1
-  pathfinding: {fileID: 0}
-  runawaySpeed: 2
-  followSpeed: 1
-  usingSpeed: 2
   targetIndex: 0
   rb: {fileID: 0}
 --- !u!50 &6735662661766770012

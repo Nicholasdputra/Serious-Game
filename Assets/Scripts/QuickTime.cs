@@ -79,7 +79,7 @@ public class QuickTime : MonoBehaviour
         // Debug.Log("qteNPC.setDestination.Length = " + qteNPC.setDestination.Length);
         if(chasingScript != null){
             Debug.Log("ChasingNPC was the one that triggered the QuickTime event");
-            NPCSpawner.instance.totalChasingNPCs--;
+            // NPCSpawner.instance.totalChasingNPCs--;
             qteNPC.target = qteNPC.waypointsToGoTo[0];
         } else if (guardScript != null){
             Debug.Log("GuardNPC was the one that triggered the QuickTime event");

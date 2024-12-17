@@ -28,12 +28,14 @@ public class NPC : MonoBehaviour
         // canMove = true;
         pathfinding = GameObject.FindWithTag("Pathfinding AI").GetComponent<Pathfinding>();
         miloScript = GameObject.FindWithTag("Milo").GetComponent<Milo>();
-
+        recalculateDelay = 1f;
         rb = GetComponent<Rigidbody2D>();
         if(waypointsToGoTo.Count != 0)
         {
             target = waypointsToGoTo[0].gameObject;
         }
+        targetIndex = 0;
+        path = new List<AStar_Node>();
         
     }
 
@@ -46,7 +48,7 @@ public class NPC : MonoBehaviour
         }
     }
 
-    public void FollowPath()
+    public IEnumerator ReFindPath()
     {
         // if (pathfinding == null)
         // {
