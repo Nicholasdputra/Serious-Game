@@ -91,7 +91,7 @@ public class NPC : MonoBehaviour
             }
         }
 
-        if(waypointsToGoTo.Count != 0  && Vector3.Distance(transform.position, target.transform.position) < 0.5f)
+        if(waypointsToGoTo.Count != 0  && target == waypointsToGoTo[0] && Vector3.Distance(transform.position, target.transform.position) < 0.5f)
         {
             Debug.Log("Reached target " + target.name);
             //Dequeue waypointsToGoTo[0], add it back at the end
