@@ -39,7 +39,6 @@ public class NPC : MonoBehaviour
         targetIndex = 0;
         path = new List<AStar_Node>();
         StartCoroutine(ReFindPath());
-        
     }
 
     // Update is called once per frame
@@ -84,14 +83,14 @@ public class NPC : MonoBehaviour
         //     return;
         // }
         while(true){
-            path = pathfinding.FindPath(transform.position, target.transform.position);
+            AStar_Node targetNode = pathfinding.grid.GetNodePos(target.transform.position);
+            AStar_Node nearestWalkableNode = FindNearestWalkableNode(targetNode);
+            path = pathfinding.FindPath(transform.position, nearestWalkableNode.worldPos);
             // Debug.Log("FollowPath");
             if (path == null || path.Count == 0)
             {
                 Debug.Log("No path to target.");
                 // Find the nearest walkable node to the target
-                AStar_Node targetNode = pathfinding.grid.GetNodePos(target.transform.position);
-                AStar_Node nearestWalkableNode = FindNearestWalkableNode(targetNode);
 
                 if (nearestWalkableNode != null)
                 {

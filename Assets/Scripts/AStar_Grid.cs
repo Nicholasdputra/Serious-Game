@@ -91,19 +91,20 @@ public class AStar_Grid : MonoBehaviour
     public List<AStar_Node> path;
     void OnDrawGizmos()
     {
-        // Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));
         // if(onlyDisplayPathGizmos){
-        //     if(path != null){
-        //         foreach (AStar_Node node in path){
-        //             Gizmos.color = Color.black;
-        //             Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
-        //         }
-        //     }
+        //     // if(path != null){
+        //     //     foreach (AStar_Node node in path){
+        //     //         Gizmos.color = Color.black;
+        //     //         Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
+        //     //     }
+        //     // }
         //     return;
         // } else{
         //     if(grid != null){
         //         // AStar_Node npcNode = GetNodePos(NPC.position);
         //         //Colouring the walkable and unwalkable nodes with white and red respectively
+        //         Debug.Log(grid.Length);
         //         foreach (AStar_Node node in grid){
         //             if(node.walkable){
         //                 Gizmos.color = Color.white;
@@ -111,11 +112,11 @@ public class AStar_Grid : MonoBehaviour
         //                 Gizmos.color = Color.red;
         //             }   
                 
-        //             if(path != null){
-        //                 if(path.Contains(node)){
-        //                     Gizmos.color = Color.black;
-        //                 }
-        //             }
+        //             // if(path != null){
+        //             //     if(path.Contains(node)){
+        //             //         Gizmos.color = Color.black;
+        //             //     }
+        //             // }
         //             Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
         //         }
         //     }
