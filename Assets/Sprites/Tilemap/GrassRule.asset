@@ -18,22 +18,16 @@ MonoBehaviour:
   m_TilingRules:
   - m_Id: 0
     m_Sprites:
-    - {fileID: 936489998, guid: 73785747f6c591847b93caf64fb1381f, type: 3}
+    - {fileID: -1833525568, guid: aaaeac7cfd0015941ac7be1dc6fbe4bc, type: 3}
+    - {fileID: -1833525568, guid: aaaeac7cfd0015941ac7be1dc6fbe4bc, type: 3}
+    - {fileID: -1833525568, guid: aaaeac7cfd0015941ac7be1dc6fbe4bc, type: 3}
     m_GameObject: {fileID: 0}
     m_MinAnimationSpeed: 1
     m_MaxAnimationSpeed: 1
-    m_PerlinScale: 0.5
-    m_Output: 0
+    m_PerlinScale: 0.81
+    m_Output: 1
     m_ColliderType: 1
-    m_RandomTransform: 0
+    m_RandomTransform: 1
     m_Neighbors: 
-    m_NeighborPositions:
-    - {x: -1, y: 1, z: 0}
-    - {x: 0, y: 1, z: 0}
-    - {x: 1, y: 1, z: 0}
-    - {x: -1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: -1, y: -1, z: 0}
-    - {x: 0, y: -1, z: 0}
-    - {x: 1, y: -1, z: 0}
+    m_NeighborPositions: []
     m_RuleTransform: 0
