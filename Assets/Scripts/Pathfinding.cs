@@ -43,7 +43,7 @@ public class Pathfinding : MonoBehaviour
             {
                 path.Add(targetNode);
                 RetracePath(startNode, targetNode, path);
-                Debug.Log("Path found, Length: " + path.Count);
+                // Debug.Log("Path found, Length: " + path.Count);
                 return path;
             }
 

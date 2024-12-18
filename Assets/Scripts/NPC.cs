@@ -4,33 +4,43 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    protected Milo miloScript;
+    [SerializeField] protected Milo miloScript;
     // public GameObject[] setDestination;
     public GameObject target;
-    public List <GameObject> waypointsToGoTo;
+    public List<GameObject> waypointsToGoTo;
     
     [Header ("Movement")]
     public bool canMove;
-    protected Pathfinding pathfinding;
-    protected float usingSpeed = 2f;
+    [SerializeField] protected Pathfinding pathfinding;
+    [SerializeField] protected float usingSpeed = 2f;
     protected List<AStar_Node> path;
     [SerializeField] int targetIndex;
     public Rigidbody2D rb;
     public float recalculateDelay;
+    protected bool canUpdate;
+    protected Coroutine recalculatePath;
 
     // Start is called before the first frame update
     void Start()
     {
         Initialize();
+        canMove = true;
+        target = waypointsToGoTo[0];
+    }
+
+    protected IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(1f); // Wait for 1 second
+        canUpdate = true; // Allow Update logic to start
     }
 
     public void Initialize()
     {
         // canMove = true;
+        canUpdate = false;
         pathfinding = GameObject.FindWithTag("Pathfinding AI").GetComponent<Pathfinding>();
         miloScript = GameObject.FindWithTag("Milo").GetComponent<Milo>();
-        recalculateDelay = 1f;
-        recalculateDelay = 1f;
+        recalculateDelay = 0.5f;
         rb = GetComponent<Rigidbody2D>();
         if(waypointsToGoTo.Count != 0)
         {
@@ -38,12 +48,31 @@ public class NPC : MonoBehaviour
         }
         targetIndex = 0;
         path = new List<AStar_Node>();
-        StartCoroutine(ReFindPath());
+
+        Debug.Log("For " + gameObject.name + ":");
+        Debug.Log("Pathfinding initialized: " + (pathfinding != null));
+        Debug.Log("MiloScript initialized: " + (miloScript != null));
+        Debug.Log("Rigidbody2D initialized: " + (rb != null));
+        Debug.Log("Target initialized: " + (target != null));
+        StartCoroutine(DelayedStart());
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!canUpdate) return;
+        if(recalculatePath == null){
+            recalculatePath = StartCoroutine(ReFindPath());
+        }
+        if(target == miloScript && Vector3.Distance(transform.position, target.transform.position) > 10f)
+        {
+            recalculateDelay = 0.6f;
+        }
+        else if(target == miloScript)
+        {
+            recalculateDelay = 0.2f;
+        }
+
         if(canMove && !DestinationScript.instance.isGameOver)
         {
             FollowPath();
@@ -64,9 +93,13 @@ public class NPC : MonoBehaviour
             }
         }
 
+        // if(waypointsToGoTo.Count != 0  && target == waypointsToGoTo[0]){
+        //     Debug.Log("Reached target " + target.name);
+        // }
+        // Debug.Log("Distance to target: " + Vector3.Distance(transform.position, target.transform.position));
         if(waypointsToGoTo.Count != 0  && target == waypointsToGoTo[0] && Vector3.Distance(transform.position, target.transform.position) < 0.5f)
         {
-            Debug.Log("Reached target " + target.name);
+            // Debug.Log("Reached target " + target.name);
             //Dequeue waypointsToGoTo[0], add it back at the end
             GameObject placeholder = waypointsToGoTo[0];
             waypointsToGoTo.RemoveAt(0);
@@ -77,14 +110,20 @@ public class NPC : MonoBehaviour
 
     public IEnumerator ReFindPath()
     {
+        // Debug.Log("Calling ReFindPath");
         // if (pathfinding == null)
         // {
         //     Debug.Log("Pathfinding is null.");
         //     return;
         // }
         while(true){
+            targetIndex = 0;
+            // Debug.Log("Grid is null: " + pathfinding.grid == null);
             AStar_Node targetNode = pathfinding.grid.GetNodePos(target.transform.position);
             AStar_Node nearestWalkableNode = FindNearestWalkableNode(targetNode);
+            if(targetNode.walkable){
+                nearestWalkableNode = targetNode;
+            }
             path = pathfinding.FindPath(transform.position, nearestWalkableNode.worldPos);
             // Debug.Log("FollowPath");
             if (path == null || path.Count == 0)
@@ -98,7 +137,6 @@ public class NPC : MonoBehaviour
                     path = pathfinding.FindPath(transform.position, nearestWalkableNode.worldPos);
                 }
                 // pathToTarget = temp;
-                // targetIndex = 0;
             }
             yield return new WaitForSeconds(recalculateDelay);
         }
@@ -108,8 +146,6 @@ public class NPC : MonoBehaviour
             // targetIndex = 0;
             // Debug.Log("Path recalculated: " + pathToTarget.Count + " nodes");
         // }
-        
-        
     }
 
     AStar_Node FindNearestWalkableNode(AStar_Node targetNode)

@@ -13,7 +13,6 @@ public class ChaseIfLookingNPC : NPC
     [SerializeField] private float maxRotationSpeed = 180f;
     [SerializeField] private Collider2D miloCollider;
     [SerializeField] private Vector2 directionToMilo;
-
     public bool isInFOV = false;
 
     // Start is called before the first frame update
@@ -21,12 +20,31 @@ public class ChaseIfLookingNPC : NPC
     {
         Initialize();
         canMove = true;
+        target = waypointsToGoTo[0];
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!canUpdate) return;
+
+        if(recalculatePath == null){
+            recalculatePath = StartCoroutine(ReFindPath());
+        }
+
         miloCollider = Physics2D.OverlapCircle(transform.position, radius, targetMask);
+
+        if(target == miloScript && Vector3.Distance(transform.position, target.transform.position) > 10f)
+        {
+            recalculateDelay = 0.6f;
+        }
+        else if(target == miloScript)
+        {
+            recalculateDelay = 0.2f;
+        } else{
+            recalculateDelay = 0.8f;
+        }
+
         if(miloCollider != null){
             FaceMilo();
             CheckIfMiloIsInFOV();
@@ -49,6 +67,7 @@ public class ChaseIfLookingNPC : NPC
             }
             FaceTarget(target.transform.position);
         }
+
         if(canMove && !DestinationScript.instance.isGameOver)
         {
             FollowPath();
@@ -69,8 +88,6 @@ public class ChaseIfLookingNPC : NPC
 
             // Apply the rotation smoothly
             transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, maxRotationSpeed * Time.deltaTime);
-        } else{
-
         }
     }
 

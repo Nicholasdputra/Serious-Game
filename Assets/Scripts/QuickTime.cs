@@ -109,4 +109,13 @@ public class QuickTime : MonoBehaviour
         yield return new WaitForSeconds(5);
         chaseIfLookingScript.canMove = true;
     }
+
+    public IEnumerator TargetMiloCooldown(HaveToSneakNPC haveToSneakScript)
+    {
+        haveToSneakScript.canMove = false;
+        haveToSneakScript.onCooldown = true;
+        yield return new WaitForSeconds(5);
+        haveToSneakScript.canMove = true;
+        haveToSneakScript.onCooldown = false;
+    }
 }

@@ -8,23 +8,50 @@ public class GuardNPC : NPC
     protected Vector3 startPos;
     protected Vector3 currPos;
     public GameObject Anchor;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         Initialize();
         maxChaseRange = 10f;
+        usingSpeed = miloScript.defaultSpeed/2;
         canMove = true;
         startPos = transform.position;
         Anchor = new GameObject("Anchor");
         Anchor.transform.position = startPos;
+        StartCoroutine(DelayedStart());
     }
+
+    
 
     // Update is called once per frame
     void Update()
     {
+        if (!canUpdate) return;
+
         if(!DestinationScript.instance.isGameOver && canMove){
             CheckForMilo();
+        }
+        
+        if(target == miloScript)
+        {
+            recalculateDelay = 0.2f;
+            if(Vector3.Distance(transform.position, target.transform.position) > 10f){
+                recalculateDelay = 0.6f;
+            }
+            if(recalculatePath == null)
+            {
+                recalculatePath = StartCoroutine(ReFindPath());
+            }
+        }
+        else if(target == Anchor)
+        {
+            recalculateDelay = 1f;
+            if(recalculatePath == null)
+            {
+                recalculatePath = StartCoroutine(ReFindPath());
+            }
         }
     }
 

@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2317159597498855231
 Transform:
   m_ObjectHideFlags: 0
@@ -153,10 +153,10 @@ MonoBehaviour:
   target: {fileID: 0}
   waypointsToGoTo:
   - {fileID: 0}
-  - {fileID: 0}
   canMove: 0
   targetIndex: 0
   rb: {fileID: 0}
+  recalculateDelay: 0
   radius: 5
   fovAngle: 70
   targetMask:

@@ -14,11 +14,22 @@ public class ChasingNPC : NPC
         usingSpeed = miloScript.defaultSpeed + 0.2f;
         coutdownTillDestruction = null;
         target = miloScript.gameObject;
+        StartCoroutine(ReFindPath());
     }
 
     // Update is called once per frame
     void Update()
-    {        
+    {   
+        if (!canUpdate) return;
+        if(target == miloScript && Vector3.Distance(transform.position, target.transform.position) > 10f)
+        {
+            recalculateDelay = 0.6f;
+        }
+        else if(target == miloScript)
+        {
+            recalculateDelay = 0.2f;
+        }
+
         if(canMove && !DestinationScript.instance.isGameOver){
             FollowPath();
         }

@@ -10,10 +10,4 @@ public class StationaryNPC : NPC
         Initialize();
         canMove = false;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

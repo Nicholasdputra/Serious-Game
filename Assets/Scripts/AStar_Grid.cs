@@ -92,35 +92,35 @@ public class AStar_Grid : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));
-        // if(onlyDisplayPathGizmos){
-        //     // if(path != null){
-        //     //     foreach (AStar_Node node in path){
-        //     //         Gizmos.color = Color.black;
-        //     //         Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
-        //     //     }
-        //     // }
-        //     return;
-        // } else{
-        //     if(grid != null){
-        //         // AStar_Node npcNode = GetNodePos(NPC.position);
-        //         //Colouring the walkable and unwalkable nodes with white and red respectively
-        //         Debug.Log(grid.Length);
-        //         foreach (AStar_Node node in grid){
-        //             if(node.walkable){
-        //                 Gizmos.color = Color.white;
-        //             } else {
-        //                 Gizmos.color = Color.red;
-        //             }   
+        if(onlyDisplayPathGizmos){
+            // if(path != null){
+            //     foreach (AStar_Node node in path){
+            //         Gizmos.color = Color.black;
+            //         Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
+            //     }
+            // }
+            return;
+        } else{
+            if(grid != null){
+                // AStar_Node npcNode = GetNodePos(NPC.position);
+                //Colouring the walkable and unwalkable nodes with white and red respectively
+                Debug.Log(grid.Length);
+                foreach (AStar_Node node in grid){
+                    if(node.walkable){
+                        Gizmos.color = Color.white;
+                    } else {
+                        Gizmos.color = Color.red;
+                    }   
                 
-        //             // if(path != null){
-        //             //     if(path.Contains(node)){
-        //             //         Gizmos.color = Color.black;
-        //             //     }
-        //             // }
-        //             Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
-        //         }
-        //     }
-        // }
+                    // if(path != null){
+                    //     if(path.Contains(node)){
+                    //         Gizmos.color = Color.black;
+                    //     }
+                    // }
+                    Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter - 0.1f));
+                }
+            }
+        }
     }
     
     public AStar_Node GetNodePos(Vector3 worldPosition){
