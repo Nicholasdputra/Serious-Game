@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 2747690628134850419, guid: b670ab75dde984907b8570040daa08c5, type: 3}
   m_Color: {r: 1, g: 0, b: 0.10207987, a: 1}
   m_FlipX: 0
@@ -155,11 +155,10 @@ MonoBehaviour:
   waypointsToGoTo: []
   canMove: 1
   pathfinding: {fileID: 0}
-  runawaySpeed: 2
-  followSpeed: 1
   usingSpeed: 2
   targetIndex: 0
   rb: {fileID: 0}
+  recalculateDelay: 0
   timeLeftTillDestruction: 15
   checkRange: 10
 --- !u!50 &2020416144796747845

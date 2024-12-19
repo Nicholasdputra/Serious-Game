@@ -82,7 +82,7 @@ public class HaveToSneakNPC : GuardNPC
 
     void OnCollisionStay2D(Collision2D other)
     {
-        Debug.Log("Collision detected with " + other.gameObject.name);
+        // Debug.Log("Collision detected with " + other.gameObject.name);
         if(other.gameObject.CompareTag("Milo") && !onCooldown)
         {
             onCooldown = true;

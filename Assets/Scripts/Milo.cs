@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Milo : MonoBehaviour
@@ -208,10 +209,7 @@ public class Milo : MonoBehaviour
             if(collider.CompareTag("NPC"))
             {
                 // Debug.Log("NPC in range");
-                if(collider.gameObject.GetComponent<StationaryNPC>() == null)
-                {
-                    npcList.Add(collider.GetComponent<NPC>());
-                }
+                npcList.Add(collider.GetComponent<NPC>());
             }
         }
         
@@ -219,6 +217,9 @@ public class Milo : MonoBehaviour
         // DebugCircle(transform.position, Vector3.forward, Color.red, barkEffectRange, 0f);
         foreach (NPC npc in npcList)
         {
+            if(npc.gameObject.name.Contains("Stationary NPC")){
+                continue;
+            }
             npc.canMove = false;
             Vector3 direction = (npc.transform.position - transform.position).normalized;
             npc.rb.drag = 0.1f;

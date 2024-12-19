@@ -49,11 +49,11 @@ public class NPC : MonoBehaviour
         targetIndex = 0;
         path = new List<AStar_Node>();
 
-        Debug.Log("For " + gameObject.name + ":");
-        Debug.Log("Pathfinding initialized: " + (pathfinding != null));
-        Debug.Log("MiloScript initialized: " + (miloScript != null));
-        Debug.Log("Rigidbody2D initialized: " + (rb != null));
-        Debug.Log("Target initialized: " + (target != null));
+        // Debug.Log("For " + gameObject.name + ":");
+        // Debug.Log("Pathfinding initialized: " + (pathfinding != null));
+        // Debug.Log("MiloScript initialized: " + (miloScript != null));
+        // Debug.Log("Rigidbody2D initialized: " + (rb != null));
+        // Debug.Log("Target initialized: " + (target != null));
         StartCoroutine(DelayedStart());
     }
 

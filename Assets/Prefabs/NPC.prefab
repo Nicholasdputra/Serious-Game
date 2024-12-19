@@ -75,9 +75,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 2747690628134850419, guid: b670ab75dde984907b8570040daa08c5, type: 3}
-  m_Color: {r: 0.3559096, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.93902075, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -150,11 +150,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8755b78ab5a6ef459e0af7b76f6f4c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  miloScript: {fileID: 0}
   target: {fileID: 0}
   waypointsToGoTo:
   - {fileID: 0}
   - {fileID: 0}
   canMove: 1
+  pathfinding: {fileID: 0}
+  usingSpeed: 2
   targetIndex: 0
   rb: {fileID: 0}
   recalculateDelay: 0
