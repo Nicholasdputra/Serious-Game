@@ -9,6 +9,7 @@ public class DestinationScript : MonoBehaviour
 
     [Header ("Level Done")] 
     public bool isGameOver;
+    public bool isPaused;
     public James james;
     public int time;
     public GameObject gameoverPanel;
@@ -43,12 +44,14 @@ public class DestinationScript : MonoBehaviour
 
     public IEnumerator Timer(){
         while(isGameOver == false){    
-            yield return new WaitForSecondsRealtime(1f);
-            time++;
-            int hours = time / 3600;
-            int minutes = (time % 3600) / 60;
-            int seconds = time % 60;
-            currentTime.text = hours.ToString("00") + ":" + minutes.ToString("00") + ":" + seconds.ToString("00");
+            if(!isPaused){
+                yield return new WaitForSecondsRealtime(1f);
+                time++;
+                int hours = time / 3600;
+                int minutes = (time % 3600) / 60;
+                int seconds = time % 60;
+                currentTime.text = hours.ToString("00") + ":" + minutes.ToString("00") + ":" + seconds.ToString("00");
+            }
         }
     }
 
