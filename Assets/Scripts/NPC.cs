@@ -21,6 +21,7 @@ public class NPC : MonoBehaviour
     protected Coroutine recalculatePath;
     public float lowDelay;
     public float highDelay;
+    NPCAnimationScript npcAnimationScript;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +53,7 @@ public class NPC : MonoBehaviour
         }
         targetIndex = 0;
         path = new List<AStar_Node>();
+        npcAnimationScript = GetComponent<NPCAnimationScript>();
 
         // Debug.Log("For " + gameObject.name + ":");
         // Debug.Log("Pathfinding initialized: " + (pathfinding != null));
@@ -84,11 +86,13 @@ public class NPC : MonoBehaviour
     }
 
     public void FollowPath(){
+
         if (targetIndex < path.Count)
         {
             Vector3 targetPosition = path[targetIndex].worldPos;
             // Debug.Log("targetPosition: " + targetPosition);
             Vector3 direction = (targetPosition - transform.position).normalized;
+            npcAnimationScript.SetDirection(direction); 
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, usingSpeed * Time.deltaTime);
             
             if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
@@ -109,6 +113,10 @@ public class NPC : MonoBehaviour
             waypointsToGoTo.RemoveAt(0);
             waypointsToGoTo.Add(placeholder);
             target = waypointsToGoTo[0];
+        }
+        
+        if(path.Count == 1){
+            npcAnimationScript.StopMoving();
         }
     }
 
