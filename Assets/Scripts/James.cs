@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class James : MonoBehaviour
 {
+    public Milo milo;
     [SerializeField] Slider anxietySlider;
     public float pullSpeed;
     public int anxiety;
@@ -15,12 +16,12 @@ public class James : MonoBehaviour
     [SerializeField] bool isDroppingKeys = false;
     public GameObject levelTarget;
     [SerializeField] GameObject keyPrefab;
+    public Coroutine miloIsTooFarAwayRoutine;
 
     // Start is called before the first frame update
     void Start()
     {
         inLevel = true;
-        
         levelTarget = GameObject.FindWithTag("LevelTarget");
         rb = GetComponent<Rigidbody2D>();
         StartCoroutine(AnxietyIncrease());
@@ -36,7 +37,7 @@ public class James : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!DestinationScript.instance.isGameOver){
+        if(!DestinationScript.isGameOver){
             if(hasKeys && !isDroppingKeys){
                 // Debug.Log("Dropping keys");
                 isDroppingKeys = true;
@@ -54,6 +55,17 @@ public class James : MonoBehaviour
         }else{
             pullSpeed = 3f;
         }
+
+        if(miloIsTooFarAwayRoutine != null && Vector2.Distance(milo.transform.position, transform.position) > 5f){
+            miloIsTooFarAwayRoutine = StartCoroutine(MiloIsTooFarAway());
+        } else if(miloIsTooFarAwayRoutine != null && Vector2.Distance(milo.transform.position, transform.position) <= 5f){
+            StopCoroutine(miloIsTooFarAwayRoutine);
+        }
+    }
+
+    public IEnumerator MiloIsTooFarAway(){
+        yield return new WaitForSeconds(1);
+        anxiety += 1;
     }
 
     public IEnumerator DroppingKeys(){

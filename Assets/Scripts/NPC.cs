@@ -73,7 +73,7 @@ public class NPC : MonoBehaviour
             recalculateDelay = 0.2f;
         }
 
-        if(canMove && !DestinationScript.instance.isGameOver)
+        if(canMove && !DestinationScript.isGameOver)
         {
             FollowPath();
         }
@@ -119,11 +119,14 @@ public class NPC : MonoBehaviour
         while(true){
             targetIndex = 0;
             // Debug.Log("Grid is null: " + pathfinding.grid == null);
+            // Debug.Log("CurrNode");
+            // Debug.Log("TargetNode");
+            AStar_Node currNode = pathfinding.grid.GetNodePos(transform.position);
             AStar_Node targetNode = pathfinding.grid.GetNodePos(target.transform.position);
             AStar_Node nearestWalkableNode = FindNearestWalkableNode(targetNode);
-            if(targetNode.walkable){
-                nearestWalkableNode = targetNode;
-            }
+            Debug.Log("curr Node" + currNode.walkable);
+            Debug.Log("Destination Node" + nearestWalkableNode.walkable);
+
             path = pathfinding.FindPath(transform.position, nearestWalkableNode.worldPos);
             // Debug.Log("FollowPath");
             if (path == null || path.Count == 0)
@@ -150,25 +153,30 @@ public class NPC : MonoBehaviour
 
     AStar_Node FindNearestWalkableNode(AStar_Node targetNode)
     {
-        AStar_Node nearestNode = null;
-        int minDistance = int.MaxValue;
+        if(targetNode.walkable){
+            // Debug.Log("Target Node is walkable.");
+            return targetNode;
+        }
+        return IterateThroughNeighbours(targetNode);
+    }
 
-        foreach (AStar_Node node1 in pathfinding.grid.GetNeighbours(targetNode))
+    AStar_Node IterateThroughNeighbours(AStar_Node targetNode)
+    {
+        List<AStar_Node> neighbours = pathfinding.grid.GetNeighbours(targetNode);
+        foreach (AStar_Node neighbor in neighbours)
         {
-            foreach (AStar_Node node2 in pathfinding.grid.GetNeighbours(targetNode))
+            if (neighbor.walkable)
             {
-                if (node2.walkable)
-                {
-                    int distance = pathfinding.GetDistance(node2, targetNode);
-                    if (distance < minDistance)
-                    {
-                        minDistance = distance;
-                        nearestNode = node2;
-                    }
-                }
+                Debug.Log("Found walkable node.");
+                Debug.DrawLine(neighbor.worldPos, neighbor.worldPos+Vector3.up);
+                return neighbor;
             }
         }
-        return nearestNode;
+        foreach (AStar_Node neighbour in neighbours)
+        {
+            return IterateThroughNeighbours(neighbour);
+        }
+        return null;
     }
 
     void OnDrawGizmos()

@@ -8,7 +8,7 @@ public class GuardNPC : NPC
     protected Vector3 startPos;
     protected Vector3 currPos;
     public GameObject Anchor;
-    
+    public bool canTargetMilo;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +30,7 @@ public class GuardNPC : NPC
     {
         if (!canUpdate) return;
 
-        if(!DestinationScript.instance.isGameOver && canMove){
+        if(!DestinationScript.isGameOver && canMove){
             CheckForMilo();
         }
         
@@ -57,10 +57,10 @@ public class GuardNPC : NPC
 
     void CheckForMilo()
     {
-        if (Vector3.Distance(startPos, miloScript.transform.position) < maxChaseRange)
+        if (Vector3.Distance(startPos, miloScript.transform.position) < maxChaseRange && canTargetMilo)
         {
             target = miloScript.gameObject;
-        } 
+        }
         else
         {
             target = Anchor;

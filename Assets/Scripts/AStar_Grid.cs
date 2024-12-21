@@ -104,7 +104,7 @@ public class AStar_Grid : MonoBehaviour
             if(grid != null){
                 // AStar_Node npcNode = GetNodePos(NPC.position);
                 //Colouring the walkable and unwalkable nodes with white and red respectively
-                Debug.Log(grid.Length);
+                // Debug.Log(grid.Length);
                 foreach (AStar_Node node in grid){
                     if(node.walkable){
                         Gizmos.color = Color.white;

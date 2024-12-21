@@ -30,7 +30,7 @@ public class ChasingNPC : NPC
             recalculateDelay = 0.2f;
         }
 
-        if(canMove && !DestinationScript.instance.isGameOver){
+        if(canMove && !DestinationScript.isGameOver){
             FollowPath();
         }
         CheckIfCloseToMilo();

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Milo : MonoBehaviour
 {
+    public DestinationScript destinationScript;
     Rigidbody2D rb;
     public GameObject james;
     public James jamesScript;
@@ -57,6 +58,7 @@ public class Milo : MonoBehaviour
         mandatoryDistance = 1.25f;
         james = GameObject.FindWithTag("James");
         jamesScript = james.GetComponent<James>();
+        jamesScript.milo = this;
         jamesAnimationScript = james.GetComponent<JamesAnimationScript>();
         
         isBarking = false;
@@ -75,7 +77,7 @@ public class Milo : MonoBehaviour
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        if(!DestinationScript.instance.isGameOver){
+        if(!DestinationScript.isGameOver){
             Actions();
         }
     }

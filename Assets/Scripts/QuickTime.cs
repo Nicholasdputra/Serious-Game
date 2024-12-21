@@ -26,7 +26,7 @@ public class QuickTime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(DestinationScript.instance.isGameOver)
+        if(DestinationScript.isGameOver)
         {
             quickTimePanel.SetActive(false);
             isQuickTimeActive = false;
@@ -47,7 +47,7 @@ public class QuickTime : MonoBehaviour
     public void StartQuickTimeEvent()
     {
         jamesScript.anxiety += 7;
-        DestinationScript.instance.distractedCounter++;
+        DestinationScript.distractedCounter++;
         Time.timeScale = 0;
         isQuickTimeActive = true;
         quickTimeSlider.value = 10;
@@ -102,8 +102,11 @@ public class QuickTime : MonoBehaviour
     public IEnumerator TargetMiloCooldown(GuardNPC guardScript)
     {
         guardScript.canMove = false;
+        guardScript.canTargetMilo = false;
         yield return new WaitForSeconds(10);
         guardScript.canMove = true;
+        yield return new WaitForSeconds(10);
+        guardScript.canTargetMilo = true;
     }
 
     public IEnumerator TargetMiloCooldown(ChaseIfLookingNPC chaseIfLookingScript)

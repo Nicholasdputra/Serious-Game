@@ -68,7 +68,7 @@ public class ChaseIfLookingNPC : NPC
             FaceTarget(target.transform.position);
         }
 
-        if(canMove && !DestinationScript.instance.isGameOver)
+        if(canMove && !DestinationScript.isGameOver)
         {
             FollowPath();
         }

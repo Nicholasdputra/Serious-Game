@@ -24,10 +24,9 @@ public class MenusAndScenesScript : MonoBehaviour
     
     public AudioSource bgmSource;
     public AudioSource sfxSource;
-
+    
     public Slider musicSlider;
     public Slider sfxSlider;
-
 
     //Start Game
     public void StartGame()
@@ -46,51 +45,27 @@ public class MenusAndScenesScript : MonoBehaviour
     {
         // sfxSource.PlayOneShot(clickClip);
         SceneManager.LoadScene("MainMenu");
-
     }
 
     public void LoadLevel1()
     {
         // sfxSource.PlayOneShot(clickClip);
+        SceneLoader.levelIndex = 1;
         SceneManager.LoadScene("MapLayout");
-        DestinationScript.instance = null;
-        DestinationScript.instance.isGameOver = false;
-        levelDestination = GameObject.FindWithTag("LevelTarget");
-        levelDestination.transform.position = new Vector3(138,-89,0);
-        milo = GameObject.FindWithTag("Milo");
-        milo.transform.position = new Vector3(75, -39, 0);
-        james = GameObject.FindWithTag("James");
-        james.transform.position = new Vector3(73, -30, 0);
-        
     }
 
     public void LoadLevel2()
     {
+        SceneLoader.levelIndex = 2;
         // sfxSource.PlayOneShot(clickClip);
         SceneManager.LoadScene("MapLayout");
-        DestinationScript.instance = null;
-        DestinationScript.instance.isGameOver = false;
-        levelDestination = GameObject.FindWithTag("LevelTarget");
-        levelDestination.transform.position = new Vector3(-116.5f,20.5f,0);
-        milo = GameObject.FindWithTag("Milo");
-        milo.transform.position = new Vector3(-135, -89, 0);
-        james = GameObject.FindWithTag("James");
-        james.transform.position = new Vector3(-138, -90, 0);
     }
 
     public void LoadLevel3()
     {
-        // DestinationScript.instance = null;
         // sfxSource.PlayOneShot(clickClip);
+        SceneLoader.levelIndex = 3;
         SceneManager.LoadScene("MapLayout");
-        DestinationScript.instance = null;
-        DestinationScript.instance.isGameOver = false;
-        levelDestination = GameObject.FindWithTag("LevelTarget");
-        levelDestination.transform.position = new Vector3(99.5f,43.5f,0);
-        milo = GameObject.FindWithTag("Milo");
-        milo.transform.position = new Vector3(-115.5f, 20, 0);
-        james = GameObject.FindWithTag("James");
-        james.transform.position = new Vector3(-117.5f, 19.5f, 0);
     }
 
     //Options

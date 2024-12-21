@@ -26,7 +26,7 @@ public class HaveToSneakNPC : GuardNPC
     void Update()
     {
         if (!canUpdate) return;
-        if(!DestinationScript.instance.isGameOver && canMove){
+        if(!DestinationScript.isGameOver && canMove){
             CheckForMilo();
         }
 
