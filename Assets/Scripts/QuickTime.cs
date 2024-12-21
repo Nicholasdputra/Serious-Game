@@ -103,9 +103,9 @@ public class QuickTime : MonoBehaviour
     {
         guardScript.canMove = false;
         guardScript.canTargetMilo = false;
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(5);
         guardScript.canMove = true;
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(2);
         guardScript.canTargetMilo = true;
     }
 

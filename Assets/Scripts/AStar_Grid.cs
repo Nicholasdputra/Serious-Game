@@ -15,7 +15,7 @@ public class AStar_Grid : MonoBehaviour
     int gridSizeX, gridSizeY;
 
     void Start(){
-        transform.position = new Vector3(0, 0, 0);
+        // transform.position = new Vector3(0, 0, 0);
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
@@ -40,11 +40,11 @@ public class AStar_Grid : MonoBehaviour
         for(int x = 0; x < gridSizeX; x++){
             for(int y = 0; y < gridSizeY; y++){
                 //Finding the world position of the node
-                Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
+                Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius) - transform.position;
                 
                 //Checking if the node is walkable or not
                 bool walkable;
-                if(Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkable)){
+                if(Physics2D.OverlapCircle(worldPoint, nodeRadius-0.1f, unwalkable)){
                     walkable = false;
                 } else {
                     walkable = true;

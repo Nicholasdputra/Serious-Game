@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1702605135786296720}
   - component: {fileID: 5954477447779804720}
   - component: {fileID: 5597614633233093562}
+  - component: {fileID: 8899348597526264335}
   m_Layer: 0
   m_Name: Guard NPC
   m_TagString: NPC
@@ -108,7 +109,10 @@ MonoBehaviour:
   targetIndex: 0
   rb: {fileID: 0}
   recalculateDelay: 0
+  lowDelay: 0
+  highDelay: 0
   Anchor: {fileID: 0}
+  canTargetMilo: 0
 --- !u!50 &5954477447779804720
 Rigidbody2D:
   serializedVersion: 4
@@ -121,8 +125,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 3
+  m_LinearDrag: 1000
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -187,3 +191,15 @@ PolygonCollider2D:
       - {x: 0.5, y: 0}
       - {x: 0.25, y: 0.43359375}
   m_UseDelaunayMesh: 0
+--- !u!114 &8899348597526264335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4130745607656357449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f175539acec7324fa3edc3db57c4fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

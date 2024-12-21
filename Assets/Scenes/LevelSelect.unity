@@ -1004,6 +1004,9 @@ MonoBehaviour:
   mainMenuButtonsPanel: {fileID: 0}
   optionsPanel: {fileID: 0}
   resolutionDropdown: {fileID: 0}
+  milo: {fileID: 0}
+  james: {fileID: 0}
+  levelDestination: {fileID: 0}
   bgmSource: {fileID: 0}
   sfxSource: {fileID: 0}
   musicSlider: {fileID: 0}

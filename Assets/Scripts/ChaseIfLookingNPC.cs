@@ -28,6 +28,8 @@ public class ChaseIfLookingNPC : NPC
     {
         if (!canUpdate) return;
 
+
+
         if(recalculatePath == null){
             recalculatePath = StartCoroutine(ReFindPath());
         }
@@ -185,6 +187,4 @@ public class ChaseIfLookingNPC : NPC
             }
         }
     }
-
-
 }

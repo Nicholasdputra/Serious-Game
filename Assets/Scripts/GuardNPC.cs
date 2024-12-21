@@ -14,6 +14,7 @@ public class GuardNPC : NPC
     void Start()
     {
         Initialize();
+        canTargetMilo = true;
         maxChaseRange = 10f;
         usingSpeed = miloScript.defaultSpeed/2;
         canMove = true;
@@ -71,7 +72,7 @@ public class GuardNPC : NPC
     private void OnCollisionEnter2D(Collision2D other)
     {
         Debug.Log(this + "Collision detected with " + other.gameObject.name);
-        if(other.gameObject.CompareTag("Milo") && target == miloScript.gameObject)
+        if((other.gameObject.CompareTag("Milo") && target == miloScript.gameObject) || (other.gameObject.CompareTag("Milo") && canTargetMilo))
         {
             Debug.Log("Milo has been caught!");
             QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();
@@ -84,8 +85,8 @@ public class GuardNPC : NPC
 
     void OnCollisionStay2D(Collision2D other)
     {
-        // Debug.Log("Collision detected with " + other.gameObject.name);
-        if(other.gameObject.CompareTag("Milo") && target == miloScript.gameObject)
+        // Debug.Log(this + "Collision detected with " + other.gameObject.name);
+        if((other.gameObject.CompareTag("Milo") && target == miloScript.gameObject) || (other.gameObject.CompareTag("Milo") && canTargetMilo))
         {
             Debug.Log("Milo has been caught!");
             QuickTime quickTime = other.gameObject.GetComponent<QuickTime>();

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1300012383083081910}
   - component: {fileID: 4435055743116614766}
   - component: {fileID: 674246556937135414}
+  - component: {fileID: -6836229587006825349}
   m_Layer: 0
   m_Name: Looking-Chasing NPC
   m_TagString: NPC
@@ -160,6 +161,8 @@ MonoBehaviour:
   targetIndex: 0
   rb: {fileID: 0}
   recalculateDelay: 0
+  lowDelay: 0
+  highDelay: 0
   radius: 5
   fovAngle: 70
   targetMask:
@@ -184,8 +187,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 5
-  m_LinearDrag: 10000
+  m_Mass: 3
+  m_LinearDrag: 1000
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -199,3 +202,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-6836229587006825349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942654774345848068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f175539acec7324fa3edc3db57c4fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

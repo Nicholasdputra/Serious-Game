@@ -19,6 +19,8 @@ public class NPC : MonoBehaviour
     public float recalculateDelay;
     protected bool canUpdate;
     protected Coroutine recalculatePath;
+    public float lowDelay;
+    public float highDelay;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +39,8 @@ public class NPC : MonoBehaviour
     public void Initialize()
     {
         // canMove = true;
+        highDelay = Random.Range(0.5f, 0.8f);
+        lowDelay = Random.Range(0.2f, 0.5f);
         canUpdate = false;
         pathfinding = GameObject.FindWithTag("Pathfinding AI").GetComponent<Pathfinding>();
         miloScript = GameObject.FindWithTag("Milo").GetComponent<Milo>();
@@ -66,11 +70,11 @@ public class NPC : MonoBehaviour
         }
         if(target == miloScript && Vector3.Distance(transform.position, target.transform.position) > 10f)
         {
-            recalculateDelay = 0.6f;
+            recalculateDelay = highDelay;
         }
         else if(target == miloScript)
         {
-            recalculateDelay = 0.2f;
+            recalculateDelay = lowDelay;
         }
 
         if(canMove && !DestinationScript.isGameOver)
@@ -123,23 +127,15 @@ public class NPC : MonoBehaviour
             // Debug.Log("TargetNode");
             AStar_Node currNode = pathfinding.grid.GetNodePos(transform.position);
             AStar_Node targetNode = pathfinding.grid.GetNodePos(target.transform.position);
-            AStar_Node nearestWalkableNode = FindNearestWalkableNode(targetNode);
-            Debug.Log("curr Node" + currNode.walkable);
-            Debug.Log("Destination Node" + nearestWalkableNode.walkable);
+            AStar_Node nearestWalkableNode = FindNearestWalkableNode(targetNode,0);
+            // Debug.Log("curr Node" + currNode.walkable);
+            // Debug.Log("Destination Node" + nearestWalkableNode.walkable);
 
-            path = pathfinding.FindPath(transform.position, nearestWalkableNode.worldPos);
+            path = pathfinding.FindPath(transform.position, nearestWalkableNode.worldPos, gameObject.name);
             // Debug.Log("FollowPath");
             if (path == null || path.Count == 0)
             {
                 Debug.Log("No path to target.");
-                // Find the nearest walkable node to the target
-
-                if (nearestWalkableNode != null)
-                {
-                    Debug.Log("Moving to nearest walkable node.");
-                    path = pathfinding.FindPath(transform.position, nearestWalkableNode.worldPos);
-                }
-                // pathToTarget = temp;
             }
             yield return new WaitForSeconds(recalculateDelay);
         }
@@ -151,30 +147,36 @@ public class NPC : MonoBehaviour
         // }
     }
 
-    AStar_Node FindNearestWalkableNode(AStar_Node targetNode)
+    AStar_Node FindNearestWalkableNode(AStar_Node targetNode, int counter)
     {
         if(targetNode.walkable){
             // Debug.Log("Target Node is walkable.");
             return targetNode;
         }
-        return IterateThroughNeighbours(targetNode);
+        return IterateThroughNeighbours(targetNode, 0);
     }
 
-    AStar_Node IterateThroughNeighbours(AStar_Node targetNode)
+    AStar_Node IterateThroughNeighbours(AStar_Node targetNode, int counter)
     {
+        if(counter > 3){
+            return null;
+        }
         List<AStar_Node> neighbours = pathfinding.grid.GetNeighbours(targetNode);
         foreach (AStar_Node neighbor in neighbours)
         {
             if (neighbor.walkable)
             {
-                Debug.Log("Found walkable node.");
+                // Debug.Log("Found walkable node.");
                 Debug.DrawLine(neighbor.worldPos, neighbor.worldPos+Vector3.up);
                 return neighbor;
             }
         }
         foreach (AStar_Node neighbour in neighbours)
         {
-            return IterateThroughNeighbours(neighbour);
+            AStar_Node walkableNode = IterateThroughNeighbours(neighbour, counter+1);
+            if(walkableNode != null){
+                return walkableNode;
+            }
         }
         return null;
     }

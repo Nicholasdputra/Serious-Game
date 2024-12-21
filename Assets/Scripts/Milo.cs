@@ -20,9 +20,11 @@ public class Milo : MonoBehaviour
     public float mandatoryDistance;
     public float pullSpeed;
     public bool isBarking;
+    // public bool canBark;
     bool isLicking;
     public float barkEffectRange;
     public float barkDisperseDistance;
+    public float barkCooldown;
     public float disperseSpeed;
     public bool canShowDirection;
     public bool canLick;
@@ -45,6 +47,7 @@ public class Milo : MonoBehaviour
         Initialize();
     }
     void Initialize(){
+        // canBark = true;
         isBarking = false;
         canMove = true;
         canRun = true;
@@ -64,7 +67,8 @@ public class Milo : MonoBehaviour
         isBarking = false;
         isLicking = false;
         canLick = true;
-        barkEffectRange = 1.5f;
+        barkEffectRange = 4f;
+        barkCooldown = 2.5f;
         // barkDisperseDistance = 1f;
         disperseSpeed = 15f;
         
@@ -138,6 +142,7 @@ public class Milo : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.Q) && !isBarking){
+            Debug.Log("Bark");
             StartCoroutine(Bark());
         } 
         
@@ -201,6 +206,7 @@ public class Milo : MonoBehaviour
     [ContextMenu("Bark")]
     IEnumerator Bark(){
         Debug.Log("Barking");
+        // canBark = false;
         isBarking = true;
         // Disperse all objects within a certain range
         //Get all colliders within range
@@ -245,9 +251,9 @@ public class Milo : MonoBehaviour
             npc.canMove = true;
         }
 
-        yield return new WaitForSeconds(0.25f);
-        
+        yield return new WaitForSeconds(barkCooldown);
         isBarking = false;  
+        // canBark = true;
     }
 
     [Header("Direction")]

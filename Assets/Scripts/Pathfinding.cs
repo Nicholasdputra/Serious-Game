@@ -13,8 +13,9 @@ public class Pathfinding : MonoBehaviour
         grid = GetComponent<AStar_Grid>();
     }
 
-    public List<AStar_Node> FindPath(Vector3 startPos, Vector3 targetPos)
+    public List<AStar_Node> FindPath(Vector3 startPos, Vector3 targetPos, string name)
     {
+        // Debug.Log("From: " + name);
         // Debug.Log("Finding path from " + startPos + " to " + targetPos);
         List<AStar_Node> path = new List<AStar_Node>();
         
@@ -72,6 +73,7 @@ public class Pathfinding : MonoBehaviour
             }
         }
         Debug.Log("Path not found");
+        Debug.LogError("Path not found, from: " + name);
         // RetracePath(startNode, targetNode, path);
         return new List<AStar_Node>();
     }

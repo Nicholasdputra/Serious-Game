@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4360123666587703690}
   - component: {fileID: 7888355163970201204}
   - component: {fileID: 2020416144796747845}
+  - component: {fileID: -8649984550153483542}
   m_Layer: 0
   m_Name: Chasing NPC
   m_TagString: NPC
@@ -159,6 +160,8 @@ MonoBehaviour:
   targetIndex: 0
   rb: {fileID: 0}
   recalculateDelay: 0
+  lowDelay: 0
+  highDelay: 0
   timeLeftTillDestruction: 15
   checkRange: 10
 --- !u!50 &2020416144796747845
@@ -173,8 +176,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 5
-  m_LinearDrag: 10000
+  m_Mass: 3
+  m_LinearDrag: 1000
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -188,3 +191,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-8649984550153483542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8589858936193566232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f175539acec7324fa3edc3db57c4fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
