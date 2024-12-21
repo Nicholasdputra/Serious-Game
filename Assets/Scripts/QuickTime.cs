@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class QuickTime : MonoBehaviour
 {
+    public James jamesScript;
     public NPC qteNPC;
     public static bool isQuickTimeActive = false;
     [SerializeField] GameObject quickTimePanel;
@@ -16,6 +17,7 @@ public class QuickTime : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        jamesScript = GameObject.FindWithTag("James").GetComponent<James>();
         quickTimePanel.SetActive(false);
         Time.timeScale = 1;
         quickTimeSlider = quickTimePanel.transform.GetChild(0).GetComponent<Slider>();
@@ -44,6 +46,7 @@ public class QuickTime : MonoBehaviour
 
     public void StartQuickTimeEvent()
     {
+        jamesScript.anxiety += 7;
         DestinationScript.instance.distractedCounter++;
         Time.timeScale = 0;
         isQuickTimeActive = true;
@@ -99,14 +102,14 @@ public class QuickTime : MonoBehaviour
     public IEnumerator TargetMiloCooldown(GuardNPC guardScript)
     {
         guardScript.canMove = false;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
         guardScript.canMove = true;
     }
 
     public IEnumerator TargetMiloCooldown(ChaseIfLookingNPC chaseIfLookingScript)
     {
         chaseIfLookingScript.canMove = false;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
         chaseIfLookingScript.canMove = true;
     }
 
@@ -114,7 +117,7 @@ public class QuickTime : MonoBehaviour
     {
         haveToSneakScript.canMove = false;
         haveToSneakScript.onCooldown = true;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
         haveToSneakScript.canMove = true;
         haveToSneakScript.onCooldown = false;
     }

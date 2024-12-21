@@ -70,7 +70,7 @@ public class GuardNPC : NPC
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("Collision detected with " + other.gameObject.name);
+        Debug.Log(this + "Collision detected with " + other.gameObject.name);
         if(other.gameObject.CompareTag("Milo") && target == miloScript.gameObject)
         {
             Debug.Log("Milo has been caught!");
