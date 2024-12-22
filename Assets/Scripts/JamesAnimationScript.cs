@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class JamesAnimationScript : MonoBehaviour
 {
-    public bool isPaused;
     Animator animator;
     Vector2 movement;
     Vector2 lastMove;
@@ -16,8 +15,9 @@ public class JamesAnimationScript : MonoBehaviour
 
     public void Move(Vector2 direction){
         movement = direction;
-        if (!isPaused)
+        if (!DestinationScript.isPaused && !DestinationScript.isGameOver && !QuickTime.isQuickTimeActive)
         {
+            animator.speed = 1;
             if(movement == Vector2.zero)
             {
                 animator.SetBool("isMoving", false);
@@ -29,6 +29,8 @@ public class JamesAnimationScript : MonoBehaviour
                 animator.SetFloat("MoveX", movement.x);
                 animator.SetFloat("MoveY", movement.y);
             }
+        }else if(DestinationScript.isPaused){
+            animator.speed = 0;
         }
     }
 }

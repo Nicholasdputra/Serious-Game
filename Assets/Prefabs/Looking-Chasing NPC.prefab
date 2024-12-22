@@ -162,6 +162,7 @@ MonoBehaviour:
   targetIndex: 0
   rb: {fileID: 0}
   recalculateDelay: 0
+  canUpdate: 0
   lowDelay: 0
   highDelay: 0
   radius: 5
@@ -202,7 +203,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &-6836229587006825349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f175539acec7324fa3edc3db57c4fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NPCID: 0
 --- !u!95 &-5572402670857267828
 Animator:
   serializedVersion: 5

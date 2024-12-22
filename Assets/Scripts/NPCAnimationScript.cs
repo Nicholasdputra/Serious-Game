@@ -67,6 +67,11 @@ public class NPCAnimationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(DestinationScript.isPaused){
+            animator.speed = 0;
+        }else{
+            animator.speed = 1;
+        }
         
     }
 

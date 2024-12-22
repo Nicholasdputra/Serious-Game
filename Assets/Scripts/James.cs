@@ -86,6 +86,7 @@ public class James : MonoBehaviour
             Collider2D hit = Physics2D.OverlapCircle(spawnPos, 0.05f);
             if(hit == null){
                 Instantiate(keyPrefab, spawnPos, Quaternion.identity);
+                GetComponent<JamesSFX>().KeySFX();
                 break;
             }else{
                 Debug.Log("There is a collider in the spawn position");

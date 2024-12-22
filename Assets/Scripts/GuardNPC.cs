@@ -30,7 +30,7 @@ public class GuardNPC : NPC
     void Update()
     {
         if (!canUpdate){
-            Debug.Log("Can't Update"); 
+            // Debug.Log("Can't Update"); 
             return;
         } 
 

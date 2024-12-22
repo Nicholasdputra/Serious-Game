@@ -223,6 +223,7 @@ public class Milo : MonoBehaviour
     [ContextMenu("Bark")]
     IEnumerator Bark(){
         Debug.Log("Barking");
+        GetComponent<MiloSFX>().BarkSFX();
         // canBark = false;
         isBarking = true;
         // Disperse all objects within a certain range

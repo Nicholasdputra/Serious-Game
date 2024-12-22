@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SpriteAnimation : MonoBehaviour
 {
-    public bool isPaused;
     bool isMoving;
     Animator animator;
     Vector2 movement;
@@ -23,8 +22,9 @@ public class SpriteAnimation : MonoBehaviour
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        if (!isPaused && !DestinationScript.isGameOver && !QuickTime.isQuickTimeActive)
+        if (!DestinationScript.isPaused && !DestinationScript.isGameOver && !QuickTime.isQuickTimeActive)
         {
+            animator.speed = 1;
             // Debug.Log("SpriteAnimation");
             if(movement == Vector2.zero)
             {
@@ -44,6 +44,8 @@ public class SpriteAnimation : MonoBehaviour
                 animator.SetFloat("MoveX", movement.x);
                 animator.SetFloat("MoveY", movement.y);
             }
+        }else if(DestinationScript.isPaused){
+            animator.speed = 0;
         }
     }
 
