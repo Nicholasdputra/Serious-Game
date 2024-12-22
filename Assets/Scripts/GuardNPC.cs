@@ -29,7 +29,10 @@ public class GuardNPC : NPC
     // Update is called once per frame
     void Update()
     {
-        if (!canUpdate) return;
+        if (!canUpdate){
+            Debug.Log("Can't Update"); 
+            return;
+        } 
 
         if(!DestinationScript.isGameOver && canMove){
             CheckForMilo();

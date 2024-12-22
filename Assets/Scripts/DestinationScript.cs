@@ -24,6 +24,8 @@ public class DestinationScript : MonoBehaviour
 
     void Awake()
     {
+        milo = GameObject.FindWithTag("Milo");
+        james = GameObject.FindWithTag("James");
         milo.GetComponent<Milo>().destinationScript = this;
         distractedCounter = 0;
         isPaused = false;
@@ -65,6 +67,10 @@ public class DestinationScript : MonoBehaviour
             transform.position = new Vector3(99.5f,43.5f,0);
             milo.transform.position = new Vector3(-115.5f, 20, 0);
             james.transform.position = new Vector3(-117.5f, 19.5f, 0);
+        } else if(levelIndex == 0){
+            transform.position = new Vector3(5,-2,0);
+            milo.transform.position = new Vector3(-9,-4, 0);
+            james.transform.position = new Vector3(-7,-4, 0);
         }
     }
 
@@ -104,6 +110,7 @@ public class DestinationScript : MonoBehaviour
         pausePanel.SetActive(false);
         Time.timeScale = 1;
     }
+    
     public void PauseGame(){
         isPaused = true;
         pausePanel.SetActive(true);

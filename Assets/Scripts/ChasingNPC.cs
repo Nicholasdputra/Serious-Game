@@ -82,7 +82,7 @@ public class ChasingNPC : NPC
         }
 
         if(timeLeftTillDestruction <= 0){
-            NPCSpawner.instance.totalChasingNPCs--;
+            NPCSpawner.totalChasingNPCs--;
             target = waypointsToGoTo[0];
         }
     }

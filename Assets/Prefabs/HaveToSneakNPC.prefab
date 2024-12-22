@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -5725928637726134064}
   m_Layer: 0
   m_Name: HaveToSneakNPC
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -205,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f175539acec7324fa3edc3db57c4fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NPCID: 0
 --- !u!95 &-5725928637726134064
 Animator:
   serializedVersion: 5

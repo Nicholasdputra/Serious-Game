@@ -12,8 +12,8 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(
-            Mathf.Clamp(milo.transform.position.x, topLeftLimit.x, bottomRightLimit.x),
-            Mathf.Clamp(milo.transform.position.y, bottomRightLimit.y, topLeftLimit.y),
-            transform.position.z);
+        Mathf.Clamp(milo.transform.position.x, topLeftLimit.x, bottomRightLimit.x),
+        Mathf.Clamp(milo.transform.position.y, bottomRightLimit.y, topLeftLimit.y),
+        transform.position.z);
     }
 }

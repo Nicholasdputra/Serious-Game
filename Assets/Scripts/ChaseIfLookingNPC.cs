@@ -48,7 +48,7 @@ public class ChaseIfLookingNPC : NPC
         }
 
         if(miloCollider != null){
-            FaceMilo();
+            // FaceMilo();
             CheckIfMiloIsInFOV();
             if(isInFOV && canMove){
                 target = miloScript.gameObject;
@@ -56,7 +56,7 @@ public class ChaseIfLookingNPC : NPC
                 isInFOV = false;
                 if(target == miloScript.gameObject){
                     target = waypointsToGoTo[0];
-                    FaceTarget(target.transform.position);
+                    // FaceTarget(target.transform.position);
                 }
             }
         } 
@@ -65,9 +65,9 @@ public class ChaseIfLookingNPC : NPC
             isInFOV = false;
             if(target == miloScript.gameObject){
                 target = waypointsToGoTo[0];
-                FaceTarget(target.transform.position);
+                // FaceTarget(target.transform.position);
             }
-            FaceTarget(target.transform.position);
+            // FaceTarget(target.transform.position);
         }
 
         if(canMove && !DestinationScript.isGameOver)

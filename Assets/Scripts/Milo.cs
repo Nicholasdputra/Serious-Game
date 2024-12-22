@@ -6,7 +6,7 @@ using UnityEngine;
 public class Milo : MonoBehaviour
 {
     public DestinationScript destinationScript;
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
     public GameObject james;
     public James jamesScript;
     JamesAnimationScript jamesAnimationScript;
@@ -74,13 +74,19 @@ public class Milo : MonoBehaviour
         
         arrowSpawnOffset = 1.5f;
         canShowDirection = true;
+        if(destinationScript == null){
+            destinationScript = GameObject.FindWithTag("LevelTarget").GetComponent<DestinationScript>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        if(canMove){
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+        }
+        
         if(!DestinationScript.isGameOver){
             Actions();
         }
@@ -96,7 +102,9 @@ public class Milo : MonoBehaviour
         else{
             speed = defaultSpeed;
         }
-        rb.velocity = movement.normalized * speed;
+        if(canMove){
+            rb.velocity = movement.normalized * speed;
+        }
     }
 
 
@@ -128,8 +136,8 @@ public class Milo : MonoBehaviour
     
     void Actions(){
         bool jamesInRange = CheckForJames();
-        if(Input.GetKey(KeyCode.E) ){
-            if(jamesInRange){    
+        if(Input.GetKey(KeyCode.E)){
+            if(jamesInRange){
                 jamesAnimationScript.Move(movement);
                 isPullingJames = true;
                 canRun = false;
@@ -147,6 +155,7 @@ public class Milo : MonoBehaviour
         } 
         
         if(Input.GetKeyDown(KeyCode.F)){
+            Debug.Log("Checking for items");
             CheckForItems();
             if(jamesInRange){
                 //if james in range, give items to james
@@ -158,35 +167,43 @@ public class Milo : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.C) && canShowDirection){
+            Debug.Log("Showing Direction");
             canShowDirection = false;
             //maybe call anim and call coroutine from the anim (sniffing, terus muncul arrow)
             StartCoroutine(ShowDirection());
         }
 
         if(Input.GetKeyDown(KeyCode.X) && canLick && jamesInRange){
+            Debug.Log("Licking");
             StartCoroutine(Lick());
         }
 
         if(Input.GetKey(KeyCode.LeftControl)){
+            Debug.Log("Sneaking");
+            speed = sneakSpeed;
             isRunning = false;
             isSneaking = true;
         } 
         else{
+            speed = defaultSpeed;
             isSneaking = false;
         }
 
         if(Input.GetKey(KeyCode.LeftShift) && canRun){
+            Debug.Log("Running");
+            speed = runSpeed;
             isSneaking = false;
             isRunning = true;
         } 
         else{
+            speed = defaultSpeed;
             isRunning = false;
         }
     }
 
     void Pull(){
         //Guide james
-        // Debug.Log("Is Pulling James");
+        Debug.Log("Is Pulling James");
         float distance = Vector3.Distance(jamesScript.transform.position, transform.position);
         
         if (distance > mandatoryDistance)

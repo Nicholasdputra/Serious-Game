@@ -34,10 +34,11 @@ public class MenusAndScenesScript : MonoBehaviour
         // sfxSource.PlayOneShot(clickClip);
         SceneManager.LoadScene("LevelSelect");
     }
-    public void TestGame()
+    public void Tutorial()
     {
         // sfxSource.PlayOneShot(clickClip);
-        SceneManager.LoadScene("MapLayout");
+        SceneLoader.levelIndex = 0;
+        SceneManager.LoadScene("Tutorial");
     }
 
     //Back to Main Menu

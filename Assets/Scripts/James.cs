@@ -45,8 +45,7 @@ public class James : MonoBehaviour
             }
         }
         
-        //set pull speed based on anxiety
-        //the higher anxiety the slower
+        //Set pull speed based on anxiety the higher anxiety the slower
         anxietySlider.value = anxiety;
         if(anxiety > 75){
             pullSpeed = 1f;
@@ -76,7 +75,7 @@ public class James : MonoBehaviour
     }
 
     [ContextMenu("DropKeys")]
-    void DropKeys(){
+    public void DropKeys(){
         hasKeys = false;
         Debug.Log("Spawning keys");
         bool droppedKeys = false;

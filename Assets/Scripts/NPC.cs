@@ -17,7 +17,7 @@ public class NPC : MonoBehaviour
     [SerializeField] int targetIndex;
     public Rigidbody2D rb;
     public float recalculateDelay;
-    protected bool canUpdate;
+    public bool canUpdate;
     protected Coroutine recalculatePath;
     public float lowDelay;
     public float highDelay;

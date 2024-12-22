@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class NPCSpawner : MonoBehaviour
 {
-    public static NPCSpawner instance { get; set;}
+    // public static NPCSpawner instance { get; set;}
 
     [Header("Parameters")]
     private Coroutine spawnCoroutine;
     private float lowerEndForRandomSpawn = 5f;
     private float upperEndForRandomSpawn = 10f;
-    public int totalChasingNPCs;
+    public static int totalChasingNPCs;
     public int maxChasingNPCs;
     public GameObject npcPrefab;
     public float spawnDelay = 2f; // Delay between spawns
@@ -18,18 +18,10 @@ public class NPCSpawner : MonoBehaviour
 
     void Start()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Debug.LogWarning("Multiple instances of DestinationScript detected!");
-        }
         spawnPoints = GameObject.FindGameObjectsWithTag("NPCSpawner");
         if(spawnPoints.Length == 0)
         {
-            Debug.LogError("No spawn points found!");
+            Debug.Log("No spawn points found!");
         }
         totalChasingNPCs = 0;
     }
