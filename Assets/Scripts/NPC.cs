@@ -18,7 +18,7 @@ public class NPC : MonoBehaviour
     public Rigidbody2D rb;
     public float recalculateDelay;
     public bool canUpdate;
-    protected Coroutine recalculatePath;
+    public Coroutine recalculatePath;
     public float lowDelay;
     public float highDelay;
     NPCAnimationScript npcAnimationScript;
@@ -72,11 +72,13 @@ public class NPC : MonoBehaviour
             Debug.Log("Path is null or recalculatePath is null.");
             recalculatePath = StartCoroutine(ReFindPath());
         }
+        
         // if(path == null || path.Count == 0){
         //     Debug.Log("Path is null or path count is 0.");
         //     recalculatePath = null;
         //     recalculatePath = StartCoroutine(ReFindPath());
         // }
+
         if(target == miloScript && Vector3.Distance(transform.position, target.transform.position) > 10f)
         {
             recalculateDelay = highDelay;
@@ -138,7 +140,7 @@ public class NPC : MonoBehaviour
 
     public IEnumerator ReFindPath()
     {
-        Debug.Log("Calling ReFindPath");
+        // Debug.Log("Calling ReFindPath");
         // if (pathfinding == null)
         // {
         //     Debug.Log("Pathfinding is null.");

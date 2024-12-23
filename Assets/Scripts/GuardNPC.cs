@@ -37,11 +37,12 @@ public class GuardNPC : NPC
             return;
         } 
 
-        if((path == null || path.Count == 0) && target != anchor){
-            Debug.Log("Path is null or path count is 0.");
-            recalculatePath = null;
-            recalculatePath = StartCoroutine(ReFindPath());
-        }
+        Debug.Log("Path Count:" + path.Count);
+        // if((path == null || path.Count == 0) && target != anchor){
+        //     Debug.Log("Path is null or path count is 0.");
+        //     recalculatePath = null;
+        //     recalculatePath = StartCoroutine(ReFindPath());
+        // }
 
         if(!DestinationScript.isGameOver && canMove){
             // Debug.Log("Can Move and game isnt over yet - guard");

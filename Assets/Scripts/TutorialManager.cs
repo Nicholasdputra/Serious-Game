@@ -238,15 +238,16 @@ public class TutorialManager : MonoBehaviour
             button.SetActive(false);
             
             if(tempNPC == null){
-                tempNPC = Instantiate(guardNpc, new Vector3(-9, -1.5f, 0), Quaternion.identity);
+                tempNPC = Instantiate(lookingChasingNpc, new Vector3(-9, -1.5f, 0), Quaternion.identity);
+                tempNPC.GetComponent<NPC>().waypointsToGoTo.Add(waypointsToGoTo[0]);
             }
-            Debug.Log("Guard NPC can move: " + tempNPC.GetComponent<GuardNPC>().canMove);
+            Debug.Log("Guard NPC can move: " + tempNPC.GetComponent<NPC>().canMove);
             Debug.Log("QuickTime is active: " + QuickTime.isQuickTimeActive);
             Debug.Log("Temp NPC is active: " + tempNPC.activeSelf);
-            if(tempNPC.activeSelf && !tempNPC.GetComponent<GuardNPC>().canMove && !QuickTime.isQuickTimeActive){
+            if(tempNPC.activeSelf && !tempNPC.GetComponent<NPC>().canMove && !QuickTime.isQuickTimeActive){
                 if(incrementTutorialIndexCoroutine == null){
                     Debug.Log("Incrementing tutorial index");
-                    incrementTutorialIndexCoroutine = StartCoroutine(DelayedIncrementTutorialIndex(2f));
+                    incrementTutorialIndexCoroutine = StartCoroutine(DelayedIncrementTutorialIndex(5f));
                 }
             }
             // miloScript.canMove = true;
