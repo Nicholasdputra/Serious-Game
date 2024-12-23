@@ -39,7 +39,7 @@ public class NPC : MonoBehaviour
 
     public void Initialize()
     {
-        Debug.Log("NPC Initialize");
+        // Debug.Log("NPC Initialize");
         // canMove = true;
         highDelay = Random.Range(0.5f, 0.8f);
         lowDelay = Random.Range(0.2f, 0.5f);
@@ -72,11 +72,11 @@ public class NPC : MonoBehaviour
             Debug.Log("Path is null or recalculatePath is null.");
             recalculatePath = StartCoroutine(ReFindPath());
         }
-        if(path == null || path.Count == 0){
-            Debug.Log("Path is null or path count is 0.");
-            recalculatePath = null;
-            recalculatePath = StartCoroutine(ReFindPath());
-        }
+        // if(path == null || path.Count == 0){
+        //     Debug.Log("Path is null or path count is 0.");
+        //     recalculatePath = null;
+        //     recalculatePath = StartCoroutine(ReFindPath());
+        // }
         if(target == miloScript && Vector3.Distance(transform.position, target.transform.position) > 10f)
         {
             recalculateDelay = highDelay;
@@ -123,7 +123,7 @@ public class NPC : MonoBehaviour
 
         if(waypointsToGoTo.Count != 0  && target == waypointsToGoTo[0] && Vector3.Distance(transform.position, target.transform.position) < 0.5f)
         {
-            Debug.Log("Reached target " + target.name);
+            // Debug.Log("Reached target " + target.name);
             //Dequeue waypointsToGoTo[0], add it back at the end
             GameObject placeholder = waypointsToGoTo[0];
             waypointsToGoTo.RemoveAt(0);

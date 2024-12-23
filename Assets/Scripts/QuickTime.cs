@@ -87,7 +87,7 @@ public class QuickTime : MonoBehaviour
             qteNPC.target = qteNPC.waypointsToGoTo[0];
         } else if (guardScript != null){
             Debug.Log("GuardNPC was the one that triggered the QuickTime event");
-            qteNPC.target = guardScript.Anchor;
+            qteNPC.target = guardScript.anchor;
             StartCoroutine(TargetMiloCooldown(guardScript));
         } else if (chaseIfLookingScript != null){
             Debug.Log("ChaseIfLookingNPC was the one that triggered the QuickTime event");
@@ -95,7 +95,7 @@ public class QuickTime : MonoBehaviour
             StartCoroutine(TargetMiloCooldown(chaseIfLookingScript));
         } else if (haveToSneakScript != null){
             Debug.Log("HaveToSneakNPC was the one that triggered the QuickTime event");
-            qteNPC.target = haveToSneakScript.Anchor;
+            qteNPC.target = haveToSneakScript.anchor;
             StartCoroutine(TargetMiloCooldown(haveToSneakScript));
         }
     }

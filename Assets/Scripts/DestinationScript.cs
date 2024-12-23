@@ -59,7 +59,7 @@ public class DestinationScript : MonoBehaviour
         if(levelIndex == 1){
             transform.position = new Vector3(138,-89,0);
             transform.position = new Vector3(138,-89,0);
-            milo.transform.position = new Vector3(75, -39, 0);
+            milo.transform.position = new Vector3(75, -29.68f, 0);
             james.transform.position = new Vector3(73, -30, 0);
         } else if(levelIndex == 2){
             transform.position = new Vector3(-116.5f,20.5f,0);

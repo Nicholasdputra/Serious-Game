@@ -15,10 +15,10 @@ public class HaveToSneakNPC : GuardNPC
         usingSpeed = miloScript.defaultSpeed/2;
         canMove = true;
         startPos = transform.position;
-        Anchor = new GameObject("Anchor");
-        Anchor.transform.position = startPos;
+        anchor = new GameObject("Anchor");
+        anchor.transform.position = startPos;
         detectRange = 5f;
-        target = Anchor;
+        target = anchor;
         onCooldown = false;
     }
 
@@ -46,7 +46,7 @@ public class HaveToSneakNPC : GuardNPC
                 recalculatePath = StartCoroutine(ReFindPath());
             }
         }
-        else if(target == Anchor)
+        else if(target == anchor)
         {
             recalculateDelay = 1f;
             if(recalculatePath == null)
@@ -65,7 +65,7 @@ public class HaveToSneakNPC : GuardNPC
         } 
         else
         {
-            target = Anchor;
+            target = anchor;
         }
         FollowPath();
     }

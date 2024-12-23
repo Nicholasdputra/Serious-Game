@@ -7,13 +7,13 @@ public class GuardNPC : NPC
     protected float maxChaseRange;
     protected Vector3 startPos;
     protected Vector3 currPos;
-    public GameObject Anchor;
+    public GameObject anchor;
     public bool canTargetMilo;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("GuardNPC Start");
+        // Debug.Log("GuardNPC Start");
         Initialize();
         recalculatePath = null;
         canTargetMilo = true;
@@ -21,8 +21,9 @@ public class GuardNPC : NPC
         usingSpeed = miloScript.defaultSpeed/2;
         canMove = true;
         startPos = transform.position;
-        Anchor = new GameObject("Anchor");
-        Anchor.transform.position = startPos;
+        anchor = new GameObject("Anchor");
+        anchor.transform.position = startPos;
+        target = anchor;
         StartCoroutine(DelayedStart());
     }
 
@@ -32,18 +33,18 @@ public class GuardNPC : NPC
     void Update()
     {
         if (!canUpdate){
-            Debug.Log("Can't Update"); 
+            // Debug.Log("Can't Update"); 
             return;
         } 
 
-        if(path == null || path.Count == 0){
+        if((path == null || path.Count == 0) && target != anchor){
             Debug.Log("Path is null or path count is 0.");
             recalculatePath = null;
             recalculatePath = StartCoroutine(ReFindPath());
         }
 
         if(!DestinationScript.isGameOver && canMove){
-            Debug.Log("Can Move and game isnt over yet - guard");
+            // Debug.Log("Can Move and game isnt over yet - guard");
             CheckForMilo();
         }
         
@@ -58,7 +59,7 @@ public class GuardNPC : NPC
                 recalculatePath = StartCoroutine(ReFindPath());
             }
         }
-        else if(target == Anchor)
+        else if(target == anchor)
         {
             recalculateDelay = 1f;
             if(recalculatePath == null)
@@ -78,7 +79,7 @@ public class GuardNPC : NPC
         else
         {
             // Debug.Log("Milo is not within range");
-            target = Anchor;
+            target = anchor;
         }
         // Debug.Log("Following path");
         FollowPath();

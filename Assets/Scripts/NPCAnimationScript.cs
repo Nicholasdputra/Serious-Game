@@ -32,7 +32,7 @@ public class NPCAnimationScript : MonoBehaviour
         }else{
             NPCID = 5;
         }
-        Debug.Log(gameObject.name + " has NPCID: " + NPCID);
+        // Debug.Log(gameObject.name + " has NPCID: " + NPCID);
         animator.SetInteger("NPCIndex", NPCID);
     }
 
