@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 
 public class TutorialManager : MonoBehaviour
 {
+    public GameObject AStarPathfinding;
     public Milo miloScript;
     public James jamesScript;
     public DestinationScript destinationScript;
@@ -16,7 +17,10 @@ public class TutorialManager : MonoBehaviour
     public GameObject lookingChasingNpc;
     public GameObject guardNpc;
     public GameObject sneakNpc;
-    public GameObject[] npcs;
+
+    public GameObject tempNPC;
+    public GameObject[] waypointsToGoTo;
+    
     public GameObject button;
     public bool hasCompletedThisStep;
     public int runOnce;
@@ -63,18 +67,17 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         // Time.timeScale = 0;
+        AStarPathfinding = GameObject.FindWithTag("Pathfinding AI");
+        AStarPathfinding.GetComponent<NPCSpawner>().canSpawn = false;
         tutorialStateIndex = 0;
         miloScript = GameObject.FindWithTag("Milo").GetComponent<Milo>();
         jamesScript = GameObject.FindWithTag("James").GetComponent<James>();
         destinationScript = GameObject.FindWithTag("LevelTarget").GetComponent<DestinationScript>();
         DestinationScript.isGameOver = false;
-        npcs = GameObject.FindGameObjectsWithTag("NPC");
-        foreach(GameObject npc in npcs){
-            npc.SetActive(false);
-        }
         miloScript.canMove = false;
         tutorialImage.SetActive(false);
-        destinationScript.gameObject.SetActive(false);
+        DestinationScript.canEndLevel = false;
+        destinationScript.gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     // Update is called once per frame
@@ -112,7 +115,10 @@ public class TutorialManager : MonoBehaviour
         else if (tutorialStateIndex == 4){
             incrementTutorialIndexCoroutine = null;
             button.SetActive(false);
-            npc.SetActive(true);
+            if(tempNPC == null){
+                tempNPC = Instantiate(npc, new Vector3(-9, -2, 0), Quaternion.identity);
+                tempNPC.GetComponent<NPC>().waypointsToGoTo.Add(waypointsToGoTo[0]);
+            }
             if(Input.GetKeyDown(KeyCode.Q)){
                 if(incrementTutorialIndexCoroutine == null){
                     incrementTutorialIndexCoroutine = StartCoroutine(DelayedIncrementTutorialIndex(2f));
@@ -121,7 +127,11 @@ public class TutorialManager : MonoBehaviour
             miloScript.speed = miloScript.defaultSpeed;
         } 
         else if (tutorialStateIndex == 5){
-            npc.SetActive(false);
+            if(tempNPC != null){
+                Destroy(tempNPC);
+                tempNPC = null;
+            }
+            
             miloScript.canMove = true;
             if(Input.GetKeyDown(KeyCode.E)){
                 if(incrementTutorialIndexCoroutine == null){
@@ -197,11 +207,14 @@ public class TutorialManager : MonoBehaviour
             }
         }
         else if (tutorialStateIndex == 13){
+            miloScript.rb.velocity = new Vector2(0, 0);
+            incrementTutorialIndexCoroutine = null;
             miloScript.canMove = false;
             jamesScript.hasKeys = false;
             button.SetActive(true);
         } 
         else if (tutorialStateIndex == 14){
+            incrementTutorialIndexCoroutine = null;
             tutorialImage.SetActive(true);
             tutorialImage.GetComponent<Image>().sprite = npcImages[0];
         } 
@@ -224,38 +237,47 @@ public class TutorialManager : MonoBehaviour
             tutorialImage.SetActive(false);
             button.SetActive(false);
             
-            if(guardNpc.activeSelf == false){
-                guardNpc.SetActive(true);
-                guardNpc.GetComponent<GuardNPC>().canUpdate = true;
-                guardNpc.GetComponent<GuardNPC>().canMove = true;
-                guardNpc.GetComponent<GuardNPC>().target = miloScript.gameObject;
+            if(tempNPC == null){
+                tempNPC = Instantiate(guardNpc, new Vector3(-9, -1.5f, 0), Quaternion.identity);
             }
-            
-            if(guardNpc.activeSelf && !guardNpc.GetComponent<GuardNPC>().canMove && !QuickTime.isQuickTimeActive == false){
+            Debug.Log("Guard NPC can move: " + tempNPC.GetComponent<GuardNPC>().canMove);
+            Debug.Log("QuickTime is active: " + QuickTime.isQuickTimeActive);
+            Debug.Log("Temp NPC is active: " + tempNPC.activeSelf);
+            if(tempNPC.activeSelf && !tempNPC.GetComponent<GuardNPC>().canMove && !QuickTime.isQuickTimeActive){
                 if(incrementTutorialIndexCoroutine == null){
+                    Debug.Log("Incrementing tutorial index");
                     incrementTutorialIndexCoroutine = StartCoroutine(DelayedIncrementTutorialIndex(2f));
                 }
             }
             // miloScript.canMove = true;
         } 
         else if (tutorialStateIndex == 21){
+            if(tempNPC != null){
+                Destroy(tempNPC);
+                tempNPC = null;
+            }
+            button.SetActive(true);
             // miloScript.canMove = false;
             
         } 
         else if (tutorialStateIndex == 22){
-            // miloScript.canMove = true;
+            DestinationScript.canEndLevel = true;
+            button.SetActive(false);
+            miloScript.canMove = true;
+            destinationScript.gameObject.SetActive(true);
+            destinationScript.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         } 
         else{
-            // miloScript.canMove = false;
+            Debug.Log(":( why are you here man...");
         }
     }
 
     public IEnumerator DelayedIncrementTutorialIndex(float delay){
         yield return new WaitForSeconds(delay);
         IncrementTutorialIndex();
-        Debug.Log("Current velocity: " + miloScript.rb.velocity);
+        // Debug.Log("Current velocity: " + miloScript.rb.velocity);
         miloScript.rb.velocity = new Vector2(0, 0);
-        Debug.Log("Velocity after setting to zero: " + miloScript.rb.velocity);
+        // Debug.Log("Velocity after setting to zero: " + miloScript.rb.velocity);
         miloScript.transform.position = new Vector3(-9,-4, 0);
         jamesScript.transform.position = new Vector3(-7,-4, 0);
         runOnce = 0;

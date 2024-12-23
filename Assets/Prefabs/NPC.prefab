@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5826626614194468842}
   - component: {fileID: 6735662661766770012}
   - component: {fileID: -7922973897890127063}
+  - component: {fileID: -7176970968990711158}
   m_Layer: 0
   m_Name: NPC
   m_TagString: NPC
@@ -153,15 +154,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   miloScript: {fileID: 0}
   target: {fileID: 0}
-  waypointsToGoTo:
-  - {fileID: 0}
-  - {fileID: 0}
+  waypointsToGoTo: []
   canMove: 1
   pathfinding: {fileID: 0}
   usingSpeed: 2
   targetIndex: 0
   rb: {fileID: 0}
   recalculateDelay: 0
+  canUpdate: 0
   lowDelay: 0
   highDelay: 0
 --- !u!50 &6735662661766770012
@@ -212,3 +212,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-7176970968990711158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8309527831697433374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f175539acec7324fa3edc3db57c4fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NPCID: 0

@@ -13,7 +13,9 @@ public class GuardNPC : NPC
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("GuardNPC Start");
         Initialize();
+        recalculatePath = null;
         canTargetMilo = true;
         maxChaseRange = 10f;
         usingSpeed = miloScript.defaultSpeed/2;
@@ -30,11 +32,18 @@ public class GuardNPC : NPC
     void Update()
     {
         if (!canUpdate){
-            // Debug.Log("Can't Update"); 
+            Debug.Log("Can't Update"); 
             return;
         } 
 
+        if(path == null || path.Count == 0){
+            Debug.Log("Path is null or path count is 0.");
+            recalculatePath = null;
+            recalculatePath = StartCoroutine(ReFindPath());
+        }
+
         if(!DestinationScript.isGameOver && canMove){
+            Debug.Log("Can Move and game isnt over yet - guard");
             CheckForMilo();
         }
         
@@ -63,12 +72,15 @@ public class GuardNPC : NPC
     {
         if (Vector3.Distance(startPos, miloScript.transform.position) < maxChaseRange && canTargetMilo)
         {
+            // Debug.Log("Milo is within range");
             target = miloScript.gameObject;
         }
         else
         {
+            // Debug.Log("Milo is not within range");
             target = Anchor;
         }
+        // Debug.Log("Following path");
         FollowPath();
     }
 

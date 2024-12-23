@@ -154,8 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   miloScript: {fileID: 0}
   target: {fileID: 0}
-  waypointsToGoTo:
-  - {fileID: 0}
+  waypointsToGoTo: []
   canMove: 0
   pathfinding: {fileID: 0}
   usingSpeed: 2

@@ -68,6 +68,7 @@ public class QuickTime : MonoBehaviour
     void EndQuickTimeEvent()
     {
         //resume time
+        Debug.Log("QuickTime event ended");
         Time.timeScale = 1;
         isQuickTimeActive = false;
         quickTimePanel.SetActive(false);

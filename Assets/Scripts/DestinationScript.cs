@@ -21,9 +21,11 @@ public class DestinationScript : MonoBehaviour
     public TMP_Text currentTime;
     public TMP_Text timesDistracted;
     public GameObject pausePanel;
+    public static bool canEndLevel;
 
     void Awake()
     {
+        canEndLevel = true;
         milo = GameObject.FindWithTag("Milo");
         james = GameObject.FindWithTag("James");
         milo.GetComponent<Milo>().destinationScript = this;
@@ -97,7 +99,17 @@ public class DestinationScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.CompareTag("James") && other.gameObject.GetComponent<James>().hasKeys){
+        if(other.gameObject.CompareTag("James") && other.gameObject.GetComponent<James>().hasKeys && isGameOver == false && canEndLevel){
+            Debug.Log("James has reached the level target");
+            StopAllCoroutines();
+            isGameOver = true;
+            ShowEndScreen();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if(other.gameObject.CompareTag("James") && other.gameObject.GetComponent<James>().hasKeys && isGameOver == false && canEndLevel){
             Debug.Log("James has reached the level target");
             StopAllCoroutines();
             isGameOver = true;

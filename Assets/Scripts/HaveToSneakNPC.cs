@@ -26,6 +26,11 @@ public class HaveToSneakNPC : GuardNPC
     void Update()
     {
         if (!canUpdate) return;
+        if(path == null || path.Count == 0){
+            Debug.Log("Path is null or path count is 0.");
+            recalculatePath = null;
+            recalculatePath = StartCoroutine(ReFindPath());
+        }
         if(!DestinationScript.isGameOver && canMove){
             CheckForMilo();
         }

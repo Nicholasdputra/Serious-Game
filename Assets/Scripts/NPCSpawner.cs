@@ -15,7 +15,8 @@ public class NPCSpawner : MonoBehaviour
     public GameObject npcPrefab;
     public float spawnDelay = 2f; // Delay between spawns
     public GameObject[] spawnPoints;
-
+    public bool canSpawn = true;
+    
     void Start()
     {
         spawnPoints = GameObject.FindGameObjectsWithTag("NPCSpawner");
@@ -28,7 +29,7 @@ public class NPCSpawner : MonoBehaviour
 
     void Update()
     {
-        if(spawnPoints.Length != 0)
+        if(spawnPoints.Length != 0 && canSpawn)
         {
             // Debug.Log("Total NPCs: " + totalChasingNPCs);
             // Debug.Log("Max NPCs: " + maxChasingNPCs);

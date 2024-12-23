@@ -21,6 +21,11 @@ public class ChasingNPC : NPC
     void Update()
     {   
         if (!canUpdate) return;
+        if(path == null || path.Count == 0){
+            Debug.Log("Path is null or path count is 0.");
+            recalculatePath = null;
+            recalculatePath = StartCoroutine(ReFindPath());
+        }
         if(target == miloScript && Vector3.Distance(transform.position, target.transform.position) > 10f)
         {
             recalculateDelay = 0.6f;

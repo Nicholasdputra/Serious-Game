@@ -39,6 +39,7 @@ public class NPC : MonoBehaviour
 
     public void Initialize()
     {
+        Debug.Log("NPC Initialize");
         // canMove = true;
         highDelay = Random.Range(0.5f, 0.8f);
         lowDelay = Random.Range(0.2f, 0.5f);
@@ -68,6 +69,12 @@ public class NPC : MonoBehaviour
     {
         if (!canUpdate) return;
         if(recalculatePath == null){
+            Debug.Log("Path is null or recalculatePath is null.");
+            recalculatePath = StartCoroutine(ReFindPath());
+        }
+        if(path == null || path.Count == 0){
+            Debug.Log("Path is null or path count is 0.");
+            recalculatePath = null;
             recalculatePath = StartCoroutine(ReFindPath());
         }
         if(target == miloScript && Vector3.Distance(transform.position, target.transform.position) > 10f)
@@ -86,9 +93,17 @@ public class NPC : MonoBehaviour
     }
 
     public void FollowPath(){
-
+        // Debug.Log("Following path V1");
+        // Debug.Log("Path count: " + path.Count);
+        // if (path.Count == 0)
+        // {
+        //     path = new List<AStar_Node>();
+        //     // return;
+        // }
+        // Debug.Log("Target index: " + targetIndex);
         if (targetIndex < path.Count)
         {
+            // Debug.Log("Following path V2");
             Vector3 targetPosition = path[targetIndex].worldPos;
             // Debug.Log("targetPosition: " + targetPosition);
             Vector3 direction = (targetPosition - transform.position).normalized;
@@ -105,9 +120,10 @@ public class NPC : MonoBehaviour
         //     Debug.Log("Reached target " + target.name);
         // }
         // Debug.Log("Distance to target: " + Vector3.Distance(transform.position, target.transform.position));
+
         if(waypointsToGoTo.Count != 0  && target == waypointsToGoTo[0] && Vector3.Distance(transform.position, target.transform.position) < 0.5f)
         {
-            // Debug.Log("Reached target " + target.name);
+            Debug.Log("Reached target " + target.name);
             //Dequeue waypointsToGoTo[0], add it back at the end
             GameObject placeholder = waypointsToGoTo[0];
             waypointsToGoTo.RemoveAt(0);
@@ -122,7 +138,7 @@ public class NPC : MonoBehaviour
 
     public IEnumerator ReFindPath()
     {
-        // Debug.Log("Calling ReFindPath");
+        Debug.Log("Calling ReFindPath");
         // if (pathfinding == null)
         // {
         //     Debug.Log("Pathfinding is null.");
