@@ -37,7 +37,7 @@ public class GuardNPC : NPC
             return;
         } 
 
-        Debug.Log("Path Count:" + path.Count);
+        // Debug.Log("Path Count:" + path.Count);
         // if((path == null || path.Count == 0) && target != anchor){
         //     Debug.Log("Path is null or path count is 0.");
         //     recalculatePath = null;

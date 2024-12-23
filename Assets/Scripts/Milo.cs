@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Milo : MonoBehaviour
 {
@@ -36,6 +37,9 @@ public class Milo : MonoBehaviour
     public bool canRun;
     public bool isRunning;
     public float runSpeed;
+
+    [Header("UISliders")]
+    public Slider barkUI;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -77,6 +81,8 @@ public class Milo : MonoBehaviour
         if(destinationScript == null){
             destinationScript = GameObject.FindWithTag("LevelTarget").GetComponent<DestinationScript>();
         }
+        barkUI.maxValue = barkCooldown;
+        barkUI.value = barkCooldown;
     }
 
     // Update is called once per frame
@@ -222,6 +228,7 @@ public class Milo : MonoBehaviour
 
     [ContextMenu("Bark")]
     IEnumerator Bark(){
+        barkUI.value = 0;
         Debug.Log("Barking");
         GetComponent<MiloSFX>().BarkSFX();
         // canBark = false;
@@ -269,10 +276,16 @@ public class Milo : MonoBehaviour
             npc.canMove = true;
         }
 
-        yield return new WaitForSeconds(barkCooldown);
+        while(barkUI.value < barkCooldown){
+            barkUI.value += Time.deltaTime;
+            yield return null;
+        }
+        // yield return new WaitForSeconds(barkCooldown);
         isBarking = false;  
         // canBark = true;
     }
+
+    
 
     [Header("Direction")]
     public float directionDuration = 3;
@@ -297,6 +310,7 @@ public class Milo : MonoBehaviour
         canLick = false;
         isLicking = true;
         speed = 0;
+        GetComponent<MiloSFX>().LickSFX();
         yield return new WaitForSeconds(lickDuration);
         isLicking = false;
         jamesScript.anxiety -= 25;
