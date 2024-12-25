@@ -40,6 +40,8 @@ public class Milo : MonoBehaviour
 
     [Header("UISliders")]
     public Slider barkUI;
+    public Slider lickUI;
+    public Slider sniffUI;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -83,6 +85,11 @@ public class Milo : MonoBehaviour
         }
         barkUI.maxValue = barkCooldown;
         barkUI.value = barkCooldown;
+        lickUI.maxValue = lickCD;
+        lickUI.value = lickCD;
+        sniffUI.maxValue = directionCD;
+        sniffUI.value = directionCD;
+
     }
 
     // Update is called once per frame
@@ -104,9 +111,6 @@ public class Milo : MonoBehaviour
         }
         else if(isPullingJames){
             speed = jamesScript.pullSpeed;
-        }
-        else{
-            speed = defaultSpeed;
         }
         if(canMove){
             rb.velocity = movement.normalized * speed;
@@ -190,12 +194,7 @@ public class Milo : MonoBehaviour
             isRunning = false;
             isSneaking = true;
         } 
-        else{
-            speed = defaultSpeed;
-            isSneaking = false;
-        }
-
-        if(Input.GetKey(KeyCode.LeftShift) && canRun){
+        else if(Input.GetKey(KeyCode.LeftShift) && canRun){
             Debug.Log("Running");
             speed = runSpeed;
             isSneaking = false;
@@ -291,6 +290,7 @@ public class Milo : MonoBehaviour
     public float directionDuration = 3;
     public float directionCD = 5;
     IEnumerator ShowDirection(){
+        sniffUI.value = 0;
         //find direction from milo to james' levelTarget
         Vector3 direction = (jamesScript.levelTarget.transform.position - transform.position).normalized;
         //instantiate an arrow prefab pointing in that direction
@@ -299,7 +299,11 @@ public class Milo : MonoBehaviour
         GameObject arrow = Instantiate(arrowPrefab, spawnPos, Quaternion.Euler(0, 0, angle-90f));
         yield return new WaitForSeconds(directionDuration);
         Destroy(arrow);
-        yield return new WaitForSeconds(directionCD);
+        while(sniffUI.value < directionCD){
+            sniffUI.value += Time.deltaTime;
+            yield return null;
+        }
+        // yield return new WaitForSeconds(directionCD);
         canShowDirection = true;
     }
 
@@ -307,6 +311,7 @@ public class Milo : MonoBehaviour
     public float lickDuration = 0.5f;
     public float lickCD = 2f;
     IEnumerator Lick(){
+        lickUI.value = 0;
         canLick = false;
         isLicking = true;
         speed = 0;
@@ -315,7 +320,11 @@ public class Milo : MonoBehaviour
         isLicking = false;
         jamesScript.anxiety -= 25;
         speed = defaultSpeed;
-        yield return new WaitForSeconds(lickCD);
+        while(lickUI.value < lickCD){
+            lickUI.value += Time.deltaTime;
+            yield return null;
+        }
+        // yield return new WaitForSeconds(lickCD);
         canLick = true;
     }
 
