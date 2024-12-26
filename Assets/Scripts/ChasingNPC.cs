@@ -41,6 +41,7 @@ public class ChasingNPC : NPC
         CheckIfCloseToMilo();
 
         if(target == waypointsToGoTo[0] && Vector3.Distance(transform.position, target.transform.position) < 0.5f){
+            Debug.Log(this + "has reached the waypoint, destroying it.");
             Destroy(gameObject);
         }
     }
@@ -76,6 +77,7 @@ public class ChasingNPC : NPC
 
     private void CheckIfCloseToMilo(){
         if(Vector2.Distance(transform.position, miloScript.transform.position) <= checkRange && coutdownTillDestruction == null){
+            Debug.Log("Close to Milo, starting countdown for NPC " + this);
             coutdownTillDestruction = StartCoroutine(CountdownTillTimeout());
         }
     }
