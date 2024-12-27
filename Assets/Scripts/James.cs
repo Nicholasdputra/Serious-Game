@@ -68,8 +68,8 @@ public class James : MonoBehaviour
     }
 
     public IEnumerator DroppingKeys(){
-        Debug.Log("James is dropping the keys");
         yield return new WaitForSeconds(30 + Random.Range(0,10));
+        Debug.Log("James is dropping the keys");
         // Debug.Log("James is dropping the keys");
         DropKeys();
     }
@@ -77,9 +77,10 @@ public class James : MonoBehaviour
     [ContextMenu("DropKeys")]
     public void DropKeys(){
         hasKeys = false;
-        Debug.Log("Spawning keys");
+        // Debug.Log("Spawning keys");
         bool droppedKeys = false;
-        while(!droppedKeys){
+        int counter = 0;
+        while(!droppedKeys && counter < 30){
             Vector2 spawnPos =  (Vector2)transform.position + Random.insideUnitCircle.normalized;
             // Debug.DrawLine(transform.position, spawnPos, Color.red, 1f);
             //check if there is a colider in the spawn position
@@ -91,6 +92,10 @@ public class James : MonoBehaviour
             }else{
                 Debug.Log("There is a collider in the spawn position");
             }
+            counter++;
+        }
+        if(counter >= 30){
+            Debug.Log("Could not find a place to spawn the keys");
         }
         //Play key drop sound
         isDroppingKeys = false;
