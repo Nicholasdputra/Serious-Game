@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.8617859, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 61cd018acf2a3c34aa13ee7e361ef107, type: 3}
+  m_Color: {r: 0.43503013, g: 0.7474295, b: 0.9811321, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -134,14 +134,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95736cf5a22ff5e41ae6aca62ff3cf96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGameOver: 0
+  milo: {fileID: 0}
   james: {fileID: 0}
   time: 0
   gameoverPanel: {fileID: 0}
-  distractedCounter: 0
   totalTime: {fileID: 0}
   currentTime: {fileID: 0}
   timesDistracted: {fileID: 0}
+  pausePanel: {fileID: 0}
 --- !u!58 &5340350958751691166
 CircleCollider2D:
   m_ObjectHideFlags: 0
