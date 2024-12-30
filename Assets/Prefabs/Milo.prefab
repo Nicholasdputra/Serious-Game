@@ -132,10 +132,13 @@ MonoBehaviour:
   arrowPrefab: {fileID: 6276337551861869640, guid: c4194b7d356f29a4a8b6575f2aea10ce, type: 3}
   arrowSpawnOffset: 0
   isSneaking: 0
-  sneakSpeed: 0
+  sneakSpeed: 4
   canRun: 0
   isRunning: 0
-  runSpeed: 0
+  runSpeed: 12
+  barkUI: {fileID: 0}
+  lickUI: {fileID: 0}
+  sniffUI: {fileID: 0}
   directionDuration: 3
   directionCD: 5
   lickDuration: 0.5
@@ -268,6 +271,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4de75df4b74217c46808d51423979fd2, type: 3}
   - {fileID: 8300000, guid: 35b1ce1e9caca2f42896fdc96b621432, type: 3}
   - {fileID: 8300000, guid: f0cf4337aa24cb940a66f34427e7844e, type: 3}
+  lickSFX:
+  - {fileID: 8300000, guid: 78e6d42a92790d1458b5ed4e8a30a9f0, type: 3}
+  - {fileID: 8300000, guid: 3f892acf9f981a14da9b2d54684c839a, type: 3}
+  - {fileID: 8300000, guid: 7fa2111089690bb479b24f4c997d297e, type: 3}
 --- !u!82 &4127842428828415867
 AudioSource:
   m_ObjectHideFlags: 0

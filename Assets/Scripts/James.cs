@@ -8,6 +8,7 @@ public class James : MonoBehaviour
 {
     public Milo milo;
     [SerializeField] Slider anxietySlider;
+    [SerializeField] Image keyUI;
     public float pullSpeed;
     public int anxiety;
     public bool inLevel;
@@ -60,6 +61,13 @@ public class James : MonoBehaviour
         } else if(miloIsTooFarAwayRoutine != null && Vector2.Distance(milo.transform.position, transform.position) <= 5f){
             StopCoroutine(miloIsTooFarAwayRoutine);
         }
+
+        if(hasKeys){
+            keyUI.enabled = true;
+        }else{
+            keyUI.enabled = false;
+        }
+        
     }
 
     public IEnumerator MiloIsTooFarAway(){

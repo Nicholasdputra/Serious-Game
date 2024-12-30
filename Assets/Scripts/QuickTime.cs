@@ -20,7 +20,8 @@ public class QuickTime : MonoBehaviour
         jamesScript = GameObject.FindWithTag("James").GetComponent<James>();
         quickTimePanel.SetActive(false);
         Time.timeScale = 1;
-        quickTimeSlider = quickTimePanel.transform.GetChild(0).GetComponent<Slider>();
+        quickTimeSlider = quickTimePanel.transform.GetChild(1).GetComponent<Slider>();
+        quickTimeSlider.maxValue = 100;
     }
 
     // Update is called once per frame

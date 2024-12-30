@@ -42,6 +42,7 @@ public class Milo : MonoBehaviour
     public Slider barkUI;
     public Slider lickUI;
     public Slider sniffUI;
+    [SerializeField] Image keyUI;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -89,7 +90,7 @@ public class Milo : MonoBehaviour
         lickUI.value = lickCD;
         sniffUI.maxValue = directionCD;
         sniffUI.value = directionCD;
-
+        keyUI.enabled = false;
     }
 
     // Update is called once per frame
@@ -102,6 +103,11 @@ public class Milo : MonoBehaviour
         
         if(!DestinationScript.isGameOver){
             Actions();
+        }
+        if(hasKey){
+            keyUI.enabled = true;
+        }else{
+            keyUI.enabled = false;
         }
     }
 

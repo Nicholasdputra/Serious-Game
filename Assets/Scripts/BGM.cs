@@ -1,28 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class BGM : MonoBehaviour
 {
-    BGM instance;
+    static BGM instance;
     AudioSource audioSource;
     string currentScene;
 
-    private void Awake() {
+    private void Start() {
+        audioSource = GetComponent<AudioSource>();
+        // Debug.Log(instance.currentScene);
         if(instance == null){
             instance = this;
             DontDestroyOnLoad(gameObject);
         }else{
+            Debug.Log("Destroying duplicate BGM");
             Destroy(gameObject);
             return;
         }
-        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update() {
         currentScene = SceneManager.GetActiveScene().name;
-        if(currentScene != "MapLayout"){
+        if(currentScene != "MapLayout" && currentScene != "Tutorial"){
             if(!audioSource.isPlaying){
                 audioSource.Play();
             }
