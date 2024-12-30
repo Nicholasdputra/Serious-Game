@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEditor.SearchService;
 
 public class James : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class James : MonoBehaviour
     public int anxiety;
     public bool inLevel;
     Rigidbody2D rb;
-    public bool hasKeys = true;
+    public bool hasKeys;
     [SerializeField] bool isDroppingKeys = false;
     public GameObject levelTarget;
     [SerializeField] GameObject keyPrefab;
@@ -22,6 +23,11 @@ public class James : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(SceneLoader.levelIndex == 0){
+            hasKeys = false;
+        } else{
+            hasKeys = true;
+        }
         inLevel = true;
         levelTarget = GameObject.FindWithTag("LevelTarget");
         rb = GetComponent<Rigidbody2D>();
@@ -39,11 +45,15 @@ public class James : MonoBehaviour
     void Update()
     {
         if(!DestinationScript.isGameOver){
-            if(hasKeys && !isDroppingKeys){
+            if(hasKeys && !isDroppingKeys && SceneLoader.levelIndex != 0){
                 // Debug.Log("Dropping keys");
                 isDroppingKeys = true;
                 StartCoroutine(DroppingKeys());
             }
+        }
+
+        if(anxiety >= 100){
+            anxiety = 100;
         }
         
         //Set pull speed based on anxiety the higher anxiety the slower

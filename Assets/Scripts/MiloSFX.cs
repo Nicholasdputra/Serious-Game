@@ -11,6 +11,7 @@ public class MiloSFX : MonoBehaviour
     
     private void Awake() {
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = PlayerPrefs.GetFloat("SFXVolume", 1f);
     }
 
     public void BarkSFX(){

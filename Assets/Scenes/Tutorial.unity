@@ -634,6 +634,7 @@ MonoBehaviour:
   miloScript: {fileID: 0}
   jamesScript: {fileID: 0}
   destinationScript: {fileID: 0}
+  tutorialPanel: {fileID: 1511874703}
   chasingNpc: {fileID: 8589858936193566232, guid: b6c39f1fbd6464b4d837c84074353fce, type: 3}
   npc: {fileID: 8309527831697433374, guid: 3488bf7b5316d364cbc0469a940227cb, type: 3}
   stationaryNpc: {fileID: 5010293281597147106, guid: c8596aed6fe01384488b6a0fc5e7e706, type: 3}
@@ -22099,9 +22100,9 @@ RectTransform:
   - {fileID: 1371960300}
   m_Father: {fileID: 1011441943}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -146.18976, y: 100}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -146, y: -440}
   m_SizeDelta: {x: 876.32, y: 350}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1511874705
@@ -23451,8 +23452,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press Space to Focus
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 418a145c653639544b5815dd5144fa11, type: 2}
+  m_sharedMaterial: {fileID: 3503060517702288459, guid: 418a145c653639544b5815dd5144fa11, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -23476,8 +23477,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60.7
-  m_fontSizeBase: 60.7
+  m_fontSize: 93.62
+  m_fontSizeBase: 93.62
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

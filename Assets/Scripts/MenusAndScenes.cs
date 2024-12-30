@@ -205,7 +205,6 @@ public class MenusAndScenesScript : MonoBehaviour
     // Update SFX volume when slider changes
     private void OnSFXSliderValueChanged(float value)
     {
-        sfxSource.volume = value;
         PlayerPrefs.SetFloat("SFXVolume", value); // Save the volume setting
     }
 }

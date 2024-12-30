@@ -10,6 +10,7 @@ public class TutorialManager : MonoBehaviour
     public Milo miloScript;
     public James jamesScript;
     public DestinationScript destinationScript;
+    public GameObject tutorialPanel;
 
     public GameObject chasingNpc;
     public GameObject npc;
@@ -66,12 +67,12 @@ public class TutorialManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Time.timeScale = 0;
         AStarPathfinding = GameObject.FindWithTag("Pathfinding AI");
         AStarPathfinding.GetComponent<NPCSpawner>().canSpawn = false;
         tutorialStateIndex = 0;
         miloScript = GameObject.FindWithTag("Milo").GetComponent<Milo>();
         jamesScript = GameObject.FindWithTag("James").GetComponent<James>();
+        jamesScript.hasKeys = false;
         destinationScript = GameObject.FindWithTag("LevelTarget").GetComponent<DestinationScript>();
         DestinationScript.isGameOver = false;
         miloScript.canMove = false;
@@ -87,10 +88,10 @@ public class TutorialManager : MonoBehaviour
             miloScript.canMove = false;
             jamesScript.hasKeys = false;
         }
-        // else if (tutorialStateIndex == 1){
-        //     miloScript.canMove = false;
-        //     jamesScript.hasKeys = false;
-        // } 
+        else if (tutorialStateIndex == 1){
+            // miloScript.canMove = false;
+            // jamesScript.hasKeys = false;
+        } 
         else if (tutorialStateIndex == 2){
             miloScript.canMove = true;
             button.SetActive(false);
@@ -150,19 +151,20 @@ public class TutorialManager : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.X)){
                 if(incrementTutorialIndexCoroutine == null){
                     incrementTutorialIndexCoroutine = StartCoroutine(DelayedIncrementTutorialIndex(2f));
-                    jamesScript.hasKeys = true;
+                    // jamesScript.hasKeys = true;
                 }
             }
         } 
         else if (tutorialStateIndex == 8){
             if(runOnce == 0){
+                jamesScript.DropKeys();
                 runOnce++;
                 incrementTutorialIndexCoroutine = null;
                 miloScript.canMove = true;
             }
             if(jamesScript.hasKeys && !hasCompletedThisStep){
                 jamesScript.hasKeys = false;
-                jamesScript.DropKeys();
+                
             }
             if(Input.GetKeyDown(KeyCode.F)){
                 if(incrementTutorialIndexCoroutine == null){
@@ -234,6 +236,7 @@ public class TutorialManager : MonoBehaviour
             tutorialImage.GetComponent<Image>().sprite = npcImages[5];
         } 
         else if (tutorialStateIndex == 20){
+            tutorialPanel.transform.localPosition = new Vector3(525, -440, 0);
             tutorialImage.SetActive(false);
             button.SetActive(false);
             
@@ -253,6 +256,7 @@ public class TutorialManager : MonoBehaviour
             // miloScript.canMove = true;
         } 
         else if (tutorialStateIndex == 21){
+            tutorialPanel.transform.localPosition = new Vector3(-146, -440, 0);
             if(tempNPC != null){
                 Destroy(tempNPC);
                 tempNPC = null;
@@ -261,15 +265,17 @@ public class TutorialManager : MonoBehaviour
             // miloScript.canMove = false;
             
         } 
-        else if (tutorialStateIndex == 22){
+        else if (tutorialStateIndex == 22){ 
+            button.SetActive(true);
+        } 
+        else{
+            jamesScript.hasKeys = true;
             DestinationScript.canEndLevel = true;
             button.SetActive(false);
             miloScript.canMove = true;
             destinationScript.gameObject.SetActive(true);
             destinationScript.gameObject.GetComponent<SpriteRenderer>().enabled = true;
-        } 
-        else{
-            Debug.Log(":( why are you here man...");
+            tutorialPanel.SetActive(false);
         }
     }
 
@@ -289,11 +295,12 @@ public class TutorialManager : MonoBehaviour
         tutorialStateIndex++;
         tutorialText.text = string.Empty;
         tutorialText.text = "";
-        tutorialText.text = tutorialTexts[tutorialStateIndex];
+        if(tutorialStateIndex <= 22){
+            tutorialText.text = tutorialTexts[tutorialStateIndex];
+            Debug.Log("Tutorial State Index: " + tutorialStateIndex);
+            Debug.Log("Tutorial Text: " + tutorialTexts[tutorialStateIndex]);
+        }
         runOnce = 0;
         hasCompletedThisStep = false;
-        Debug.Log("Tutorial State Index: " + tutorialStateIndex);
-        Debug.Log("Tutorial Text: " + tutorialTexts[tutorialStateIndex]);
-
     }
 }

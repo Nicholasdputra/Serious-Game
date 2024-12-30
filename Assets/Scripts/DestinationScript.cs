@@ -25,6 +25,7 @@ public class DestinationScript : MonoBehaviour
 
     void Awake()
     {
+        Time.timeScale = 1;
         canEndLevel = true;
         milo = GameObject.FindWithTag("Milo");
         james = GameObject.FindWithTag("James");
@@ -57,8 +58,7 @@ public class DestinationScript : MonoBehaviour
     void LoadScene(){
         int levelIndex = SceneLoader.levelIndex;
         if(levelIndex == 1){
-            transform.position = new Vector3(138,-89,0);
-            transform.position = new Vector3(138,-89,0);
+            transform.position = new Vector3(-138,-89,0);
             milo.transform.position = new Vector3(75, -29.68f, 0);
             james.transform.position = new Vector3(73, -30, 0);
         } else if(levelIndex == 2){
@@ -77,6 +77,7 @@ public class DestinationScript : MonoBehaviour
     }
 
     private void ShowEndScreen(){
+        Time.timeScale = 0;
         gameoverPanel.SetActive(true);
         totalTime.text = currentTime.text;
         timesDistracted.text = distractedCounter.ToString();
